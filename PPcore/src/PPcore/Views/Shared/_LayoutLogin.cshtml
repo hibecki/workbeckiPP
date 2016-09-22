@@ -113,7 +113,8 @@
                 if ((cid_card != '') && (fname != '') && (lname != '') && (birthdate != '') && (mobile != '') && (email != '')) {
                     $.ajax({
                         type: 'post',
-                        url: '@Url.Action("RegisterMember", "Home")' + "?cid_card=" + cid_card + "&fname=" + fname + "&lname=" + lname + "&birthdate=" + birthdate + "&mobile=" + mobile + "&email=" + email + "&mem_photo=" + mem_photo + "&cid_card_pic=" + cid_card_pic,
+                        @*url: '@Url.Action("RegisterMember", "Home")' + "?cid_card=" + cid_card + "&fname=" + fname + "&lname=" + lname + "&birthdate=" + birthdate + "&mobile=" + mobile + "&email=" + email + "&mem_photo=" + mem_photo + "&cid_card_pic=" + cid_card_pic,*@
+                        url: '@Url.Action("RegisterMember", "Home")' + "?cid_card=" + cid_card + "&fname=" + fname + "&lname=" + lname + "&birthdate=" + birthdate + "&mobile=" + mobile + "&email=" + email,
                     }).done(function (resp) {
                         if (resp.result == "success") {
                             window.location.replace("@Url.Action("Index","Home")");

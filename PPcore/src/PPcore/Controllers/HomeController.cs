@@ -195,7 +195,8 @@ namespace PPcore.Controllers
 
         [HttpPost]
         //public async Task<IActionResult> Create(string birthdate, string cid_card, string email, string fname, string lname, string mobile, string mem_photo, string cid_card_pic)
-        public IActionResult RegisterMember(string birthdate, string cid_card, string email, string fname, string lname, string mobile, string mem_photo, string cid_card_pic)
+        //public IActionResult RegisterMember(string birthdate, string cid_card, string email, string fname, string lname, string mobile, string mem_photo, string cid_card_pic)
+        public IActionResult RegisterMember(string birthdate, string cid_card, string email, string fname, string lname, string mobile)
         {
             DateTime bd = Convert.ToDateTime(birthdate);
             //birthdate = (bd.Year).ToString() + bd.Month.ToString() + bd.Day.ToString();
@@ -204,80 +205,82 @@ namespace PPcore.Controllers
             string passwordMD5 = Utils.EncodeMd5(password);
             try
             {
-                if ((!string.IsNullOrEmpty(mem_photo)) && (mem_photo.Substring(0, 1) != "M"))
-                {
-                    var fileName = mem_photo.Substring(9);
-                    var fileExt = Path.GetExtension(fileName);
+                //if ((!string.IsNullOrEmpty(mem_photo)) && (mem_photo.Substring(0, 1) != "M"))
+                //{
+                //    var fileName = mem_photo.Substring(9);
+                //    var fileExt = Path.GetExtension(fileName);
 
-                    var s = Path.Combine(Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_upload").Value), mem_photo);
-                    //var d = Path.Combine(Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_member").Value), fileName);
-                    //System.IO.File.Copy(s, d, true);
-                    //System.IO.File.Delete(s);
+                //    var s = Path.Combine(Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_upload").Value), mem_photo);
+                //    //var d = Path.Combine(Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_member").Value), fileName);
+                //    //System.IO.File.Copy(s, d, true);
+                //    //System.IO.File.Delete(s);
 
-                    pic_image m = new pic_image();
-                    m.image_code = "M" + DateTime.Now.ToString("yyMMddhhmmssfffffff") + fileExt;
-                    m.x_status = "Y";
-                    m.image_name = fileName;
-                    string base64String = "";
-                    using (System.Drawing.Image image = System.Drawing.Image.FromFile(s))
-                    {
-                        using (MemoryStream mem = new MemoryStream())
-                        {
-                            image.Save(mem, image.RawFormat);
-                            byte[] imageBytes = mem.ToArray();
-                            base64String = Convert.ToBase64String(imageBytes);
-                        }
-                    }
-                    m.image_file = base64String;
+                //    pic_image m = new pic_image();
+                //    m.image_code = "M" + DateTime.Now.ToString("yyMMddhhmmssfffffff") + fileExt;
+                //    m.x_status = "Y";
+                //    m.image_name = fileName;
+                //    string base64String = "";
+                //    using (System.Drawing.Image image = System.Drawing.Image.FromFile(s))
+                //    {
+                //        using (MemoryStream mem = new MemoryStream())
+                //        {
+                //            image.Save(mem, image.RawFormat);
+                //            byte[] imageBytes = mem.ToArray();
+                //            base64String = Convert.ToBase64String(imageBytes);
+                //        }
+                //    }
+                //    m.image_file = base64String;
 
-                    m.ref_doc_type = "member";
-                    m.ref_doc_code = cid_card; //member_code;
-                    fileName = m.image_code;
-                    _context.pic_image.Add(m);
-                    _context.SaveChanges();
+                //    m.ref_doc_type = "member";
+                //    m.ref_doc_code = cid_card; //member_code;
+                //    fileName = m.image_code;
+                //    _context.pic_image.Add(m);
+                //    _context.SaveChanges();
 
-                    System.IO.File.Delete(s);
-                    //clearImageUpload();
+                //    System.IO.File.Delete(s);
+                //    //clearImageUpload();
 
-                    mem_photo = m.image_code;
-                }
-                if ((!string.IsNullOrEmpty(cid_card_pic)) && (cid_card_pic.Substring(0, 1) != "C"))
-                {
-                    var fileName = cid_card_pic.Substring(9);
-                    var fileExt = Path.GetExtension(fileName);
+                //    mem_photo = m.image_code;
+                //}
+                //if ((!string.IsNullOrEmpty(cid_card_pic)) && (cid_card_pic.Substring(0, 1) != "C"))
+                //{
+                //    var fileName = cid_card_pic.Substring(9);
+                //    var fileExt = Path.GetExtension(fileName);
 
-                    var s = Path.Combine(Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_upload").Value), cid_card_pic);
-                    //var d = Path.Combine(Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_member").Value), fileName);
-                    //System.IO.File.Copy(s, d, true);
-                    //System.IO.File.Delete(s);
+                //    var s = Path.Combine(Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_upload").Value), cid_card_pic);
+                //    //var d = Path.Combine(Path.Combine(_env.WebRootPath, _configuration.GetSection("Paths").GetSection("images_member").Value), fileName);
+                //    //System.IO.File.Copy(s, d, true);
+                //    //System.IO.File.Delete(s);
 
-                    pic_image pic_image = new pic_image();
-                    pic_image.image_code = "C" + DateTime.Now.ToString("yyMMddhhmmssfffffff") + fileExt;
-                    pic_image.x_status = "Y";
-                    pic_image.image_name = fileName;
-                    string base64String = "";
-                    using (System.Drawing.Image image = System.Drawing.Image.FromFile(s))
-                    {
-                        using (MemoryStream mem = new MemoryStream())
-                        {
-                            image.Save(mem, image.RawFormat);
-                            byte[] imageBytes = mem.ToArray();
-                            base64String = Convert.ToBase64String(imageBytes);
-                        }
-                    }
-                    pic_image.image_file = base64String;
-                    pic_image.ref_doc_type = "cidcard";
-                    pic_image.ref_doc_code = cid_card; //member_code;
-                    fileName = pic_image.image_code;
-                    _context.pic_image.Add(pic_image);
-                    _context.SaveChanges();
+                //    pic_image pic_image = new pic_image();
+                //    pic_image.image_code = "C" + DateTime.Now.ToString("yyMMddhhmmssfffffff") + fileExt;
+                //    pic_image.x_status = "Y";
+                //    pic_image.image_name = fileName;
+                //    string base64String = "";
+                //    using (System.Drawing.Image image = System.Drawing.Image.FromFile(s))
+                //    {
+                //        using (MemoryStream mem = new MemoryStream())
+                //        {
+                //            image.Save(mem, image.RawFormat);
+                //            byte[] imageBytes = mem.ToArray();
+                //            base64String = Convert.ToBase64String(imageBytes);
+                //        }
+                //    }
+                //    pic_image.image_file = base64String;
+                //    pic_image.ref_doc_type = "cidcard";
+                //    pic_image.ref_doc_code = cid_card; //member_code;
+                //    fileName = pic_image.image_code;
+                //    _context.pic_image.Add(pic_image);
+                //    _context.SaveChanges();
 
-                    System.IO.File.Delete(s);
-                    //clearImageUpload();
+                //    System.IO.File.Delete(s);
+                //    //clearImageUpload();
 
-                    cid_card_pic = pic_image.image_code;
-                }
-                _context.Database.ExecuteSqlCommand("INSERT INTO member (member_code,cid_card,birthdate,fname,lname,mobile,email,x_status,mem_username,mem_password,mem_role_id,mem_photo,cid_card_pic) VALUES ('" + cid_card + "','" + cid_card + "','" + birthdate + "',N'" + fname + "',N'" + lname + "','" + mobile + "','" + email + "','Y','" + cid_card + "','" + passwordMD5 + "','17822a90-1029-454a-b4c7-f631c9ca6c7d','" + mem_photo + "','" + cid_card_pic + "')");
+                //    cid_card_pic = pic_image.image_code;
+                //}
+
+                //_context.Database.ExecuteSqlCommand("INSERT INTO member (member_code,cid_card,birthdate,fname,lname,mobile,email,x_status,mem_username,mem_password,mem_role_id,mem_photo,cid_card_pic) VALUES ('" + cid_card + "','" + cid_card + "','" + birthdate + "',N'" + fname + "',N'" + lname + "','" + mobile + "','" + email + "','Y','" + cid_card + "','" + passwordMD5 + "','17822a90-1029-454a-b4c7-f631c9ca6c7d','" + mem_photo + "','" + cid_card_pic + "')");
+                _context.Database.ExecuteSqlCommand("INSERT INTO member (member_code,cid_card,birthdate,fname,lname,mobile,email,x_status,mem_username,mem_password,mem_role_id) VALUES ('" + cid_card + "','" + cid_card + "','" + birthdate + "',N'" + fname + "',N'" + lname + "','" + mobile + "','" + email + "','Y','" + cid_card + "','" + passwordMD5 + "','17822a90-1029-454a-b4c7-f631c9ca6c7d')");
 
                 var mb = _context.member.SingleOrDefault(mm => mm.member_code == cid_card);
                 SecurityMemberRoles smr = new SecurityMemberRoles();

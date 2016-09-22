@@ -47,7 +47,8 @@
                     </span>
                     <input id="email" type="text" class="form-control" placeholder="อีเมล">
                 </div>
-                <div class="form-group input-group" onclick="$('#fileMemPhoto').click();">
+
+                @*<div class="form-group input-group" onclick="$('#fileMemPhoto').click();">
                     <input id="mem_photo_input" type="text" class="form-control" placeholder="แนบไฟล์ รูปถ่าย" readonly />
                     <input id="mem_photo" type="text" style="display:none" />
                     <div id="waitMemPhoto" style="display:none;position:absolute;top:0px;text-align:center;height:34px;width:260px;background-color:aquamarine;z-index:10;border-radius:5px;">
@@ -60,7 +61,6 @@
                     </span>
                 </div>
                 <div class="form-group input-group" onclick="$('#fileCidCardPhoto').click();">
-                    @*<input id="cid_card_pic" type="text" class="form-control" placeholder="แนบไฟล์ สำเนาบัตรประจำตัวประชาชน">*@
                     <input id="cid_card_pic_input" type="text" class="form-control" placeholder="แนบไฟล์ รูปบัตรประชาชน" readonly />
                     <input id="cid_card_pic" type="text" style="display:none" />
                     <div id="waitMemPhoto" style="display:none;position:absolute;top:0px;text-align:center;height:34px;width:260px;background-color:aquamarine;z-index:10;border-radius:5px;">
@@ -71,17 +71,19 @@
                             <i class="fa fa-picture-o"></i>
                         </button>
                     </span>
-                </div>
+                </div>*@
+
                 <button class="btn btn-default btn-panel-yellow pull-left" type="button" style="width:120px" onclick='confirm()' > ยืนยัน </button>
                 <button class="btn btn-default btn-panel-yellow pull-right" type="button" style="width:120px" onclick="location.href='@Url.Action("Login", "Home")'">เข้าสู่ระบบ</button>
-                <div id="waitBtnConfirm" style="display:none;position:absolute;top:603px;text-align:center;height:34px;width:260px;background-color:#FFC000;z-index:11;border-radius:5px;">
+                @*<div id="waitBtnConfirm" style="display:none;position:absolute;top:603px;text-align:center;height:34px;width:260px;background-color:#FFC000;z-index:11;border-radius:5px;">*@
+                <div id="waitBtnConfirm" style="display:none;position:absolute;top:505px;text-align:center;height:34px;width:260px;background-color:#FFC000;z-index:11;border-radius:5px;">
                     <i class="fa fa-refresh fa-spin fa-2x" style="margin-top:3px;color:gray;" aria-hidden="true"></i>
                 </div>
             </form>
             <br/>
             
-            <form id="formFileMemPhoto" enctype="multipart/form-data"><input id="fileMemPhoto" type="file" style="visibility:hidden" onchange="uploadMemPhoto()" accept="image/*" /></form>
-            <form id="formFileCidCardPhoto" enctype="multipart/form-data"><input id="fileCidCardPhoto" type="file" style="visibility:hidden" onchange="uploadCidCardPhoto()" accept="image/*" /></form>
+            @*<form id="formFileMemPhoto" enctype="multipart/form-data"><input id="fileMemPhoto" type="file" style="visibility:hidden" onchange="uploadMemPhoto()" accept="image/*" /></form>
+            <form id="formFileCidCardPhoto" enctype="multipart/form-data"><input id="fileCidCardPhoto" type="file" style="visibility:hidden" onchange="uploadCidCardPhoto()" accept="image/*" /></form>*@
 
 
 

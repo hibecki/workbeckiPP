@@ -1,0 +1,211 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PalangPanya</title>
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/metisMenu/dist/metisMenu.css">
+
+        <link rel="stylesheet" href="~/lib/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css">
+        <link rel="stylesheet" href="~/lib/datatables/media/css/jquery.dataTables.css">
+        <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css">
+
+
+        <link rel="stylesheet" href="~/lib/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css">
+        <link rel="stylesheet" href="~/lib/morrisjs/morris.css">
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css">
+        <link rel="stylesheet" href="~/css/bootstrap-social.css">
+        <link rel="stylesheet" href="~/css/dropzone.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/lib/metisMenu/dist/metisMenu.min.css">
+
+        <link rel="stylesheet" href="~/lib/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.css">
+        <link rel="stylesheet" href="~/lib/datatables/media/css/jquery.dataTables.css">
+        <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.min.css">
+
+        <link rel="stylesheet" href="~/lib/startbootstrap-sb-admin-2/dist/css/sb-admin-2.css">
+        <link rel="stylesheet" href="~/lib/morrisjs/morris.css">
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="~/css/bootstrap-social.css">
+        <link rel="stylesheet" href="~/css/dropzone.css" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+
+    <!--[if lt IE 9]>
+        <script src="~/lib/html5shiv/dist/html5shiv.min.js"></script>
+        <script src="~/lib/respond/dest/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body style="overflow-y:scroll;overflow-x:hidden;background-color:white;">
+    <div id="wrapper" style="background-color:white;">
+        @RenderBody()
+    </div>
+        <!-- /#wrapper -->
+
+        <environment names="Development">
+            <script src="~/lib/jquery/dist/jquery.js"></script>
+            <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+            <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+            <script src="~/lib/metisMenu/dist/metisMenu.js"></script>
+            <script src="~/lib/datatables/media/js/jquery.dataTables.js"></script>
+            <script src="~/lib/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+            <script src="~/js/jquery-ui-1.11.4.custom.js"></script>
+            <script src="~/lib/jquery-ui/ui/core.js"></script>
+            <script src="~/lib/jquery-ui/ui/widget.js"></script>
+            <script src="~/lib/jquery-ui/ui/accordion.js"></script>
+            <script src="~/lib/jquery-ui/ui/i18n/datepicker-th.js"></script>
+            <script src="~/lib/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
+            <script src="~/js/dropzone.js"></script>
+            <script src="~/js/site.js"></script>
+        </environment>
+        <environment names="Staging,Production">
+            <script src="~/lib/jquery/dist/jquery.min.js"></script>
+            <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+            <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+            <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+            <script src="~/lib/metisMenu/dist/metisMenu.min.js"></script>
+            <script src="~/lib/datatables/media/js/jquery.dataTables.min.js"></script>
+            <script src="~/lib/datatables-plugins/integration/bootstrap/3/dataTables.bootstrap.min.js"></script>
+            <script src="~/js/jquery-ui-1.11.4.custom.js"></script>
+            <script src="~/lib/jquery-ui/ui/minified/core.min.js"></script>
+            <script src="~/lib/jquery-ui/ui/minified/widget.min.js"></script>
+            <script src="~/lib/jquery-ui/ui/minified/accordion.min.js"></script>
+            <script src="~/lib/jquery-ui/ui/minified/i18n/datepicker-th.min.js"></script>
+            <script src="~/lib/startbootstrap-sb-admin-2/dist/js/sb-admin-2.js"></script>
+            <script src="~/js/dropzone.js"></script>
+            <script src="~/js/site.min.js" asp-append-version="true"></script>
+        </environment>
+
+        <script>
+            $(document).ready(function () {
+                var con = '@ViewContext.RouteData.Values["controller"]';
+                var act = '@ViewContext.RouteData.Values["action"]';
+                if (act == "RegisterMember") {
+                    $.datepicker.regional['th'] = {
+                        dateFormat: 'dd-mm-yy', changeMonth: true, changeYear: true, constrainInput: true,
+                        yearRange: "-100:+0", yearOffSet: 543, beforeShow: dateDefault
+                    };
+                    $.datepicker.setDefaults($.datepicker.regional['th']);
+                    $("#birthdate").datepicker($.datepicker.regional["th"]);
+                    $('#birthdateButton').off("click").on("click", function () {
+                        $('#birthdate').datepicker("show");
+                    });
+                }
+            });
+            function dateDefault() {
+                if ($("#birthdate").val() == "") { $("#birthdate").datepicker("setDate", new Date()); }
+            }
+            function confirm() {
+                $('#waitBtnConfirm').show();
+                var cid_card = $('#cid_card').val().trim();
+                var fname = $('#fname').val().trim();
+                var lname = $('#lname').val().trim();
+                var birthdate = $('#birthdate').val().trim();
+                var mobile = $('#mobile').val().trim();
+                var email = $('#email').val().trim();
+                var mem_photo = $('#mem_photo').val(); var cid_card_pic = $('#cid_card_pic').val();
+                if ((cid_card != '') && (fname != '') && (lname != '') && (birthdate != '') && (mobile != '') && (email != '')) {
+                    $.ajax({
+                        type: 'post',
+                        url: '@Url.Action("RegisterMember", "Home")' + "?cid_card=" + cid_card + "&fname=" + fname + "&lname=" + lname + "&birthdate=" + birthdate + "&mobile=" + mobile + "&email=" + email + "&mem_photo=" + mem_photo + "&cid_card_pic=" + cid_card_pic,
+                    }).done(function (resp) {
+                        if (resp.result == "success") {
+                            window.location.replace("@Url.Action("Index","Home")");
+                        } else if (resp.result == "fail") {
+                            $('#waitBtnConfirm').hide();
+                            $('#registerMsg').text('กรุณาตรวจสอบความถูกต้องของข้อมูล');
+                            $('#registerModal').modal({ backdrop: 'static', keyboard: false });
+                        }
+                    });
+                } else {
+                    $('#waitBtnConfirm').hide();
+                    $('#registerModal').modal({ backdrop: 'static', keyboard: false });
+                }
+            }
+            function login() {
+                $('#waitBtnConfirm').show();
+                var uname = $('#uname').val().trim();
+                var upwd = $('#upwd').val().trim();
+                if ((uname != '') && (upwd != '')) {
+                    $.ajax({
+                        type: 'post',
+                        url: '@Url.Action("Login", "Home")' + "?uname=" + uname + "&upwd=" + upwd,
+                    }).done(function (resp) {
+                        if (resp.result == "success") {
+                            window.location.replace(resp.url);
+                        } else if (resp.result == "fail") {
+                            $('#waitBtnConfirm').hide();
+                            $('#loginMsg').text('ชื่อผู้ใช้งานหรือรหัสผ่านไม่ถูกต้อง');
+                            $('#loginModal').modal({ backdrop: 'static', keyboard: false });
+                        }
+                    });
+                } else {
+                    $('#waitBtnConfirm').hide();
+                    $('#loginModal').modal({ backdrop: 'static', keyboard: false });
+                }
+            }
+            function forgetPwd() {
+                var uname = $('#uname').val().trim();
+                var upwd = $('#upwd').val().trim();
+                if ((uname != '')) {
+                    $.ajax({
+                        type: 'post',
+                        url: '@Url.Action("ForgetPwd", "Home")' + "?uname=" + uname + "&upwd=" + upwd,
+                    }).done(function (resp) {
+                        if (resp.result == "success") {
+                            $('#loginMsg').text('ระบบได้ทำการจัดส่งรหัสผ่านไปยังอีเมลที่กำหนดไว้เรียบร้อยแล้ว');
+                            $('#loginModal').modal({ backdrop: 'static', keyboard: false });
+                        } else if (resp.result == "fail") {
+                            $('#loginMsg').text('ไม่พบข้อมูลผู้ใช้งานที่ระบุ');
+                            $('#loginModal').modal({ backdrop: 'static', keyboard: false });
+                        }
+                    });
+                } else {
+                    $('#loginMsg').text('กรุณากรอกข้อมูลผู้ใช้งาน ระบบจะจัดส่งรหัสผ่านให้ทางอีเมล');
+                    $('#loginModal').modal({ backdrop: 'static', keyboard: false });
+                }
+            }
+            function uploadMemPhoto() {
+                if ($('#fileMemPhoto')[0].files[0]) {
+                    $('#waitMemPhoto').show();
+                    var formData = new FormData();
+                    formData.append("fileMemPhoto", $('#fileMemPhoto')[0].files[0]);
+                    $.ajax({
+                        type: 'post', url: '@Url.Action("uploadMemPhoto", "Home")',
+                        data: formData, processData: false, contentType: false,
+                    }).done(function (resp) {
+                        var result = resp.result; var fileName = resp.fileName;
+                        $('#mem_photo').val(resp.fileName);
+                        $('#mem_photo_input').val(resp.fileName);
+                        $('#waitMemPhoto').hide();
+                    });
+                }
+            }
+
+            function uploadCidCardPhoto() {
+                if ($('#fileCidCardPhoto')[0].files[0]) {
+                    $('#waitCidCardPhoto').show();
+                    var formData = new FormData();
+                    formData.append("fileCidCardPhoto", $('#fileCidCardPhoto')[0].files[0]);
+                    $.ajax({
+                        type: 'post', url: '@Url.Action("uploadCidCardPhoto", "Home")',
+                        data: formData, processData: false, contentType: false,
+                    }).done(function (resp) {
+                        var result = resp.result; var fileName = resp.fileName;
+                        $('#cid_card_pic').val(resp.fileName);
+                        $('#cid_card_pic_input').val(resp.fileName);
+                        $('#waitCidCardPhoto').hide();
+                    });
+                }
+
+            }
+        </script>
+
+    </body>
+</html>

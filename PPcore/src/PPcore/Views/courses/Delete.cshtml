@@ -1,0 +1,142 @@
+@model PPcore.Models.project_course
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>project_course</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.active_member_join)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.active_member_join)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.budget)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.budget)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.cgroup_code)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.cgroup_code)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.charge_head)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.charge_head)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.course_approve_date)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.course_approve_date)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.course_begin)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.course_begin)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.course_date)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.course_date)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.course_desc)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.course_desc)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.course_end)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.course_end)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ctype_code)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ctype_code)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.passed_member)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.passed_member)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.project_code)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.project_code)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.project_manager)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.project_manager)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ref_doc)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ref_doc)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.support_head)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.support_head)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.target_member_join)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.target_member_join)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.x_log)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.x_log)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.x_note)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.x_note)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.x_status)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.x_status)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </form>
+</div>

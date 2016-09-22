@@ -1,0 +1,266 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutMember.cshtml";
+}
+
+@model PPcore.Models.mem_health
+
+@{
+    ViewBag.ButtonUpperRightType = "hidden";
+    if (ViewBag.isViewOnly == 1)
+    {
+        ViewBag.panelBarMenu = "Details"; ViewBag.Title = "ดูรายละเอียดข้อมูลสมาชิก";
+    }
+    else
+    {
+        ViewBag.Title = "แก้ไข รายละเอียดข้อมูลสมาชิก";
+    }
+}
+
+<div class="panel panel-blue">
+    <div class="panel-heading">
+        <div class="pull-left" style="padding-top:5px;">ข้อมูลสุขภาพ</div>
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <form>
+            <div class="form-horizontal">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div style="position:relative;top:-57px;margin-right:.5em;float:right">
+                    <div id="btnSave" type="submit" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-floppy-o" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;จัดเก็บ&nbsp;&nbsp;</div>
+                </div>
+                <input type="hidden" asp-for="member_code" /><input asp-for="rowversion" />
+                <br />
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label asp-for="medical_history" class="col-md-2 control-label"></label>
+                                        <div class="col-md-10">
+                                            <input asp-for="medical_history" class="form-control" />
+                                            <span asp-validation-for="medical_history" class="text-danger" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label asp-for="blood_group" class="col-md-2 control-label"></label>
+                                        <div class="col-md-4">
+                                            <select asp-for="blood_group" asp-items="ViewBag.blood_group" class="form-control"></select>
+                                        </div>
+                                        <label asp-for="hobby" class="col-md-2 control-label"></label>
+                                        <div class="col-md-4">
+                                            <input asp-for="hobby" class="form-control" />
+                                            <span asp-validation-for="hobby" class="text-danger" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label asp-for="restrict_food" class="col-md-2 control-label"></label>
+                                        <div class="col-md-4">
+                                            <input asp-for="restrict_food" class="form-control" />
+                                            <span asp-validation-for="restrict_food" class="text-danger" />
+                                        </div>
+                                        <label asp-for="special_skill" class="col-md-2 control-label"></label>
+                                        <div class="col-md-4">
+                                            <input asp-for="special_skill" class="form-control" />
+                                            <span asp-validation-for="special_skill" class="text-danger" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label asp-for="special_food" class="col-md-offset-6 col-md-2 control-label"></label>
+                                        <div class="col-md-4">
+                                            <label class="checkbox-inline">
+                                                <input id="special_foodCheckVet" type="checkbox" onclick="special_foodCheckVetTick();">เจ/มังสวิรัต
+                                            </label>
+                                            <label class="checkbox-inline">
+                                                <input id="special_foodCheckOther" type="checkbox" onclick="special_foodCheckOtherTick();">อื่นๆ ระบุ
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-offset-8 col-md-4">
+                                            <input asp-for="special_food" class="form-control" readonly />
+                                            <span asp-validation-for="special_food" class="text-danger" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+        </form>
+    </div>
+</div>
+<br/>
+<!--
+
+<div class="panel panel-black">
+    <div class="panel-body">
+        <form>
+            <div class="form-horizontal">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div style="position:relative;top:-10px;margin-right:.5em;float:right">
+                    <div id="btnSave" type="submit" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-floppy-o" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;จัดเก็บ&nbsp;&nbsp;</div>
+                </div>
+                <input type="hidden" asp-for="member_code" />
+                <br /><br />
+                <br />
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label asp-for="medical_history" class="col-md-2 control-label"></label>
+                                        <div class="col-md-10">
+                                            <input asp-for="medical_history" class="form-control" />
+                                            <span asp-validation-for="medical_history" class="text-danger" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label asp-for="blood_group" class="col-md-2 control-label"></label>
+                                        <div class="col-md-4">
+                                            <select asp-for="blood_group" asp-items="ViewBag.blood_group" class="form-control"></select>
+                                        </div>
+                                        <label asp-for="hobby" class="col-md-2 control-label"></label>
+                                        <div class="col-md-4">
+                                            <input asp-for="hobby" class="form-control" />
+                                            <span asp-validation-for="hobby" class="text-danger" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label asp-for="restrict_food" class="col-md-2 control-label"></label>
+                                        <div class="col-md-4">
+                                            <input asp-for="restrict_food" class="form-control" />
+                                            <span asp-validation-for="restrict_food" class="text-danger" />
+                                        </div>
+                                        <label asp-for="special_skill" class="col-md-2 control-label"></label>
+                                        <div class="col-md-4">
+                                            <input asp-for="special_skill" class="form-control" />
+                                            <span asp-validation-for="special_skill" class="text-danger" />
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+            </div>
+        </form>
+        <br /><br />
+    </div>
+</div>
+    <br /><br />
+    <br /><br />
+-->
+
+    @section Scripts {
+
+        @*<script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+        <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+        <script src="~/lib/bootstrap/js/modal.js"></script>*@
+
+        <script>
+            $(document).ready(function () {
+                if ($("#special_food").val() == "") {
+                    $("#special_foodCheckVet").prop("checked", false);
+                    $("#special_foodCheckOther").prop("checked", false);
+                } else if ($("#special_food").val() == "เจ/มังสวิรัต") {
+                    $("#special_foodCheckVet").prop("checked", true);
+                } else {
+                    $("#special_foodCheckOther").prop("checked", true);
+                    $('#special_food').prop('readonly', false);
+                }
+                if ("@ViewBag.isViewOnly" == "1") {
+                    $('#btnSave').hide();
+                    $('input').each(function () {
+                        if (!($(this).attr('disabled'))) {
+                            $(this).attr({ 'disabled': 'disabled' });
+                        }
+                    });
+                    $('select').each(function () {
+                        if (!($(this).attr('disabled'))) {
+                            $(this).attr({ 'disabled': 'disabled' });
+                        }
+                    });
+                }
+                $('#btnSave').on('click', function (e) {
+                    e.preventDefault();
+                    $.ajax({
+                        async: false,
+                        type: "POST",
+                        url: "@Url.Action("Edit", "mem_health")",
+                        data: {
+                            memberId: "@ViewBag.memberId",
+                            member_code: $("#member_code").val(),
+                            medical_history: $("#medical_history").val(),
+                            blood_group: $("#blood_group").val(),
+                            hobby: $("#hobby").val(),
+                            restrict_food: $("#restrict_food").val(),
+                            special_food: $("#special_food").val(),
+                            special_skill: $("#special_skill").val()
+                        },
+                        success: function (data) {
+                            window.location.href = "@Url.Action("Index", "mem_health", new {memberId = ViewBag.memberId})";
+                        }
+                    });
+                });
+            });
+            function special_foodCheckVetTick() {
+                if ($('#special_foodCheckVet').prop("checked") == true) {
+                    $("#special_foodCheckOther").prop("checked", false);
+                    $('#special_food').prop('readonly', true);
+                    $('#special_food').val('เจ/มังสวิรัต');
+                    //$('#special_food').val('');
+                } else {
+                    $("#special_foodCheckOther").prop("checked", true);
+                    $('#special_food').prop('readonly', false);
+                }
+            }
+            function special_foodCheckOtherTick() {
+                if ($('#special_foodCheckOther').prop("checked") == true) {
+                    $("#special_foodCheckVet").prop("checked", false);
+                    $('#special_food').prop('readonly', false);
+                } else {
+                    $("#special_foodCheckVet").prop("checked", true);
+                    $('#special_food').prop('readonly', true);
+                    //$('#special_food').val('เจ/มังสวิรัต');
+                    //$('#special_food').val('');
+                }
+            }
+        </script>
+    }

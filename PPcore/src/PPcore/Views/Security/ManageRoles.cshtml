@@ -1,0 +1,143 @@
+﻿<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12" style="padding-top:15px;"></div>
+    </div>
+    <div class="panel">
+        <div class="row">
+            <div style="margin-left:20px;margin-top:5px;margin-right:20px">
+                <div class="row">
+                    <div class="col-lg-12">
+
+
+                        <div class="panel panel-blue">
+
+                            <div class="panel-heading">
+                                <div class="pull-left" style="padding-top:5px;color:#FFC000;"><i class="fa fa-sitemap fa-fw"></i> จัดการกลุ่มของผู้ใช้ระบบ</div>
+                                <div class="pull-right" style="margin-top:-2px;">
+
+                                    <div class="btn-group">
+                                        <button id="btnCreate" type="button" class="btn btn-default dropdown-toggle btn-panel-yellow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            &nbsp;<i class="fa fa-plus-square " aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;เพิ่มกลุ่มผู้ใช้ระบบ&nbsp;&nbsp;&nbsp; 
+                                        </button>
+                                        <div class="pull-right dropdown-menu" id="rolenameDropdown">
+                                            <div style="height:11px;margin-top:-5px;background-color:#FFC000;border-top-left-radius:inherit;border-top-right-radius:inherit;"></div>
+                                            <form style="width:250px;margin-left:10px;margin-right:10px;">
+                                                <div style="color:#313131;margin-top:10px;margin-bottom:-10px;">กลุ่มผู้ใช้ใหม่</div>
+                                                <hr/>
+                                                <div class="form-group input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-sitemap">&nbsp;</i>
+                                                    </span>
+                                                    <input id="rolename" type="text" class="form-control" placeholder="ชื่อกลุ่มผู้ใช้" autocomplete="off" maxlength="100" onkeyup="$('#rolenameMsg').text(''); $('#rolenameMsg').hide();"/>
+                                                </div>
+                                                <span id="rolenameMsg" class="text-danger" style="display:none;margin-top:-10px;margin-left:50px;position:absolute"></span>
+                                                <br/>
+                                                <button type="button" id="btnCreateRole" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-plus-square " aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;เพิ่ม&nbsp;&nbsp;&nbsp;</button>
+                                                <br/>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel-body" >
+                                <div class="row" id="a_row"></div>
+
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade modalForm1" id="a_modal" tabindex="-1" role="dialog" aria-labelledby="a_label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="a_header" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
+                <h4 class="modal-title" id="a_label" style="vertical-align:middle;"></h4>
+            </div>
+            <div class="modal-body container-fluid">
+                <div id="a_body"></div>
+                <br /><br />
+                <div class="pull-right" style="margin-top:-2px;">
+                    <div class="btn btn-default btn-panel-yellow" data-dismiss="modal" aria-hidden="true" onclick="window.location.href = '@Url.Action("EMailAllMembers", "news")';">&nbsp;&nbsp;&nbsp;ปิด&nbsp;&nbsp;&nbsp;</div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+<!-- /Modal -->
+
+@section Scripts {
+    <script src="~/lib/bootstrap/js/modal.js"></script>
+    <script>
+        $(document).ready(function () {
+            aDetailsAsBlock();
+            $('#rolenameDropdown').off('click').on('click', function (e) {
+                e.stopPropagation();
+            });
+            $('#btnCreateRole').off('click').on('click', function () {
+                $('#rolenameMsg').hide();
+                if ($('#rolename').val()) {
+                    $.ajax({
+                        async: true,
+                        type: "POST",
+                        url: "@Url.Action("CreateRole", "SecurityRoles")",
+                        data: {
+                            RoleName: $('#rolename').val()
+                        },
+                        success: function (data) {
+                            if (data.result == "dup") {
+                                $('#rolenameMsg').text('ตรวจพบชื่อกลุ่มซ้ำ');
+                                $('#rolenameMsg').show();
+                            } else if (data.result == "success") {
+                                $('#rolename').val(''); $('#rolenameMsg').hide();
+                                window.location.href = '@Url.Action("ManageRoles", "Security")';
+                            } else {
+                                $('#rolenameMsg').text('ตรวจพบความผิดพลาด กรุณาติดต่อผู้ดูแลระบบ');
+                                $('#rolenameMsg').show();
+                            }
+                        }
+                    });
+                    //$('#a_label').text('ระบบได้ทำการจัดส่งอีเมลเรียบร้อย');
+                    //$('#a_body').text('ระบบได้ทำการจัดส่งอีเมลเรียบร้อยแล้ว');
+                    //$('#a_modal').modal({ backdrop: 'static', keyboard: false });
+                    //
+                }
+                else
+                {
+                    $('#rolenameMsg').text('กรุณากรอกข้อมูล');
+                    $('#rolenameMsg').show();
+                }
+            });
+        });
+        function aDetailsAsBlock() {
+            $.ajax({
+                type: 'get', url: '@Url.Action("DetailsAsBlock", "SecurityRoles")?_=' + new Date().getTime(),
+            }).done(function (resp) {
+                $('#a_row').html(resp);
+            });
+        }
+        function details(roleId) {
+            window.location.href = '@Url.Action("Manage", "SecurityRoles")?roleId='+roleId;
+        }
+    </script>
+}

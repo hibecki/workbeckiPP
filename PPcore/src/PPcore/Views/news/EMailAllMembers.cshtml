@@ -1,0 +1,196 @@
+﻿<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12" style="padding-top:15px;">
+            <table><tr><td><h4 class="txt-color-blue">แจ้งข่าวสาร ผ่าน email</h4></td></tr></table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-blue">
+                <div class="panel-heading">
+                    <div class="pull-left" style="padding-top:5px;">สร้างข่าวสาร</div>
+                </div>
+
+                <!-- /.panel-heading -->
+                <div style="position:absolute;left:250px;top:70px;"><span class="badge"></span></div>
+                <div class="panel-body">
+                    <div class="dataTable_wrapper" style="padding-right:10px;">
+
+
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">เรื่อง</label>
+                                <div class="col-md-9">
+                                    <input id="topic" class="form-control" data-val-required="" onkeypress="$('#topic-msg').hide();" />
+                                    <span id="topic-msg" class="text-danger" style="display:none;">กรุณากรอกข้อมูล</span>
+                                </div>
+                                <div class="col-md-2">&nbsp;</div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">ข้อความ</label>
+                                <div class="col-md-9">
+                                    <textarea id="content" class="form-control" rows="10" style="resize:none;" data-val-required="" onkeypress="$('#content-msg').hide();"></textarea>
+                                    <span id="content-msg" class="text-danger" style="display:none;">กรุณากรอกข้อมูล</span>
+                                </div>
+                                <div class="col-md-2">&nbsp;</div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-1 control-label">แนบไฟล์</label>
+                                <div class="col-md-9">
+                                    <form id="dropAttachedFiles" action="@Url.Action("UploadFiles", "news", new { emailCode = ViewBag.emailCode})" class="dropzone" style="min-height:40px;margin-left:112px;margin-top:0px;border-width:thin">
+                                        <div id="btnAttach" class="btn btn-default btn-panel-yellow" style="position:absolute;left:14px;top:0px;cursor: pointer;" onclick="$('#dropAttachedFiles').click();">&nbsp;<i class="fa fa-plus-square-o" aria-hidden="true" style="color:white;"></i>&nbsp;แนบไฟล์&nbsp;</div>
+
+
+                                        <div class="dz-message" data-dz-message><span>แนบไฟล์</span></div>
+
+                                        @*<div id="dropPreview" class="dz-preview dz-file-preview" style="height:25px">
+                                            <div class="dz-details">
+                                                <div class="dz-filename"><span data-dz-name></span></div><div class="dz-size" data-dz-size></div>
+                                            </div>
+                                            <div class="dz-progress" style="display:none;"><span class="dz-upload" data-dz-uploadprogress></span></div>
+                                            <div class="dz-success-mark" style="display:none;"><span>fff</span></div>
+                                            <div class="dz-error-mark" style="display:none;"><span>ggg</span></div>
+                                            <div class="dz-error-message" style="display:none;"><span data-dz-errormessage></span></div>
+                                        </div>*@
+
+
+
+                                        @*<div class="dropzone-previews" id="dropPreview" style="padding-left:150px;background-color:lightcyan;width:200px;height:30px;">
+                                            <div class="dz-preview dz-file-preview" id="dropTemplate" style="min-height:40px;background-color:lightcoral">
+                                                <div class="dz-details dztemplate" style="background-color:lightgoldenrodyellow;">
+                                                    <div class="dz-filename" style="color:black;width:100px;"><span data-dz-name></span>
+                                                        <div class="dz-error-mark"><span>&times;</span></div>
+                                                    </div>
+
+
+                                                    <div class="dz-size" data-dz-size style="display:none;color:red;width:50px;background-color:black"></div>
+                                                </div>
+                                                <div class="dz-progress"><span class="dz-upload" data-dz-uploadprogress></span></div>
+                                                <div class="dz-success-mark" style="display:none;"><span>✔</span></div>
+                                                <div class="dz-error-mark"><span>✘</span></div>
+                                                <div class="dz-error-message" style="display:none;"><span data-dz-errormessage></span></div>
+                                            </div>
+                                        </div>*@
+
+
+
+                                    </form>
+
+                                </div>
+                                <div class="col-md-2">&nbsp;</div>
+                            </div>
+                            <hr/>
+                            <div class="row col-md-offset-1">
+                                <button id="btnSend" type="submit" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-envelope-o" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ส่ง&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                            </div>
+                        </div>
+                        <br />
+
+                        <br /><br />
+
+
+
+                    </div>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-8 -->
+
+    </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade modalForm1" id="a_modal" tabindex="-1" role="dialog" aria-labelledby="a_label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="a_header" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
+                <h4 class="modal-title" id="a_label" style="vertical-align:middle;"></h4>
+            </div>
+            <div class="modal-body container-fluid">
+                <div id="a_body"></div>
+                <br /><br />
+                <div class="pull-right" style="margin-top:-2px;">
+                    <div class="btn btn-default btn-panel-yellow" data-dismiss="modal" aria-hidden="true" onclick="window.location.href = '@Url.Action("EMailAllMembers", "news")';">&nbsp;&nbsp;&nbsp;ปิด&nbsp;&nbsp;&nbsp;</div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+<!-- /Modal -->
+
+@section Scripts {
+    <script src="~/lib/bootstrap/js/modal.js"></script>
+    <script>
+        $(document).ready(function () {
+            //var previewNode = document.querySelector("#dropTemplate");
+            //previewNode.id = "";
+            //var previewTemplate = previewNode.parentNode.innerHTML;
+            //previewNode.parentNode.removeChild(previewNode);
+
+            //Dropzone.options.dropAttachedFiles = {
+            //    paramName: "file", // The name that will be used to transfer the file
+            //    previewsContainer: '#dropPreview',
+            //    previewTemplate: previewTemplate,
+            //    parallelUploads: 2,
+            //    //thumbnailWidth: 100, thumbnailHeight: 50,
+            //    maxFilesize: 2, // MB
+            //    accept: function (file, done) {
+            //        if (file.name == "backup.pfx") {
+            //            done("Naha, you don't.");
+            //        }
+            //        else { done(); }
+            //    }, addedfile: function (file) { console.log(file); }
+            //};
+
+            $('#btnSend').on('click', function () {
+                if (!isInputEmpty()) {
+                    $.ajax({
+                        async: true,
+                        type: "POST",
+                        url: "@Url.Action("EMailAllMembersSend", "news")",
+                        data: {
+                            emailCode: '@ViewBag.emailCode',
+                            topic: $('#topic').val(),
+                            content: $('#content').val()
+                        },
+                        success: function (data) {
+                            if (data.result != "fail") {
+                                //a_details_as_table();
+                            } else {
+                                //a_details_as_table();
+                            }
+                        }
+                    });
+                    $('#a_label').text('ระบบได้ทำการจัดส่งอีเมลเรียบร้อย');
+                    $('#a_body').text('ระบบได้ทำการจัดส่งอีเมลเรียบร้อยแล้ว');
+                    $('#a_modal').modal({ backdrop: 'static', keyboard: false });
+                    //
+                }
+            });
+        });
+        function isInputEmpty() {
+            var isEmpty = false;
+            if ($('#topic').val()) {
+                $('#topic-msg').hide(); isEmpty = false;
+            } else {
+                $('#topic-msg').show(); isEmpty = true;
+            }
+            if ($('#content').val()) {
+                $('#content-msg').hide(); isEmpty = false;
+            } else {
+                $('#content-msg').show(); isEmpty = true;
+            }
+            return isEmpty;
+        }
+    </script>
+}

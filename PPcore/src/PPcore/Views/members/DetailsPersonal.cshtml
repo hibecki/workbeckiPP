@@ -1,0 +1,15 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutMember.cshtml";
+}
+
+@model PPcore.Models.member
+
+@{
+    ViewBag.Title = "ดูรายละเอียดข้อมูลสมาชิกส่วนบุคคล";
+    ViewBag.FormAction = "Detail";
+    ViewBag.ButtonUpperRightType = "hidden";
+    ViewBag.panelBarMenu = "Details";
+}
+
+@{ await Html.RenderPartialAsync("ViewInput"); }
+

@@ -1,0 +1,195 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutMember.cshtml";
+}
+
+@model IEnumerable<PPcore.ViewModels.mem_site_visit.mem_site_visitViewModel>
+
+@{
+    ViewBag.ButtonUpperRightType = "hidden";
+    if (ViewBag.isViewOnly == 1)
+    {
+        ViewBag.panelBarMenu = "Details"; ViewBag.Title = "ดูรายละเอียดข้อมูลสมาชิก";
+    }
+    else
+    {
+        ViewBag.Title = "แก้ไข รายละเอียดข้อมูลสมาชิก";
+    }
+}
+
+<div class="panel panel-blue">
+    <div class="panel-heading">
+        <div class="pull-left" style="padding-top:5px;">แสดงข้อมูลทั้งหมด</div>
+        <div id="btnBar" class="pull-right" style="margin-top:-2px;">กดปุ่มเพิ่ม ถ้าต้องการใส่มากกว่า 1 รายการ&nbsp;&nbsp;&nbsp;
+            <div id="btnCreate" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-file" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;&nbsp;เพิ่ม&nbsp;&nbsp;&nbsp;&nbsp;</div>
+            <div id="btnEdit" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true" style="color:white;"></i>&nbsp;แก้ไข&nbsp;&nbsp;</div>
+            <div id="btnDetails" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-file-text" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;ดูข้อมูล</div>
+        </div>
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="dataTable_wrapper" style="padding-right:10px;">
+            <table class="table table-striped table-bordered table-hover" id="dataTablesSimple">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(model => model.mem_site_visit.rec_no)</th>
+                        <th style="display:none">@Html.DisplayNameFor(model => model.mem_site_visit.id)</th>
+                        <th>@Html.DisplayNameFor(model => model.mem_site_visit.site_visit_desc)</th>
+                        <th>@Html.DisplayNameFor(model => model.country_desc)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ var countOrder = 0;}
+                    @foreach (var item in Model)
+                    {
+                        countOrder++;
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.mem_site_visit.rec_no)</td>
+                            <td style="display:none">@Html.DisplayFor(modelItem => item.mem_site_visit.id)</td>
+                            <td>@Html.DisplayFor(modelItem => item.mem_site_visit.site_visit_desc)</td>
+                            <td>@Html.DisplayFor(modelItem => item.country_desc)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+
+
+
+
+        <!-- Modal -->
+        <div class="modal fade modalForm1" id="mem_site_visitModal" tabindex="-1" role="dialog" aria-labelledby="mem_site_visitModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div id="mem_site_visitModalHeader" class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
+                        <h4 class="modal-title" id="mem_site_visitModalLabel" style="vertical-align:middle;"></h4>
+                    </div>
+                    <div class="modal-body container-fluid">
+                        @{ await Html.RenderPartialAsync("ViewInput", new PPcore.ViewModels.mem_site_visit.mem_site_visitViewModel()); }
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+
+
+
+        </div>
+
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/bootstrap/js/modal.js"></script>
+    <script>
+        $(document).ready(function () {
+            var tableMember = setDataTablesSimple();
+            tableMember.$('tr:first').click();
+            if ("@ViewBag.isViewOnly" == "1") {
+                //$('#btnCreate').hide();
+                //$('#btnEdit').hide();
+                //$('#btnDetails').hide();
+                $('#btnBar').hide();
+            }
+            $('#btnCreate').on('click', function () {
+                $('#mem_site_visitModalLabel').text('เพิ่มประวัติการดูงาน');
+                $('#mem_site_visitSubmit').html('บันทึก');
+                //$("#mem_site_visit_rec_no").prop('disabled', false);
+                $("#mem_site_visit_site_visit_desc").prop('disabled', false);
+                $("#mem_site_visit_country_code").prop('disabled', false);
+                $("#mem_site_visitSubmit").unbind("click").bind("click", function (e) {
+                    e.preventDefault();
+                    if ($("#mem_site_visitForm").valid()) {
+                        $.ajax({
+                            async: false,
+                            type: "POST",
+                            url: "@Url.Action("Create", "mem_site_visit")",
+                            data: {
+                                memberId: "@ViewBag.memberId",
+                                //rec_no: $("#mem_site_visit_rec_no").val(),
+                                site_visit_desc: $("#mem_site_visit_site_visit_desc").val(),
+                                country_code: $("#mem_site_visit_country_code").val()
+                            },
+                            success: function (data) {
+                                window.location.href = "@Url.Action("Index", "mem_site_visit", new {memberId = ViewBag.memberId})";
+                            }
+                        });
+                    }
+                });
+                $("#mem_site_visit_site_visit_desc").val('');
+                $("#mem_site_visitForm").clearValidation();
+                $('#mem_site_visitModal').modal({ backdrop: 'static', keyboard: false });
+            });
+
+            $('#btnEdit').on('click', function () {
+                var datarow = tableMember.row('.selected').data();
+                $('#mem_site_visitModalLabel').text('แก้ไขประวัติการดูงาน');
+                $('#mem_site_visitSubmit').html('บันทึก');
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("Edit", "mem_site_visit")" + "/" + datarow[1],
+                    success: function (data) {
+                        $("#mem_site_visit_rec_no").val(data.rec_no);
+                        $("#mem_site_visit_site_visit_desc").val(data.site_visit_desc);
+                        $("#mem_site_visit_country_code").val(data.country_code);
+                        $("#mem_site_visit_country_code").change();
+                        $("#mem_site_visit_rec_no").prop('disabled', true);
+                        $("#mem_site_visit_site_visit_desc").prop('disabled', false);
+                        $("#mem_site_visit_country_code").prop('disabled', false);
+                        $("#mem_site_visitSubmit").unbind("click").bind("click", function (e) {
+                            e.preventDefault();
+                            if ($("#mem_site_visitForm").valid()) {
+                                $.ajax({
+                                    type: "POST",
+                                    data: {
+                                        id: datarow[1],
+                                        memberId: "@ViewBag.memberId",
+                                        rec_no: $("#mem_site_visit_rec_no").val(),
+                                        site_visit_desc: $("#mem_site_visit_site_visit_desc").val(),
+                                        country_code: $("#mem_site_visit_country_code").val()
+                                    },
+                                    url: "@Url.Action("Edit", "mem_site_visit")",
+                                    success: function (data) {
+                                        window.location.href = "@Url.Action("Index", "mem_site_visit", new {memberId = ViewBag.memberId})";
+                                    }
+                                });
+                            }
+                        });
+                        $("#mem_site_visitForm").clearValidation();
+                        $('#mem_site_visitModal').modal({ backdrop: 'static', keyboard: false });
+                    }
+                });
+            });
+
+            $('#btnDetails').on('click', function () {
+                var datarow = tableMember.row('.selected').data();
+                $('#mem_site_visitModalLabel').text('ดูประวัติการดูงาน');
+                $('#mem_site_visitSubmit').html('ปิด');
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("Details", "mem_site_visit")" + "/" + datarow[1],
+                    success: function (data) {
+                        $("#mem_site_visit_rec_no").val(data.rec_no);
+                        $("#mem_site_visit_site_visit_desc").val(data.site_visit_desc);
+                        $("#mem_site_visit_country_code").val(data.country_code);
+                        $("#mmem_site_visit_country_code").change();
+                        $("#mem_site_visit_rec_no").prop('disabled', true);
+                        $("#mem_site_visit_site_visit_desc").prop('disabled', true);
+                        $("#mem_site_visit_country_code").prop('disabled', true);
+                        $("#mem_site_visitSubmit").click(function (e) {
+                            e.preventDefault();
+                            $('#mem_site_visitModal').modal('hide');
+                            $("#mem_site_visit_rec_no").prop('disabled', true);
+                            $("#mem_site_visit_site_visit_desc").prop('disabled', false);
+                            $("#mem_site_visit_country_code").prop('disabled', false);
+                        });
+                        $('#mem_site_visitModal').modal({ backdrop: 'static', keyboard: false });
+                    }
+                });
+            });
+        });
+
+    </script>
+}

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<PPcore.ViewModels.course_instructor.instructorViewModel>
+@{
+    Layout = null;
+}
+
+<table class="table table-striped table-bordered table-hover" id="a_table">
+    <thead>
+        <tr>
+            <th style="width:15px;">ลำดับ</th>
+            <th style="display:none">@Html.DisplayNameFor(model => model.course_instructor.id)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.course_instructor.instructor_code)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.instructor_desc)</th>
+            <th>@Html.DisplayNameFor(model => model.contactor)</th>
+            <th>@Html.DisplayNameFor(model => model.contactor_detail)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.course_instructor.confirm_date)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.course_instructor.instructor_cost)</th>
+            <th style="width:50px;">@Html.DisplayNameFor(model => model.course_instructor.x_status)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ var countOrder = 0;}
+        @foreach (var item in Model)
+        {
+            countOrder++;
+            <tr>
+                <td style="width:15px;">@countOrder</td>
+                <td style="display:none">@Html.DisplayFor(modelItem => item.course_instructor.id)</td>
+                <td>@Html.DisplayFor(modelItem => item.course_instructor.instructor_code)</td>
+                <td>@Html.DisplayFor(modelItem => item.instructor_desc)</td>
+                <td>@Html.DisplayFor(modelItem => item.contactor)</td>
+                <td>@Html.DisplayFor(modelItem => item.contactor_detail)</td>
+                <td>@Html.DisplayFor(modelItem => item.course_instructor.confirm_date)</td>
+                <td>@Html.DisplayFor(modelItem => item.course_instructor.instructor_cost)</td>
+                <td>@Html.x_status_text(item.course_instructor.x_status)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

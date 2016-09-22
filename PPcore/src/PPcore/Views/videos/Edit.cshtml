@@ -1,0 +1,272 @@
+﻿@model PPcore.Models.album
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12" style="padding-top:15px;">
+            <table><tr><td><h4 class="txt-color-blue">คลิปกิจกรรม</h4></td></tr></table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-blue">
+                <div class="panel-heading">
+                    <div class="pull-left" style="padding-top:5px;">คลิปกิจกรรม</div>
+                    <div class="pull-right" style="margin-top:-2px;">
+                        <button id="btnDelete" class="btn btn-default btn-panel-yellow" onclick="deleteVideoMark('@Model.album_code');">&nbsp;<i class="fa fa-eraser" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;ลบวีดีโอที่เลือก&nbsp;&nbsp;</button>
+                        <button id="btnBack" class="btn btn-default btn-panel-yellow" onclick="location.href='@Url.Action("Index", "videos")'">&nbsp;<i class="fa fa-reply" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;กลับ&nbsp;&nbsp;</button>
+                    </div>
+                </div>
+
+                <!-- /.panel-heading -->
+
+                <div class="panel-body">
+                    @{ await Html.RenderPartialAsync("ViewInput"); }
+                </div>
+                <!-- /.panel-body -->
+            </div>
+
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-8 -->
+
+
+
+    </div>
+</div>
+
+<!-- modal -->
+<div id="changeDescModal" class="modal fade modalForm1" tabindex="-1" role="dialog" aria-labelledby="changeDescModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div id="changeDescModalHeader" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
+                <h4 class="modal-title" id="changeDescModalLabel" style="vertical-align:middle;">แก้ไขคำอธิบาย</h4>
+            </div>
+            <div class="modal-body container-fluid">
+
+
+                <div class="form-horizontal">
+                    <div id="changeDescImageCode" style="display:none"></div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">คำอธิบาย</label>
+                        <div class="col-md-9">
+                            <textarea id="changeDescText" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button class="btn btn-success" onclick="changeDescSave();">บันทึก</button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- /.modal -->
+<!-- Modal Delete -->
+<div id="confirmModal" class="modal fade modalForm1" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="confirmModalHeader" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
+                <h4 class="modal-title" id="confirmModalLabel" style="vertical-align:middle;">ยืนยัน</h4>
+            </div>
+            <div class="modal-body container-fluid">
+                <div id="deleteVideoAlbumCode" style="display:none"></div>
+                <div id="deleteVideoImageCode" style="display:none"></div>
+                <div id="confirmMsg" class="col-md-12"></div>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-4"><button id="btnDeleteConfirm" class="btn btn-danger pull-right" onclick="deleteVideoConfirm();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ยืนยัน&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></div>
+                    <div class="col-md-4 col-md-offset-4">
+                        <button id="albumDeleteCancel" class="btn btn-default" data-dismiss="modal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ยกเลิก&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Modal Delete -->
+
+@section Scripts {
+
+    <script>
+            $(document).ready(function () {
+                $.datepicker.regional['th'] = {
+                    dateFormat: 'dd-mm-yy', changeMonth: true, changeYear: true, constrainInput: true,
+                    yearRange: "-100:+0", yearOffSet: 543, beforeShow: dateDefault
+                };
+                $.datepicker.setDefaults($.datepicker.regional['th']);
+                $("#album_date").datepicker($.datepicker.regional["th"]);
+
+                if ("@ViewBag.FormAction" == "Create") {
+                    $("#album_code").val('@ViewBag.album_code');
+                }
+
+                $.ajax({
+                    async: false,
+                    type: "GET",
+                    url: "@Url.Action("ListAlbumVideo", "videos", new {albumCode=ViewBag.album_code})",
+                    success: function (resp) {
+                        if (resp != "") {
+                            resp = JSON.parse(resp);
+                            for (var i = 0; i < resp.length; i++) {
+                                var imgblock = '<div id="' + resp[i].image_code + '" class="img-thumbnail" style="height:225px;width:250px;margin-top:10px;margin-left:15px;margin-right:15px;">';
+                                var idIsMark = "ismark" + resp[i].image_code;
+                                imgblock += '<div id="' + idIsMark + '" style="display:none">0</div><div id="imc" style="display:none">'+resp[i].image_code+'</div>';
+                                imgblock += '<div class="row" style="position:relative;">&nbsp;<br/>&nbsp;';
+                                var idMark = "mark" + resp[i].image_code;
+                                imgblock += '<div class="col-xs-6" style="position:absolute;top:0px;left:10px;"><div class="video-mark" id="' + idMark + '" aria-hidden="true" style="font-size:25px;" onclick="markVideo(\'' + resp[i].image_code + '\');"><i class="fa fa-square-o" aria-hidden="true"></i></div></div>';
+                                imgblock += '<div class="col-xs-6" style="position:absolute;top:-2px;left:210px;"><div class="video-delete" aria-hidden="true" style="font-size:25px;" onclick="deleteVideo(\'' + resp[i].albumCode + '\',\'' + resp[i].image_code + '\');"><i class="fa fa-times" aria-hidden="true"></i></div></div>';
+                                imgblock += '</div>';
+                                imgblock += '<video height="135px" class="img-responsive center-block" controls><source  src="/' + resp[i].filePath + '" />Your browser does not support the video tag.</video>'; //class="img-responsive center-block" style="height:250px"
+                                var desc = "";
+                                if (resp[i].image_desc != "") {
+                                    if (resp[i].image_desc.length > 25) {
+                                        desc = resp[i].image_desc.substring(0, 25) + '...';
+                                    } else { desc = resp[i].image_desc; }
+                                } else { desc = "&nbsp;"; }
+
+                                var idDesc2 = "desc2" + resp[i].image_code;
+                                imgblock += '<div id="' + idDesc2 + '" style="display:none">' + resp[i].image_desc + '</div>';
+                                var idDesc = "desc" + resp[i].image_code;
+                                imgblock += '<div id="' + idDesc + '" class="btn btn-default center-block btn-video-blue" style="margin-top:5px;width:100%" onclick="changeDesc(\'' + resp[i].image_code + '\');">' + desc + '</div>';
+
+
+                                imgblock += '</div>';
+
+                                $('#albumPanel').append(imgblock);
+                            }
+                        }
+                    }
+                });
+
+
+            });
+            $('#album_dateButton').click(function () {
+                $('#album_date').datepicker("show");
+            });
+            function dateDefault() {
+                if ($("#album_date").val() == "") { $("#album_date").datepicker("setDate", new Date()); }
+            }
+            function changeDesc(imageCode) {
+                $('#changeDescImageCode').val(imageCode);
+                var d2 = "desc2" + imageCode;
+                var imageDesc = $("div[id='" + d2 + "']").text();
+                $('#changeDescText').val(imageDesc);
+                $('#changeDescModal').modal({ backdrop: 'static', keyboard: false });
+            }
+            function changeDescSave() {
+                var d = "desc" + $('#changeDescImageCode').val();
+                var d2 = "desc2" + $('#changeDescImageCode').val();
+                $.ajax({
+                    async: false,
+                    type: "GET",
+                    url: "/videos/ChangeVideoDesc?imageCode=" + $('#changeDescImageCode').val() + "&imageDesc=" + $('#changeDescText').val(),
+                    success: function (resp) {
+                        if (resp != "") {
+                            var desc;
+                            if (resp.imageDesc.length > 25) {
+                                desc = resp.imageDesc.substring(0, 25) + '...';
+                            } else { desc = resp.imageDesc; }
+                            $("div[id='" + d + "']").text(desc);
+                            $("div[id='" + d2 + "']").text(resp.imageDesc);
+                        }
+                    }
+                });
+                $('#changeDescModal').modal('toggle');
+            }
+            function markVideo(imageCode) {
+                var im = "ismark" + imageCode; var m = "mark" + imageCode;
+                if ($("div[id='" + im + "']").text() == 0) {
+                    $("div[id='" + m + "']").html('<i class="fa fa-check-square-o" style="color:red;" aria-hidden="true"></i>');
+                    $("div[id='" + im + "']").text(1);
+                } else {
+                    $("div[id='" + m + "']").html('<i class="fa fa-square-o" aria-hidden="true"></i>');
+                    $("div[id='" + im + "']").text(0);
+                }
+            }
+            function markAllVideo() {
+                if ($("#isMarkAll").text() == 0) {
+                    $("#markAllVideo").html('<i class="fa fa-check-square-o" style="color:red;" aria-hidden="true"></i>');
+                    var m = ""; var idIsMark = "";
+                    $('#albumPanel > div').each(function () {
+                        var m = "mark" + this.id;
+                        $("div[id='" + m + "']").html('<i class="fa fa-check-square-o" style="color:red;" aria-hidden="true"></i>');
+                        idIsMark = "ismark" + this.id;
+                        $("div[id='" + idIsMark + "']").text(1);
+                    });
+                    $('#isMarkAll').text(1);
+                } else {
+                    $("#markAllVideo").html('<i class="fa fa-square-o" aria-hidden="true"></i>');
+                    var m = ""; var idIsMark = "";
+                    $('#albumPanel > div').each(function () {
+                        var m = "mark" + this.id;
+                        $("div[id='" + m + "']").html('<i class="fa fa-square-o" aria-hidden="true"></i>');
+                        idIsMark = "ismark" + this.id;
+                        $("div[id='" + idIsMark + "']").text(0);
+                    });
+                    $("#isMarkAll").text(0);
+                }
+            }
+            function deleteVideo(albumCode, imageCode) {
+                $('#deleteVideoAlbumCode').text(albumCode);
+                $('#deleteVideoImageCode').text(imageCode);
+                $('#confirmModalLabel').text('ยืนยันการลบวีดีโอ');
+                $('#confirmMsg').text('กรุณายืนยันการลบวีดีโอ');
+                $('#btnDeleteConfirm').prop('onclick', null).off('click');
+                $('#btnDeleteConfirm').on('click', function () { deleteVideoConfirm(); });
+                $('#confirmModal').modal({ backdrop: 'static', keyboard: false });
+            }
+            function deleteVideoConfirm() {
+                $.ajax({
+                    async: false,
+                    type: "GET",
+                    url: "/videos/DeleteVideo?albumCode=" + $('#deleteVideoAlbumCode').text() + "&imageCode=" + $('#deleteVideoImageCode').text(),
+                    success: function (resp) {
+                        if (resp != "") {
+                            $("div[id='" + resp.imageCode + "']").remove();
+                        }
+                    }
+                });
+                $('#confirmModal').modal('toggle');
+            }
+            function deleteVideoMark(albumCode) {
+                $('#deleteVideoAlbumCode').text(albumCode);
+                $('#confirmModalLabel').text('ยืนยันการลบวีดีโอที่เลือก');
+                $('#confirmMsg').text('กรุณายืนยันการลบวีดีโอที่เลือกทั้งหมด');
+                $('#btnDeleteConfirm').prop('onclick',null).off('click');
+                $('#btnDeleteConfirm').on('click', function () { deleteVideoMarkConfirm(); });
+                $('#confirmModal').modal({ backdrop: 'static', keyboard: false });
+
+            }
+            function deleteVideoMarkConfirm() {
+                var idIsMark = ""; var isMark = "";
+                $('#albumPanel > div').each(function () {
+                    idIsMark = "ismark" + this.id;
+                    isMark = $("div[id='" + idIsMark + "']").text();
+                    if (isMark == 1) {
+
+                        $.ajax({
+                            async: false,
+                            type: "GET",
+                            url: "/videos/DeleteVideo?albumCode=" + $('#deleteVideoAlbumCode').text() + "&imageCode=" + this.id,
+                            success: function (resp) {
+                                if (resp != "") {
+                                    $("div[id='" + resp.imageCode + "']").remove();
+                                }
+                            }
+                        });
+                        $("#markAllVideo").html('<i class="fa fa-square-o" aria-hidden="true"></i>');
+                    }
+                });
+                $('#confirmModal').modal('toggle');
+            }
+    </script>
+}

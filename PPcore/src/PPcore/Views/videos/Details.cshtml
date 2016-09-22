@@ -1,0 +1,310 @@
+﻿@model PPcore.Models.album
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12" style="padding-top:15px;">
+            <table><tr><td><h4 class="txt-color-blue">คลิปกิจกรรม</h4></td></tr></table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-blue">
+                <div class="panel-heading">
+                    <div class="pull-left" style="padding-top:5px;">คลิปกิจกรรม</div>
+                    <div class="pull-right" style="margin-top:-2px;">
+                        <button id="btnShare" class="btn btn-default btn-panel-yellow" onclick="shareAlbum('@ViewBag.album_code', '@Model.album_name');">&nbsp;<i class="fa fa-fbmod-square" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;แชร์วีดีโอที่เลือก&nbsp;&nbsp;</button>&nbsp;&nbsp;&nbsp;
+                        <button id="btnBack" class="btn btn-default btn-panel-yellow" onclick="location.href='@Url.Action("Index", "videos")'">&nbsp;<i class="fa fa-reply" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;กลับ&nbsp;&nbsp;</button>
+                    </div>
+                </div>
+
+
+                <div class="panel-body">
+
+
+                    <div class="well">
+                        <div class="row">
+                            <div class="col-md-1"><label asp-for="album_name" class="control-label pull-right"></label></div>
+                            <div class="col-md-11">@Model.album_name</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-1"><label asp-for="album_desc" class="control-label pull-right"></label></div>
+                            <div class="col-md-11">@Model.album_desc</div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div id="albumPanel" class="well" style="padding-left:10px;padding-top:0px;padding-bottom:10px;">
+
+
+                                <div id="isMarkAll" style="display:none">0</div>
+                                <div class="video-mark" style="position:relative;width:100%" onclick="markAllVideo();">
+                                    &nbsp;<br />&nbsp;
+                                    <div style="position:absolute;top:0px;right:3px;width:120px;">
+                                        <div style="position:absolute;left:5px;top:8px;"><div id="markAllVideo" aria-hidden="true" style="font-size:28px;"><i class="fa fa-square-o" aria-hidden="true"></i></div></div>
+                                        <div style="position:absolute;left:35px;top:15px;"><div style="font-size:16px;">เลือกทั้งหมด</div></div>
+                                    </div>
+                                    <br />
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+
+
+</div>
+
+<!-- modal -->
+<div id="changeDescModal" class="modal fade modalForm1" tabindex="-1" role="dialog" aria-labelledby="changeDescModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div id="changeDescModalHeader" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
+                <h4 class="modal-title" id="changeDescModalLabel" style="vertical-align:middle;">แก้ไขคำอธิบาย</h4>
+            </div>
+            <div class="modal-body container-fluid">
+
+
+                <div class="form-horizontal">
+                    <div id="changeDescImageCode" style="display:none"></div>
+                    <div class="form-group">
+                        <label class="col-md-3 control-label">คำอธิบาย</label>
+                        <div class="col-md-9">
+                            <textarea id="changeDescText" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-3 col-md-9">
+                            <button class="btn btn-success" onclick="changeDescSave();">บันทึก</button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- /.modal -->
+
+
+@section Scripts {
+
+    <script>
+
+        $(document).ready(function () {
+            if ("@ViewBag.FormAction" == "Create") {
+                $("#album_code").val('@ViewBag.album_code');
+            }
+            $.ajax({
+                async:false,
+                type: "GET",
+                url: "@Url.Action("ListAlbumVideo", "videos", new {albumCode=ViewBag.album_code})",
+                success: function (resp) {
+                    resp = JSON.parse(resp);
+
+                    for (var i = 0; i < resp.length; i++) {
+
+
+                        //var imgblock = '<div id="' + resp[i].image_code + '" class="img-thumbnail" style="position:relative;height:340px;width:250px;margin-top:10px;margin-left:15px;margin-right:15px;">';
+                        //var idOverlay = "overlay" + resp[i].image_code;
+                        //imgblock += '<div id="' + idOverlay + '" class="video-wait" style="display:none;"><i class="fa fa-refresh fa-spin" aria-hidden="true"></i></div>';
+                        //var idIsMark = "ismark" + resp[i].image_code;
+                        //imgblock += '<div id="' + idIsMark + '" style="display:none">0</div><div id="imc" style="display:none">' + resp[i].image_code + '</div>';
+                        //imgblock += '<div class="row" style="position:relative;">&nbsp;<br/>&nbsp;';
+                        //var idMark = "mark" + resp[i].image_code;
+                        //imgblock += '<div class="col-xs-6" style="position:absolute;top:0px;left:10px;"><div class="video-mark" id="' + idMark + '" aria-hidden="true" style="font-size:25px;" onclick="markVideo(\'' + resp[i].image_code + '\');"><i class="fa fa-square-o" aria-hidden="true"></i></div></div>';
+                        //imgblock += '</div>';
+                        //imgblock += '<img class="img-responsive center-block" style="height:210px" src="/' + resp[i].filePath + '" />';
+
+                        var imgblock = '<div id="' + resp[i].image_code + '" class="img-thumbnail" style="position:relative;height:225px;width:250px;margin-top:10px;margin-left:15px;margin-right:15px;">';
+                        var idOverlay = "overlay" + resp[i].image_code;
+                        imgblock += '<div id="' + idOverlay + '" class="video-wait" style="display:none;"><i class="fa fa-refresh fa-spin" aria-hidden="true"></i></div>';
+                        var idIsMark = "ismark" + resp[i].image_code;
+                        imgblock += '<div id="' + idIsMark + '" style="display:none">0</div><div id="imc" style="display:none">' + resp[i].image_code + '</div>';
+                        imgblock += '<div class="row" style="position:relative;">&nbsp;<br/>&nbsp;';
+                        var idMark = "mark" + resp[i].image_code;
+                        imgblock += '<div class="col-xs-6" style="position:absolute;top:0px;left:10px;"><div class="video-mark" id="' + idMark + '" aria-hidden="true" style="font-size:25px;" onclick="markVideo(\'' + resp[i].image_code + '\');"><i class="fa fa-square-o" aria-hidden="true"></i></div></div>';
+                        imgblock += '</div>';
+                        imgblock += '<video height="135px" class="img-responsive center-block" controls><source  src="/' + resp[i].filePath + '" />Your browser does not support the video tag.</video>';
+
+
+                        var desc = "";
+                        if (resp[i].image_desc != "") {
+                            if (resp[i].image_desc.length > 25) {
+                                desc = resp[i].image_desc.substring(0, 25) + '...';
+                            } else { desc = resp[i].image_desc; }
+                        } else { desc = "&nbsp;"; }
+
+                        var idDesc2 = "desc2" + resp[i].image_code;
+                        imgblock += '<div id="' + idDesc2 + '" style="display:none">' + resp[i].image_desc + '</div>';
+                        var idDesc = "desc" + resp[i].image_code;
+                        imgblock += '<div id="' + idDesc + '" class="btn btn-default center-block btn-video-blue" style="margin-top:5px;width:100%" onclick="changeDesc(\'' + resp[i].image_code + '\');">' + desc + '</div>';
+                        imgblock += '<a id="btnShareOne" class="btn btn-block btn-social btn-facebook" style="margin-top:5px;" onclick="shareVideo(\'' + resp[i].albumCode + '\',\'' + resp[i].image_code + '\',\'' + resp[i].fileName + '\',\'' + resp[i].albumName + '\');"><span class="fa fa-facebook"></span> Share</a>';
+
+
+                        imgblock += '</div>'; //console.log(imgblock);
+
+                        $('#albumPanel').append(imgblock);
+                    }
+                }
+            });
+        });
+
+        function shareVideo(albumCode, imageCode, fileName, albumName) {
+            console.log("test");
+            var d2 = "desc2" + imageCode;
+            var imageDesc = $("div[id='" + d2 + "']").text();
+            var o = "overlay" + imageCode;
+            $("div[id='" + o + "']").show();
+            $.ajax({
+                async:true,
+                type: "GET",
+                url: "@Url.Action("ShareVideo", "videos")" + "?albumCode=" + albumCode + "&imageCode=" + imageCode + "&imageDesc=" + imageDesc + "&fileName=" + fileName,
+                success: function (resp) {
+                    console.log(resp);
+                    resp = JSON.parse(resp);
+                    $("div[id='" + o + "']").hide();
+                }
+            });
+        }
+
+        function shareAlbum(albumCode, albumName) {
+            $('#btnShare').prop('disabled', true);
+            var idIsMark = ""; var isMark = ""; var o = ""; var d2 = "";
+            var aImageCode = new Array(); var aImageDesc = new Array();
+            $('#albumPanel > div').each(function () {
+                idIsMark = "ismark" + this.id;
+                isMark = $("div[id='" + idIsMark + "']").text();
+                if (isMark == 1) {
+                    o = "overlay" + this.id;
+                    $("div[id='" + o + "']").show();
+                    aImageCode.push(this.id);
+                    d2 = "desc2" + this.id;
+                    aImageDesc.push($("div[id='" + d2 + "']").text());
+                }
+            });
+
+            $.ajax({
+                async:true,
+                type: "GET",
+                url: "/albums/ShareAlbum?albumCode=" + albumCode + "&albumName=" + albumName,
+                success: function (resp) {
+                    resp = JSON.parse(resp);
+                    var albumId = resp.id; console.log("albumId " + albumId);
+                    for (var i = 0; i < aImageCode.length; i++) {
+                        console.log(aImageCode[i]);
+
+                        $.ajax({
+                            async:true,
+                            type: "GET",
+                            url: "/videos/ShareVideoToAlbum?albumId=" + albumId + "&albumCode=" + albumCode + "&imageCode=" + aImageCode[i] + "&imageDesc=" + aImageDesc[i],
+                            success: function (resp) {
+                                console.log(resp.imageCode);
+                                //resp = JSON.parse(resp);
+                                o = "overlay" + resp.imageCode;
+                                $("div[id='" + o + "']").hide();
+                            }
+                        });
+
+                    }
+                },
+                error: function(xhr, textStatus, error){
+                console.log(xhr.statusText);
+                console.log(textStatus);
+                console.log(error);
+                }
+            });
+            markAllVideo();
+            $('#btnShare').prop('disabled', false);
+        }
+
+        function changeDesc(imageCode) {
+            $('#changeDescImageCode').val(imageCode);
+            var d2 = "desc2" + imageCode;
+            var imageDesc = $("div[id='" + d2 + "']").text();
+            $('#changeDescText').val(imageDesc);
+            $('#changeDescModal').modal({ backdrop: 'static', keyboard: false });
+        }
+        function changeDescSave() {
+            var d = "desc" + $('#changeDescImageCode').val();
+            var d2 = "desc2" + $('#changeDescImageCode').val();
+            $.ajax({
+                async: false,
+                type: "GET",
+                url: "/videos/ChangeVideoDesc?imageCode=" + $('#changeDescImageCode').val() + "&imageDesc=" + $('#changeDescText').val(),
+                success: function (resp) {
+                    if (resp != "") {
+                        var desc;
+                        if (resp.imageDesc.length > 25) {
+                            desc = resp.imageDesc.substring(0, 25) + '...';
+                        } else { desc = resp.imageDesc; }
+                        $("div[id='" + d + "']").text(desc);
+                        $("div[id='" + d2 + "']").text(resp.imageDesc);
+                    }
+                }
+            });
+            $('#changeDescModal').modal('toggle');
+        }
+        function markVideo(imageCode) {
+            var im = "ismark" + imageCode; var m = "mark" + imageCode;
+            if ($("div[id='" + im + "']").text() == 0) {
+                $("div[id='" + m + "']").html('<i class="fa fa-check-square-o" style="color:red;" aria-hidden="true"></i>');
+                $("div[id='" + im + "']").text(1);
+            } else {
+                $("div[id='" + m + "']").html('<i class="fa fa-square-o" aria-hidden="true"></i>');
+                $("div[id='" + im + "']").text(0);
+            }
+        }
+        function markAllVideo() {
+            if ($("#isMarkAll").text() == 0) {
+                $("#markAllVideo").html('<i class="fa fa-check-square-o" style="color:red;" aria-hidden="true"></i>');
+                var m = ""; var idIsMark = "";
+                $('#albumPanel > div').each(function () {
+                    var m = "mark" + this.id;
+                    $("div[id='" + m + "']").html('<i class="fa fa-check-square-o" style="color:red;" aria-hidden="true"></i>');
+                    idIsMark = "ismark" + this.id;
+                    $("div[id='" + idIsMark + "']").text(1);
+                });
+                $('#isMarkAll').text(1);
+            } else {
+                $("#markAllVideo").html('<i class="fa fa-square-o" aria-hidden="true"></i>');
+                var m = ""; var idIsMark = "";
+                $('#albumPanel > div').each(function () {
+                    var m = "mark" + this.id;
+                    $("div[id='" + m + "']").html('<i class="fa fa-square-o" aria-hidden="true"></i>');
+                    idIsMark = "ismark" + this.id;
+                    $("div[id='" + idIsMark + "']").text(0);
+                });
+                $("#isMarkAll").text(0);
+            }
+        }
+    </script>
+}

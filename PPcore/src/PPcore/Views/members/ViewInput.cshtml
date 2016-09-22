@@ -1,0 +1,476 @@
+﻿@addTagHelper "*, PPcore"
+@model PPcore.Models.member
+
+<form asp-action="@ViewBag.FormAction">
+    <div class="form-horizontal">
+        <div style="position:relative;top:-150px;margin-right:.5em;float:right">
+            @if (ViewBag.IsCreate != 1)
+            {
+                if (ViewBag.IsEdit != 1)
+                {
+                    if (ViewBag.IsDetails == 1 || ViewBag.IsDetailsPersonal == 1)
+                    {
+                        <div id="btnGoEdit" class="btn btn-default btn-panel-yellow" onclick="location.href='@Url.Action("Edit", "members", new {id=ViewBag.memberId})'">&nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true" style="color:white;"></i>&nbsp;แก้ไข&nbsp;</div>
+                        <div id="btnPrint" class="btn btn-default btn-panel-yellow" onclick="memberPrint();">&nbsp;<i class="fa fa-print" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;พิมพ์&nbsp;&nbsp;</div>
+                    }
+
+                }
+                else // Is Edit
+                {
+                    <button id="btnSave" type="@ViewBag.ButtonUpperRightType" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-floppy-o" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;จัดเก็บ&nbsp;&nbsp;</button>
+                    <div id="btnPrint" class="btn btn-default btn-panel-yellow" onclick="memberPrint();">&nbsp;<i class="fa fa-print" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;พิมพ์&nbsp;&nbsp;</div>
+                }
+            }
+            else //Is Create
+            {
+                <button id="btnSave" type="@ViewBag.ButtonUpperRightType" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-floppy-o" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;จัดเก็บ&nbsp;&nbsp;</button>
+            }
+        </div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input asp-for="rowversion" /><input asp-for="mem_username" /><input asp-for="mem_password" /><input asp-for="mem_role_id" />
+        <div class="row">
+            <!-- info -->
+            <div class="col-md-8">
+                <!-- personal -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-2 text-right"><label asp-for="member_code" class="control-label"></label></div>
+                                @*<div class="col-md-4">
+                                    <input asp-for="member_code" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onkeyup="$('#cid_card').val($('#member_code').val());" maxlength="13"/>
+                                    <span asp-validation-for="member_code" class="text-danger" />
+                                </div>*@
+                                <div class="col-md-4">
+                                    <input asp-for="member_code" class="form-control" maxlength="13" readonly />
+                                    <span asp-validation-for="member_code" class="text-danger" />
+                                </div>
+                                <div class="col-md-2 text-right"><label asp-for="parent_code" class="control-label"></label></div>
+                                <div class="col-md-4">
+                                    <input asp-for="parent_code" class="form-control " onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="13" asp-is-disabled="@ViewBag.IsDisabled" asp-is-member="@ViewBag.IsMember" />
+                                    <span asp-validation-for="parent_code" class="text-danger" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                @*<div class="col-md-2 text-right"><label asp-for="mem_type_code" class="control-label"></label></div>
+                                <div class="col-md-4">
+                                    <select asp-for="mem_type_code" class="form-control" asp-items="@ViewBag.mem_type"></select>
+                                </div>*@
+                                <div class="col-md-2 text-right"><label asp-for="mem_group_code" class="control-label"></label></div>
+                                <div class="col-md-4">
+                                    <select asp-for="mem_group_code" class="form-control" asp-items="@ViewBag.mem_group" asp-is-disabled="@ViewBag.IsDisabled" asp-is-member="@ViewBag.IsMember"></select>
+                                </div>
+                                <div class="col-md-2 text-right"><label asp-for="mlevel_code" class="control-label"></label></div>
+                                <div class="col-md-4">
+                                    <select asp-for="mlevel_code" class="form-control" asp-items="@ViewBag.mem_level" asp-is-disabled="@ViewBag.IsDisabled" asp-is-member="@ViewBag.IsMember"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-2 text-right"><label asp-for="title" class="control-label"></label></div>
+                                <div class="col-md-4">
+                                    <select asp-for="title" class="form-control" asp-items="@ViewBag.mem_title" asp-is-disabled="@ViewBag.IsDisabled"></select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-2 text-right"><label asp-for="fname" class="control-label"></label></div>
+                                <div class="col-md-4">
+                                    <input asp-for="fname" class="form-control" onkeypress="return !(event.charCode >= 48 && event.charCode <= 57)" autocomplete="off" asp-is-disabled="@ViewBag.IsDisabled" />
+                                    <span asp-validation-for="fname" class="text-danger" />
+                                </div>
+                                <div class="col-md-2 text-right"><label asp-for="lname" class="control-label"></label></div>
+                                <div class="col-md-4">
+                                    <input asp-for="lname" class="form-control" onkeypress="return !(event.charCode >= 48 && event.charCode <= 57)" autocomplete="off" asp-is-disabled="@ViewBag.IsDisabled" />
+                                    <span asp-validation-for="lname" class="text-danger" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-2 text-right"><label asp-for="sex" class="control-label"></label></div>
+                                <div class="col-md-4">
+                                    <select asp-for="sex" class="form-control" asp-items="@ViewBag.sex" asp-is-disabled="@ViewBag.IsDisabled"></select>
+                                </div>
+                                <div class="col-md-2 text-right"><label asp-for="nationality" class="control-label"></label></div>
+                                <div class="col-md-4">
+                                    <input asp-for="nationality" class="form-control" asp-is-disabled="@ViewBag.IsDisabled" />
+                                    <span asp-validation-for="nationality" class="text-danger" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-2 text-right"><label asp-for="birthdate" class="control-label"></label></div>
+                                <div class="col-md-4">
+                                    <div class="input-group">
+                                        <input asp-for="birthdate" class="form-control" onchange="setAge()" readonly style="background-color:white" asp-is-disabled="@ViewBag.IsDisabled" >
+                                        <span class="input-group-btn">
+                                            <button id="birthdateButton" class="btn btn-default" type="button" style="border-color:orangered;" @(Html.Raw(ViewBag.IsDisabled ? "disabled=\"disabled\"" : "")) >
+                                                <i class="fa fa-calendar"></i>
+                                            </button>
+                                        </span>
+                                    </div>
+                                    <span asp-validation-for="birthdate" class="text-danger" />
+                                </div>
+                                @*<div class="col-md-2 text-right"><label asp-for="cid_type" class="control-label"></label></div>
+                                <div class="col-md-4">
+                                    <select asp-for="cid_type" class="form-control" asp-items="@ViewBag.cid_type"></select>
+                                </div>*@
+                                <div class="col-md-2 text-right"><label asp-for="cid_card" class="control-label"></label></div>
+                                <div class="col-md-4">
+                                    <input asp-for="cid_card" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" onkeyup="$('#member_code').val($('#cid_card').val());" maxlength="13" autocomplete="off" asp-is-disabled="@ViewBag.IsDisabled" />
+                                    <span asp-validation-for="cid_card" class="text-danger" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-2 text-right"><label asp-for="current_age" class="control-label"></label></div>
+                                <div class="col-md-4">
+                                    <input asp-for="current_age" class="form-control" readonly />
+                                    <span asp-validation-for="current_age" class="text-danger" />
+                                </div>
+                                <div class="col-md-2 text-right"><label asp-for="religion" class="control-label"></label></div>
+                                <div class="col-md-4">
+                                    <input asp-for="religion" class="form-control" asp-is-disabled="@ViewBag.IsDisabled" />
+                                    <span asp-validation-for="religion" class="text-danger" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-2 text-right"><label asp-for="marry_status" class="control-label"></label></div>
+                                <div class="col-md-4">
+                                    <select asp-for="marry_status" class="form-control" asp-items="@ViewBag.marry_status" asp-is-disabled="@ViewBag.IsDisabled"></select>
+                                </div>
+                                <div class="col-md-2 text-right"><label asp-for="mstatus_code" class="control-label"></label></div>
+                                <div class="col-md-4">
+                                    <select asp-for="mstatus_code" class="form-control" asp-items="@ViewBag.mem_status" asp-is-disabled="@ViewBag.IsDisabled"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-2 text-right"><label asp-for="occupation" class="control-label"></label></div>
+                                <div class="col-md-4">
+                                    <input asp-for="occupation" class="form-control" autocomplete="off" asp-is-disabled="@ViewBag.IsDisabled" />
+                                    <span asp-validation-for="occupation" class="text-danger" />
+                                </div>
+                                <div class="col-md-2 text-right"><label asp-for="income" class="control-label"></label></div>
+                                <div class="col-md-4">
+                                    <select asp-for="income" class="form-control" asp-items="@ViewBag.income" asp-is-disabled="@ViewBag.IsDisabled"></select>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+                <!-- place -->
+                <div class="well" style="left:20px;padding-right:100px">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-2 text-right"><label asp-for="place_name" class="control-label"></label></div>
+                                    <div class="col-md-10">
+                                        <input asp-for="place_name" class="form-control" onkeyup="setTextAAddress()" autocomplete="off" asp-is-disabled="@ViewBag.IsDisabled" />
+                                        <span asp-validation-for="place_name" class="text-danger" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-2 text-right"><label asp-for="building" class="control-label"></label></div>
+                                    <div class="col-md-4">
+                                        <input asp-for="building" class="form-control" onkeyup="setTextAAddress()" autocomplete="off" asp-is-disabled="@ViewBag.IsDisabled" />
+                                        <span asp-validation-for="building" class="text-danger" />
+                                    </div>
+                                    <div class="col-md-2 text-right"><label asp-for="floor" class="control-label"></label></div>
+                                    <div class="col-md-4">
+                                        <input asp-for="floor" class="form-control" onkeyup="setTextAAddress()" autocomplete="off" asp-is-disabled="@ViewBag.IsDisabled" />
+                                        <span asp-validation-for="floor" class="text-danger" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-2 text-right"><label asp-for="room" class="control-label"></label></div>
+                                    <div class="col-md-4">
+                                        <input asp-for="room" class="form-control" onkeyup="setTextAAddress()" autocomplete="off" asp-is-disabled="@ViewBag.IsDisabled" />
+                                        <span asp-validation-for="room" class="text-danger" />
+                                    </div>
+                                    <div class="col-md-2 text-right"><label asp-for="village" class="control-label"></label></div>
+                                    <div class="col-md-4">
+                                        <input asp-for="village" class="form-control" onkeyup="setTextAAddress()" autocomplete="off"asp-is-disabled="@ViewBag.IsDisabled"  />
+                                        <span asp-validation-for="village" class="text-danger" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-2 text-right"><label asp-for="h_no" class="control-label"></label></div>
+                                    <div class="col-md-4">
+                                        <input asp-for="h_no" class="form-control" onkeyup="setTextBAddress()" autocomplete="off" asp-is-disabled="@ViewBag.IsDisabled" />
+                                        <span asp-validation-for="h_no" class="text-danger" />
+                                    </div>
+                                    <div class="col-md-2 text-right"><label asp-for="lot_no" class="control-label"></label></div>
+                                    <div class="col-md-4">
+                                        <input asp-for="lot_no" class="form-control" onkeyup="setTextBAddress()" autocomplete="off" asp-is-disabled="@ViewBag.IsDisabled" />
+                                        <span asp-validation-for="lot_no" class="text-danger" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-2 text-right"><label asp-for="street" class="control-label"></label></div>
+                                    <div class="col-md-4">
+                                        <input asp-for="street" class="form-control" onkeyup="setTextBAddress()" autocomplete="off" asp-is-disabled="@ViewBag.IsDisabled" />
+                                        <span asp-validation-for="street" class="text-danger" />
+                                    </div>
+                                    <div class="col-md-2 text-right"><label asp-for="lane" class="control-label"></label></div>
+                                    <div class="col-md-4">
+                                        <input asp-for="lane" class="form-control" onkeyup="setTextBAddress()" autocomplete="off" asp-is-disabled="@ViewBag.IsDisabled" />
+                                        <span asp-validation-for="lane" class="text-danger" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-2 text-right"><label asp-for="province_code" class="control-label"></label></div>
+                                    <div class="col-md-4">
+                                        <select asp-for="province_code" class="form-control" asp-items="@ViewBag.ini_province" asp-is-disabled="@ViewBag.IsDisabled"></select>
+                                    </div>
+
+                                    <div class="col-md-2 text-right"><label asp-for="district_code" class="control-label"></label></div>
+                                    <div class="col-md-4">
+                                        <select id="district_code" name="district_code" class="form-control" asp-is-disabled="@ViewBag.IsDisabled"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-2 text-right"><label asp-for="subdistrict_code" class="control-label"></label></div>
+                                    <div class="col-md-4">
+                                        <select asp-for="subdistrict_code" class="form-control" asp-is-disabled="@ViewBag.IsDisabled"></select>
+                                    </div>
+
+                                    <div class="col-md-2 text-right"><label asp-for="zip_code" class="control-label"></label></div>
+                                    <div class="col-md-4">
+                                        <input asp-for="zip_code" class="form-control" onkeyup="setTextCAddress()" autocomplete="off" asp-is-disabled="@ViewBag.IsDisabled" />
+                                        <span asp-validation-for="zip_code" class="text-danger" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-2 text-right"><label asp-for="zone" class="control-label"></label></div>
+                                    <div class="col-md-4">
+                                        <select asp-for="zone" class="form-control" asp-items="@ViewBag.zone"></select>
+                                    </div>
+                                    
+                                    <div class="col-md-2 text-right"><label asp-for="country_code" class="control-label"></label></div>
+                                    <div class="col-md-4">
+                                        <select asp-for="country_code" class="form-control" asp-items="@ViewBag.ini_country"></select>
+                                    </div>  
+                                </div>
+                            </div>
+                            -->
+
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-2 text-right"><label asp-for="latitude" class="control-label"></label></div>
+                                    <div class="col-md-4">
+                                        <input asp-for="latitude" class="form-control" readonly />
+                                        <span asp-validation-for="latitude" class="text-danger" />
+                                    </div>
+                                    <div class="col-md-2 text-right"><label asp-for="longitude" class="control-label"></label></div>
+                                    <div class="col-md-4">
+                                        <input asp-for="longitude" class="form-control" readonly />
+                                        <span asp-validation-for="longitude" class="text-danger" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                 </div>
+                <!-- /place -->
+
+
+                        <!-- place more -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-2 text-right"><label asp-for="texta_address" class="control-label"></label></div>
+                                        <div class="col-md-10">
+                                            <input asp-for="texta_address" class="form-control" readonly="readonly"/>
+                                            <span asp-validation-for="texta_address" class="text-danger" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-2 text-right"><label asp-for="textb_address" class="control-label"></label></div>
+                                        <div class="col-md-10">
+                                            <input asp-for="textb_address" class="form-control" readonly="readonly" />
+                                            <span asp-validation-for="textb_address" class="text-danger" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-2 text-right"><label asp-for="textc_address" class="control-label"></label></div>
+                                        <div class="col-md-10">
+                                            <input asp-for="textc_address" class="form-control" readonly="readonly" />
+                                            <span asp-validation-for="textc_address" class="text-danger" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-2 text-right"><label asp-for="mail_address" class="control-label"></label></div>
+                                        <div class="col-md-10">
+
+                                                <label class="checkbox-inline">
+                                                    <input id="mail_addressCheckCurrent" type="checkbox" onclick="mail_addressCheckCurrentTick();" @(Html.Raw(ViewBag.IsDisabled ? "disabled=\"disabled\"" : "")) />ใช้ทีอยู่ปัจจุบัน
+                                                </label>
+                                                <label class="checkbox-inline">
+                                                    <input id="mail_addressCheckOther" type="checkbox" onclick="mail_addressCheckOtherTick();" @(Html.Raw(ViewBag.IsDisabled ? "disabled=\"disabled\"" : "")) />ที่อยู่อื่นๆ
+                                                </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-2 text-right"> </div>
+                                        <div class="col-md-10">
+                                            <input asp-for="mail_address" class="form-control" readonly="readonly" autocomplete="off" />
+                                            <span asp-validation-for="mail_address" class="text-danger" />
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-2 text-right"><label asp-for="mobile" class="control-label"></label></div>
+                                        <div class="col-md-4">
+                                            <input asp-for="mobile" class="form-control" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) " autocomplete="off" asp-is-disabled="@ViewBag.IsDisabled" /> @*|| (event.charCode == 32) || (event.charCode == 45)*@
+                                            <span asp-validation-for="mobile" class="text-danger" />
+                                        </div>
+                                        <div class="col-md-2 text-right"><label asp-for="tel" class="control-label"></label></div>
+                                        <div class="col-md-4">
+                                            <input asp-for="tel" class="form-control" onkeypress="return (event.charCode >= 48 && event.charCode <= 57) " autocomplete="off" asp-is-disabled="@ViewBag.IsDisabled" /> @*|| (event.charCode == 32) || (event.charCode == 45)
+                                            <span asp-validation-for="tel" class="text-danger" />*@
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-2 text-right"><label asp-for="fax" class="control-label"></label></div>
+                                        <div class="col-md-4">
+                                            <input asp-for="fax" class="form-control" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" autocomplete="off" asp-is-disabled="@ViewBag.IsDisabled" />  @*|| (event.charCode == 32) || (event.charCode == 45)*@
+                                            <span asp-validation-for="fax" class="text-danger" />
+                                        </div>
+                                        <div class="col-md-2 text-right"><label asp-for="facebook" class="control-label"></label></div>
+                                        <div class="col-md-4">
+                                            <input asp-for="facebook" class="form-control" autocomplete="off" asp-is-disabled="@ViewBag.IsDisabled" />
+                                            <span asp-validation-for="facebook" class="text-danger" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-2 text-right"><label asp-for="email" class="control-label"></label></div>
+                                        <div class="col-md-4">
+                                            <input asp-for="email" class="form-control" autocomplete="off" asp-is-disabled="@ViewBag.IsDisabled" />
+                                            <span asp-validation-for="email" class="text-danger" />
+                                        </div>
+                                        <div class="col-md-2 text-right"><label asp-for="line" class="control-label"></label></div>
+                                        <div class="col-md-4">
+                                            <input asp-for="line" class="form-control" autocomplete="off" asp-is-disabled="@ViewBag.IsDisabled" />
+                                            <span asp-validation-for="line" class="text-danger" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="row">
+
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /place more -->
+                    </div>
+                    <!-- /info -->
+
+                    <!-- photo -->
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-1" onclick="$('#fileMemPhoto').click();">
+                                <div id="emptyMemPhoto" class="panelPic" style="top:9px;text-align:center;height:115px;">
+                                    &nbsp;&nbsp;&nbsp;<i class="fa fa-user fa-4x img-thumbnail" aria-hidden="true" style="color:lightgray"></i><br />
+                                    <div style="color:dimgray;"><i class="fa fa-cloud-upload" aria-hidden="true" style="position:relative;top:3px;font-size:22px;"></i>&nbsp;&nbsp;&nbsp;<b>อัพโหลด</b> <label asp-for="mem_photo" class="control-label"></label></div>
+                                </div>
+                                <div id="waitMemPhoto" class="panelPic" style="display:none;position:absolute;top:9px;text-align:center;height:115px;background-color:aquamarine;">
+                                    <i class="fa fa-refresh fa-4x fa-spin" style="margin-top:19px;" aria-hidden="true"></i>
+                                </div>
+                                <div id="picMemPhoto" class="panelPic" style="display:none;top:9px;text-align:center;">
+                                    <img id="picMemPhotoSrc" src="" style="height:200px;" class="img-thumbnail center-block" />
+                                </div>
+                                <br />
+                            </div>
+                        </div>
+                        <br/>
+                        <input asp-for="mem_photo" />
+                        <div class="row">
+                            <div class="col-md-10 col-md-offset-1" onclick="$('#fileCidCardPhoto').click();">
+                                <div id="emptyCidCardPhoto" class="panelPic" style="top:9px;text-align:center;height:105px;">
+                                    &nbsp;&nbsp;&nbsp;<i class="fa fa-credit-card fa-4x" aria-hidden="true" style="color:#b3b3b3"></i><br />
+                                    <div style="color:dimgray;"><i class="fa fa-cloud-upload" aria-hidden="true" style="position:relative;top:3px;font-size:22px;"></i>&nbsp;&nbsp;&nbsp;<b>อัพโหลด</b> <label asp-for="cid_card_pic" class="control-label"></label></div>
+                                </div>
+                                <div id="waitCidCardPhoto" class="panelPic" style="display:none;position:absolute;top:9px;text-align:center;height:105px;background-color:aquamarine;">
+                                    <i class="fa fa-refresh fa-4x fa-spin" style="margin-top:19px;" aria-hidden="true"></i>
+                                </div>
+                                <div id="picCidCardPhoto" class="panelPic" style="display:none;top:9px;text-align:center;">
+                                    <img id="picCidCardPhotoSrc" src="" style="height:200px;" class="img-thumbnail center-block" />
+                                </div>
+                                <br />
+                            </div>
+                        </div>
+                        <input asp-for="cid_card_pic" />
+                    </div>
+                    <!-- /photo -->
+                </div>
+            </div>
+</form>
+
+<form id="formFileMemPhoto" enctype="multipart/form-data"><input id="fileMemPhoto" type="file" style="visibility:hidden" onchange="uploadMemPhoto()" accept="image/*" /></form>
+<form id="formFileCidCardPhoto" enctype="multipart/form-data"><input id="fileCidCardPhoto" type="file" style="visibility:hidden" onchange="uploadCidCardPhoto()" accept="image/*" /></form>

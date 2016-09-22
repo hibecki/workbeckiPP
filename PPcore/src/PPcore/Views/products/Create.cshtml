@@ -1,0 +1,41 @@
+﻿@{
+    Layout = "";
+}
+@model PPcore.Models.product
+
+<form id="mem_productProductCreateForm" class="form-horizontal">
+    <div id="product_group_code" style="display:none"></div>
+    <div id="product_type_code" style="display:none"></div>
+@*<div class="form-group">
+    <label asp-for="product_group_code" class="col-md-3 control-label"></label>
+    <div class="col-md-9">
+        <input asp-for="product_group_code" class="form-control" />
+    </div>
+</div>
+<div class="form-group">
+    <label asp-for="product_type_code" class="col-md-3 control-label"></label>
+    <div class="col-md-9">
+        <input asp-for="product_type_code" class="form-control" />
+    </div>
+</div>*@
+    <div class="form-group">
+        <label asp-for="product_code" class="col-md-3 control-label"></label>
+        <div class="col-md-9">
+            <input asp-for="product_code" class="form-control" onkeyup="$('#product_code_msg').text('');"/>
+            <div id="product_code_msg" class="text-danger"></div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="product_desc" class="col-md-3 control-label"></label>
+        <div class="col-md-9">
+            <input asp-for="product_desc" class="form-control" onkeyup="$('#product_desc_msg').text('');" />
+            <div id="product_desc_msg" class="text-danger"></div>
+        </div>
+    </div>
+</form>
+<div class="form-group">
+    <div class="col-md-offset-3 col-md-9">
+        <button id="productSubmit" class="btn btn-success" onclick="mem_productProductCreatePost()">บันทึก</button>
+    </div>
+</div>
+

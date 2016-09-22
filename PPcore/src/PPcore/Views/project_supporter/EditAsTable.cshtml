@@ -1,0 +1,62 @@
+﻿@{
+    Layout = "";
+}
+@model IEnumerable<PPcore.Models.project_sponsor>
+
+<div class="panel panel-blue">
+    @*<div class="panel-heading">
+        <div class="pull-right" style="margin-top:-2px;">
+            <form class="form-inline" role="form">
+                <div class="form-group input-group" style="width:200px;">
+                    <input id="searchPattern" type="text" class="form-control" placeholder="คำค้นหา">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" onclick="xxxSearch();">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </div>*@
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="dataTable_wrapper" style="padding-right:10px;">
+            <table class="table table-striped table-bordered table-hover dataTablesMod" id="b_table">
+                <thead>
+                    <tr>
+                        <th style="width:75px;"><div class="checkbox"><label>เลือกทั้งหมด<br/><input type="checkbox" id="cAll" onclick="checkboxAll()"></label></div></th>
+                        <th style="width:13px;">ลำดับ</th>
+                        <th style="display:none">@Html.DisplayNameFor(model => model.id)</th>
+                        <th style="width:70px;">รหัส<br/>ผู้สนับสนุน</th>
+                        <th style="width:100px;">งบประมาณ</th>
+                        <th>@Html.DisplayNameFor(model => model.contactor)</th>
+                        <th>@Html.DisplayNameFor(model => model.contactor_detail)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ var countOrder = 0;}
+                    @foreach (var item in Model)
+                    {
+                        countOrder++; 
+                        <tr>
+                            <td><div class="checkbox"><label><input type="checkbox" id="c-@Html.DisplayFor(modelItem => item.id)" onclick="checkboxClick('@Html.DisplayFor(modelItem => item.id)')"></label></div></td>
+                            <td>@countOrder</td>
+                            <td style="display:none">@Html.DisplayFor(modelItem => item.id)</td>
+                            <td>@Html.DisplayFor(modelItem => item.spon_code)</td>
+                            <td><input class="form-control" style="width:100px;" id="i-@Html.DisplayFor(modelItem => item.id)" readonly onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="9" /></td>
+                            <td>@Html.DisplayFor(modelItem => item.contactor)</td>
+                            <td>@Html.DisplayFor(modelItem => item.contactor_detail)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+
+</div>
+<div class="pull-right" style="margin-top:-2px;">
+    <div class="btn btn-default btn-panel-yellow" id="btnSave">&nbsp;&nbsp;&nbsp;บันทึก&nbsp;&nbsp;&nbsp;</div>
+    <div class="btn btn-default btn-panel-yellow" data-dismiss="modal" aria-hidden="true">&nbsp;&nbsp;&nbsp;ปิด&nbsp;&nbsp;&nbsp;</div>
+</div>

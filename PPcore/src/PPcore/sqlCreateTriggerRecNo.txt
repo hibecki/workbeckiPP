@@ -1,0 +1,134 @@
+﻿
+-- mem_site_visit
+  
+IF OBJECT_ID(N'mem_site_visit_Insert', N'TR') IS NOT NULL
+    exec sp_executesql N'DROP TRIGGER mem_site_visit_Insert';
+GO
+
+CREATE TRIGGER mem_site_visit_Insert ON mem_site_visit 
+INSTEAD OF INSERT 
+AS
+BEGIN
+	DECLARE @maxi int;
+	SELECT TOP 1 @maxi = rec_no FROM mem_site_visit WHERE member_code = (SELECT member_code FROM Inserted) ORDER BY rec_no DESC;
+	INSERT INTO mem_site_visit ([member_code], [country_code], [site_visit_desc], [rec_no], [x_status], [x_note], [x_log], [id])
+	SELECT [member_code], [country_code], [site_visit_desc], IsNull(@maxi, 0 ) + 1, [x_status], [x_note], [x_log], [id]
+	FROM Inserted;
+END;
+
+GO
+
+-- mem_social
+  
+IF OBJECT_ID(N'mem_social_Insert', N'TR') IS NOT NULL
+    exec sp_executesql N'DROP TRIGGER mem_social_Insert';
+GO
+
+CREATE TRIGGER mem_social_Insert ON mem_social
+INSTEAD OF INSERT 
+AS
+BEGIN
+	DECLARE @maxi int;
+	SELECT TOP 1 @maxi = rec_no FROM mem_social WHERE member_code = (SELECT member_code FROM Inserted) ORDER BY rec_no DESC;
+	INSERT INTO mem_social ([member_code], [social_desc], [rec_no], [x_status], [x_note], [x_log], [id])
+	SELECT [member_code], [social_desc], IsNull(@maxi, 0 ) + 1, [x_status], [x_note], [x_log], [id]
+	FROM Inserted;
+END;
+
+GO
+
+-- mem_reward
+  
+IF OBJECT_ID(N'mem_reward_Insert', N'TR') IS NOT NULL
+    exec sp_executesql N'DROP TRIGGER mem_reward_Insert';
+GO
+
+CREATE TRIGGER mem_reward_Insert ON mem_reward
+INSTEAD OF INSERT 
+AS
+BEGIN
+	DECLARE @maxi int;
+	SELECT TOP 1 @maxi = rec_no FROM mem_reward WHERE member_code = (SELECT member_code FROM Inserted) ORDER BY rec_no DESC;
+	INSERT INTO mem_reward ([member_code], [reward_desc], [rec_no], [x_status], [x_note], [x_log], [id])
+	SELECT [member_code], [reward_desc], IsNull(@maxi, 0 ) + 1, [x_status], [x_note], [x_log], [id]
+	FROM Inserted;
+END;
+
+GO
+
+-- mem_education
+  
+IF OBJECT_ID(N'mem_education_Insert', N'TR') IS NOT NULL
+    exec sp_executesql N'DROP TRIGGER mem_education_Insert';
+GO
+
+CREATE TRIGGER mem_education_Insert ON mem_education
+INSTEAD OF INSERT 
+AS
+BEGIN
+	DECLARE @maxi int;
+	SELECT TOP 1 @maxi = rec_no FROM mem_education WHERE member_code = (SELECT member_code FROM Inserted) ORDER BY rec_no DESC;
+	INSERT INTO mem_education ([member_code], [degree], [colledge_name], [faculty], [rec_no], [x_status], [x_note], [x_log], [id])
+	SELECT [member_code], [degree], [colledge_name], [faculty], IsNull(@maxi, 0 ) + 1, [x_status], [x_note], [x_log], [id]
+	FROM Inserted;
+END;
+
+GO
+
+-- mem_worklist
+  
+IF OBJECT_ID(N'mem_worklist_Insert', N'TR') IS NOT NULL
+    exec sp_executesql N'DROP TRIGGER mem_worklist_Insert';
+GO
+
+CREATE TRIGGER mem_worklist_Insert ON mem_worklist
+INSTEAD OF INSERT 
+AS
+BEGIN
+	DECLARE @maxi int;
+	SELECT TOP 1 @maxi = rec_no FROM mem_worklist WHERE member_code = (SELECT member_code FROM Inserted) ORDER BY rec_no DESC;
+	INSERT INTO mem_worklist ([member_code], [company_name_th], [company_name_eng], [position_name_th], [position_name_eng], [work_year], [office_address], [rec_no], [x_status], [x_note], [x_log], [id])
+	SELECT [member_code], [company_name_th], [company_name_eng], [position_name_th], [position_name_eng], [work_year], [office_address], IsNull(@maxi, 0 ) + 1, [x_status], [x_note], [x_log], [id]
+	FROM Inserted;
+END;
+
+GO
+
+-- product
+  
+IF OBJECT_ID(N'product_Insert', N'TR') IS NOT NULL
+    exec sp_executesql N'DROP TRIGGER product_Insert';
+GO
+
+CREATE TRIGGER product_Insert ON product 
+INSTEAD OF INSERT 
+AS
+BEGIN
+	DECLARE @maxi int;
+	SELECT TOP 1 @maxi = rec_no FROM product WHERE product_group_code = (SELECT product_group_code FROM Inserted) and product_type_code = (SELECT product_type_code FROM Inserted) ORDER BY rec_no DESC;
+	INSERT INTO product ([product_code], [product_type_code], [product_group_code], [product_desc], [rec_no], [x_status], [x_note], [x_log], [id])
+	SELECT [product_code], [product_type_code], [product_group_code], [product_desc], IsNull(@maxi, 0 ) + 1, [x_status], [x_note], [x_log], [id]
+	FROM Inserted;
+END;
+
+GO
+
+-- mem_product
+
+IF OBJECT_ID(N'mem_product_Insert', N'TR') IS NOT NULL
+    exec sp_executesql N'DROP TRIGGER mem_product_Insert';
+GO
+
+CREATE TRIGGER mem_product_Insert ON mem_product 
+INSTEAD OF INSERT 
+AS
+BEGIN
+	DECLARE @maxi int;
+	SELECT TOP 1 @maxi = rec_no FROM mem_product WHERE member_code = (SELECT member_code FROM Inserted) ORDER BY rec_no DESC;
+	INSERT INTO mem_product ([member_code], [product_code], [grow_area], [rec_no], [x_status], [x_note], [x_log], [id])
+	SELECT [member_code], [product_code], [grow_area], IsNull(@maxi, 0 ) + 1, [x_status], [x_note], [x_log], [id]
+	FROM Inserted;
+END;
+
+GO
+

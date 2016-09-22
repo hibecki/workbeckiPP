@@ -1,0 +1,37 @@
+﻿@model PPcore.Models.product_type
+@{
+    Layout = null;
+}
+
+<form id="product_type_form" class="form-horizontal">
+    <input asp-for="id" /><input asp-for="rowversion" />
+<div class="form-group">
+    <label asp-for="product_type_code" class="col-md-4 control-label"></label>
+    <div class="col-md-8">
+        <input asp-for="product_type_code" class="form-control" readonly />
+        <span asp-validation-for="product_type_code" class="text-danger" />
+    </div>
+</div>
+    <div class="form-group">
+        <label asp-for="product_type_desc" class="col-md-4 control-label"></label>
+        <div class="col-md-8">
+            <input asp-for="product_type_desc" class="form-control" />
+            <span asp-validation-for="product_type_desc" class="text-danger" />
+        </div>
+    </div>
+<div class="form-group">
+    <label asp-for="x_status" class="col-md-4 control-label"></label>
+    <div class="col-md-8">
+        <select asp-for="x_status" class="form-control" asp-items="@ViewBag.x_status"></select>
+    </div>
+</div>
+
+</form>
+<div class="form-group">
+    <div class="col-md-offset-4 col-md-3">
+        <div id="product_type_submit" class="btn btn-default btn-panel-yellow">&nbsp;&nbsp;บันทึก&nbsp;&nbsp;</div>
+    </div>
+    <div class="col-md-5">
+            <div class="btn btn-default btn-panel-yellow pull-right" data-dismiss="modal" aria-hidden="true">&nbsp;&nbsp;&nbsp;ปิด&nbsp;&nbsp;&nbsp;</div>
+    </div>
+</div>

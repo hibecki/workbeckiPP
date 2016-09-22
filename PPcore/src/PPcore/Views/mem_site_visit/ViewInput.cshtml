@@ -1,0 +1,22 @@
+﻿@model PPcore.ViewModels.mem_site_visit.mem_site_visitViewModel
+
+<form id="mem_site_visitForm" class="form-horizontal">
+<div class="form-group">
+    <label asp-for="mem_site_visit.site_visit_desc" class="col-md-3 control-label"></label>
+    <div class="col-md-9">
+        <textarea asp-for="mem_site_visit.site_visit_desc" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="mem_site_visit.site_visit_desc" class="text-danger" />
+    </div>
+</div>
+<div class="form-group">
+    <label asp-for="mem_site_visit.country_code" class="col-md-3 control-label"></label>
+    <div class="col-md-9">
+        <select asp-for="mem_site_visit.country_code" asp-items="ViewBag.country_code" class="form-control"></select>
+    </div>
+</div>
+</form>
+<div class="form-group">
+    <div class="col-md-offset-3 col-md-9">
+        <button id="mem_site_visitSubmit" class="btn btn-success">บันทึก</button>
+    </div>
+</div>

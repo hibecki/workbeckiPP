@@ -1,0 +1,28 @@
+﻿@model IEnumerable<PPcore.ViewModels.SecurityRoles.memberViewModel>
+@{
+    Layout = null;
+}
+
+@foreach (var item in Model)
+{
+    <div class="col-lg-3 col-md-6">
+        <div class="panel @Html.DisplayFor(modelItem => item.panelColorCSS)">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-xs-7" style="font-size:24px;">@Html.DisplayFor(modelItem => item.SecurityRoles.RoleName)</div>
+                    <div class="col-xs-5 text-right">
+                        <div>จำนวนผู้ใช้</div>
+                        <div style="font-size:38px;">@Html.DisplayFor(modelItem => item.memberCount)</div>
+                    </div>
+                </div>
+            </div>
+            <a href="#" onclick="details('@Html.DisplayFor(modelItem => item.SecurityRoles.RoleId)');">
+                <div class="panel-footer">
+                    <span class="pull-left">จัดการกลุ่มผู้ใช้</span>
+                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+                    <div class="clearfix"></div>
+                </div>
+            </a>
+        </div>
+    </div>
+}

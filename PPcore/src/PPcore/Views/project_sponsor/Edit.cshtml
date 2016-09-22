@@ -1,0 +1,172 @@
+﻿@model PPcore.Models.project_sponsor
+
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12" style="padding-top:15px;">
+            <table><tr><td><h4 class="txt-color-blue">ข้อมูลรายชื่อผู้สนับสนุนโครงการ</h4></td><td class="txt-color-blue" style="padding-top:2px">&nbsp;&nbsp;&nbsp;&nbsp;แก้ไขข้อมูลผู้สนับสนุนโครงการ</td></tr></table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-blue">
+
+                <div class="panel-heading">
+                    <div class="pull-left" style="padding-top:5px;">ข้อมูลรายชื่อผู้สนับสนุนโครงการ</div>
+
+                </div>
+
+                <div class="panel-body">
+                    <form asp-action="Edit">
+                        <div class="pull-right" style="margin-top:-57px;">
+                            <button id="btnSave" type="submit" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-floppy-o" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;จัดเก็บ&nbsp;&nbsp;</button>
+                            <div id="btnDetails" class="btn btn-default btn-panel-yellow" onclick="location.href='@Url.Action("Index", "project_sponsor")'">&nbsp;<i class="fa fa-file-text" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;ดูข้อมูลทั้งหมด</div>
+                        </div>
+                        <input asp-for="id" />
+                        <div class="form-horizontal">
+                            <br />
+                            <div class="row">
+                                <div class="col-md-offset-1 col-md-8">
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-2 text-right"><label asp-for="spon_code" class="control-label"></label></div>
+                                            <div class="col-md-4">
+                                                <input asp-for="spon_code" class="form-control" readonly />
+                                                <span asp-validation-for="spon_code" class="text-danger" />
+                                            </div>
+                                            <div class="col-md-2 text-right"><label asp-for="spon_desc" class="control-label"></label></div>
+                                            <div class="col-md-4">
+                                                <input asp-for="spon_desc" class="form-control" />
+                                                <span asp-validation-for="spon_desc" class="text-danger" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-2 text-right"><label asp-for="confirm_date" class="control-label"></label></div>
+                                            <div class="col-md-4">
+                                                <div class="input-group">
+                                                    <input asp-for="confirm_date" class="form-control" readonly style="background-color:white">
+                                                    <span class="input-group-btn">
+                                                        <button id="confirm_date_button" class="btn btn-default" type="button">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </button>
+                                                    </span>
+                                                </div>
+                                                <span asp-validation-for="confirm_date" class="text-danger" />
+                                            </div>
+                                            <div class="col-md-2 text-right"><label asp-for="ref_doc" class="control-label"></label></div>
+                                            <div class="col-md-4">
+                                                <input asp-for="ref_doc" class="form-control" />
+                                                <span asp-validation-for="ref_doc" class="text-danger" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-2 text-right"><label asp-for="contactor" class="control-label"></label></div>
+                                            <div class="col-md-4">
+                                                <input asp-for="contactor" class="form-control" />
+                                                <span asp-validation-for="contactor" class="text-danger" />
+                                            </div>
+                                            <div class="col-md-2 text-right"><label class="control-label">รวมยอดสนับสนุนทั้งหมด</label></div>
+                                            <div class="col-md-4">
+                                                <input class="form-control" readonly value="@ViewBag.sum_budget"/>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-2 text-right"><label asp-for="contactor_detail" class="control-label"></label></div>
+                                            <div class="col-md-10">
+                                                <textarea asp-for="contactor_detail" class="form-control" rows="3"></textarea>
+                                                <span asp-validation-for="contactor_detail" class="text-danger" />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-md-2 text-right"><label asp-for="x_status" class="control-label"></label></div>
+                                            <div class="col-md-4">
+                                                <select asp-for="x_status" class="form-control" asp-items="@Html.x_status_SelectList()"></select>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+
+
+                        </div>
+
+
+                    </form>
+
+
+                    <div class="panel panel-blue">
+                        <div class="panel-heading">
+                            <div class="pull-left" style="padding-top:5px;">ข้อมูลโครงการ</div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="dataTable_wrapper" style="padding-right:10px;" id="a_details_as_table">
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section scripts {
+    <script src="~/lib/bootstrap/js/modal.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.datepicker.regional['th'] = {
+                dateFormat: 'dd-mm-yy', changeMonth: true, changeYear: true, constrainInput: true,
+                yearRange: "-100:+1", yearOffSet: 543, beforeShow: dateDefault
+            };
+            $.datepicker.setDefaults($.datepicker.regional['th']);
+            $("#confirm_date").datepicker($.datepicker.regional["th"]);
+
+            $('#confirm_date_button').off('click').on('click', function () {
+                $('#confirm_date').datepicker("show");
+            });
+
+            a_details_as_table();
+
+        });
+        function dateDefault() {
+            if ($("#confirm_date").val() == "") { $("#confirm_date").datepicker("setDate", new Date()); }
+        }
+        function a_details_as_table() {
+            $.ajax({
+                type: 'get', url: '@Url.Action("DetailsAsTableBySponsor", "projects")' + '?spon_code=' + $('#spon_code').val(),
+            }).done(function (resp) {
+                $('#a_details_as_table').html(resp);
+                var w = [
+                    { "targets": [0], "width": "15", "className": "dt-center" },
+                    { "targets": [1], "visible": false, "searchable": false },
+                    { "targets": [2], "width": "150", "className": "dt-center" },
+                    { "targets": [4], "width": "50", "className": "dt-center" },
+                ];
+                var table = setTable_default($('#a_table'), w);
+                table.$('tr:first').click();
+            });
+        }
+    </script>
+}

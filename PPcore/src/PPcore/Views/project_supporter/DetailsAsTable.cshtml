@@ -1,0 +1,39 @@
+﻿@model IEnumerable<PPcore.ViewModels.project_supporter.project_sponsorViewModel>
+@{
+    Layout = null;
+}
+
+<table class="table table-striped table-bordered table-hover" id="a_table">
+    <thead>
+        <tr>
+            <th style="width:15px;">ลำดับ</th>
+            <th style="display:none">@Html.DisplayNameFor(model => model.project_supporter.id)</th>
+            <th style="width:70px;">@Html.DisplayNameFor(model => model.project_supporter.spon_code)</th>
+            <th>@Html.DisplayNameFor(model => model.spon_desc)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.confirm_date)</th>
+            <th style="width:50px;">@Html.DisplayNameFor(model => model.project_supporter.support_budget)</th>
+            <th style="width:70px;">@Html.DisplayNameFor(model => model.project_supporter.contactor)</th>
+            <th>@Html.DisplayNameFor(model => model.project_supporter.contactor_detail)</th>
+            <th style="width:50px;">@Html.DisplayNameFor(model => model.project_supporter.x_status)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ var countOrder = 0;}
+        @foreach (var item in Model)
+        {
+            countOrder++;
+            <tr>
+                <td style="width:15px;">@countOrder</td>
+                <td style="display:none">@Html.DisplayFor(modelItem => item.project_supporter.id)</td>
+                <td>@Html.DisplayFor(modelItem => item.project_supporter.spon_code)</td>
+                <td>@Html.DisplayFor(modelItem => item.spon_desc)</td>
+                <td>@Html.DisplayFor(modelItem => item.confirm_date)</td>
+                <td>@Html.DisplayFor(modelItem => item.project_supporter.support_budget)</td>
+                <td>@Html.DisplayFor(modelItem => item.project_supporter.contactor)</td>
+                <td>@Html.DisplayFor(modelItem => item.project_supporter.contactor_detail)</td>
+                <td>@Html.x_status_text(item.project_supporter.x_status)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

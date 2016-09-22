@@ -1,0 +1,319 @@
+﻿@model PPcore.Models.course_instructor
+
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12" style="padding-top:15px;">
+            <table><tr><td><h4 class="txt-color-blue">หลักสูตรอบรม</h4></td><td class="txt-color-blue" style="padding-top:2px">&nbsp;&nbsp;&nbsp;&nbsp;แก้ไขข้อมูลหลักสูตรอบรม</td></tr></table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-blue">
+                <div class="panel-body">
+                    <ul class="nav nav-tabs">
+                        @if (!ViewBag.IsDetails)
+                        {
+                            <li>
+                                <a data-toggle="tab" onclick="location.href='@Url.Action("CourseEdit", "project_course")'+'?id=@ViewBag.courseId'">หลักสูตรอบรม</a>
+                            </li>
+                            <li class="active">
+                                <a data-toggle="tab">วิทยากร</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" onclick="location.href='@Url.Action("Index", "course_train_place")'+'?id=@ViewBag.courseId'">สถานที่จัดอบรม</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a data-toggle="tab" onclick="location.href='@Url.Action("CourseEdit", "project_course")'+'?id=@ViewBag.courseId&v=1'">หลักสูตรอบรม</a>
+                            </li>
+                            <li class="active">
+                                <a data-toggle="tab">วิทยากร</a>
+                            </li>
+                            <li>
+                                <a data-toggle="tab" onclick="location.href='@Url.Action("Index", "course_train_place")'+'?id=@ViewBag.courseId&v=1'">สถานที่จัดอบรม</a>
+                            </li>
+                        }
+
+                    </ul>
+                    <div style="background-color:#093D6A;height:8px;"></div>
+                    <br />
+                    <div id="renderBody">
+
+                        <div class="panel panel-blue">
+                            <div class="panel-heading">
+                                <div class="pull-left" style="padding-top:5px;">แสดงข้อมูลทั้งหมด</div>
+                                @if (!ViewBag.IsDetails)
+                                {
+                                    <div class="pull-right" style="margin-top:-2px;">
+                                        กดปุ่มเพิ่ม ถ้าต้องการใส่มากกว่า 1 รายการ&nbsp;&nbsp;&nbsp;
+                                        <button id="btnCreate" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-file" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;&nbsp;เพิ่ม&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                                        @*<button id="btnEdit" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true" style="color:white;"></i>&nbsp;แก้ไข&nbsp;&nbsp;</button>
+                                            <button id="btnDetails" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-file-text" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;ดูข้อมูล</button>*@
+                                        <button id="btnDelete" class="btn btn-default btn-panel-yellow">&nbsp;&nbsp;<i class="fa fa-eraser" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;ลบ&nbsp;&nbsp;&nbsp;&nbsp;</button>
+
+                                    </div>
+                                }
+                            </div>
+
+                            <!-- /.panel-heading -->
+                            <div style="position:absolute;left:250px;top:155px;"><span class="badge">จำนวนรายการทั้งหมด @ViewBag.countRecords รายการ</span></div>
+                            <div class="panel-body">
+                                <div class="dataTable_wrapper" style="padding-right:10px;" id="a_details_as_table">
+
+
+
+                                </div>
+                            </div>
+                            <!-- /.panel-body -->
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade modalForm2" id="a_modal" tabindex="-1" role="dialog" aria-labelledby="a_label" aria-hidden="true">
+    <div class="modal-lg">
+        <div class="modal-content">
+            <div id="a_header" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
+                <h4 class="modal-title" id="a_label" style="vertical-align:middle;"></h4>
+            </div>
+            <div class="modal-body container-fluid" id="a_body">
+                @*@{ await Html.RenderPartialAsync("Create", new course_group()); }*@
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+<!-- /Modal -->
+<!-- Modal -->
+<div class="modal fade modalForm1" id="alert_modal" tabindex="-1" role="dialog" aria-labelledby="alert_label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="alert_modal_header" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
+                <h4 class="modal-title" id="alert_label" style="vertical-align:middle;"></h4>
+            </div>
+            <div class="modal-body container-fluid">
+                <div id="alert_modal_body"></div>
+                <br /><br />
+                <div class="pull-right" style="margin-top:-2px;">
+                    <div class="btn btn-default btn-panel-yellow" data-dismiss="modal" aria-hidden="true">&nbsp;&nbsp;&nbsp;ปิด&nbsp;&nbsp;&nbsp;</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- /Modal -->
+<!-- Modal Delete -->
+<div id="confirm_modal" class="modal fade modalForm1" tabindex="-1" role="dialog" aria-labelledby="confirm_Label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="confirm_model_header" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
+                <h4 class="modal-title" id="confirm_Label" style="vertical-align:middle;">ยืนยัน</h4>
+            </div>
+            <div class="modal-body container-fluid">
+                <div id="confirm_modal_body" class="col-md-12"></div>
+                <br />
+                <br />
+                <div class="row">
+                    <div class="col-md-4"><button id="btnDeleteConfirm" class="btn btn-danger pull-right" onclick="deleteConfirm();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ยืนยัน&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></div>
+                    <div class="col-md-4 col-md-offset-4">
+                        <button id="btnDeleteCancel" class="btn btn-default" data-dismiss="modal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ยกเลิก&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Modal Delete -->
+
+
+@section scripts {
+    <script src="~/lib/bootstrap/js/modal.js"></script>
+    <script>
+        $(document).ready(function () {
+            a_details_as_table();
+        });
+        function a_details_as_table() {
+            $.ajax({
+                type: 'get', url: '@Url.Action("DetailsAsTable", "course_instructor")?id=@ViewBag.courseId&code=@ViewBag.courseCode',
+            }).done(function (resp) {
+                $('#a_details_as_table').html(resp);
+                var w = [
+                    { "targets": [0], "width": "15", "className": "dt-center" },
+                    { "targets": [1], "visible": false, "searchable": false },
+                    { "targets": [2], "width": "150", "className": "dt-center" },
+                    { "targets": [3], "width": "150", "className": "dt-center" },
+                    { "targets": [4], "className": "dt-center" },
+                    { "targets": [5], "className": "dt-center" },
+                    { "targets": [6], "width": "150", "className": "dt-center" },
+                    { "targets": [7], "width": "150", "className": "dt-center" },
+                    { "targets": [8], "width": "50", "className": "dt-center" },
+                ];
+                var table = setTable_default($('#a_table'), w);
+                table.$('tr:first').click();
+            });
+        }
+        $('#btnCreate').off('click').on('click', function () {
+            $.ajax({
+                type: 'get', url: '@Url.Action("EditAsTable", "course_instructor")',
+            }).done(function (resp) {
+                $('#a_body').html(resp);
+                $('#a_label').text('เพิ่มวิทยากร');
+                var w = [
+                    { "targets": [0], "width": "75", "className": "dt-center" },
+                    { "targets": [1], "width": "13", "className": "dt-center" },
+                    { "targets": [2], "visible": false, "searchable": false },
+                    { "targets": [3], "width": "70", "className": "dt-center" },
+                    { "targets": [4], "width": "100", "className": "dt-center" },
+                ];
+                var n = 5;
+                var table = setTable_PageN($('#b_table'), w, n);
+                table.$('tr:first').click();
+
+                $.datepicker.regional['th'] = {
+                    dateFormat: 'dd-mm-yy', changeMonth: true, changeYear: true, constrainInput: true,
+                    yearRange: "-100:+1", yearOffSet: 543
+                };
+                $.datepicker.setDefaults($.datepicker.regional['th']);
+                table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                    var cell4 = table.cell({ row: rowIdx, column: 4 }).node();
+                    $('input', cell4).datepicker($.datepicker.regional["th"]);
+                    $('input', cell4).datepicker("disable");
+                    $('button', cell4).off('click').on('click', function () {
+                        $('input', cell4).datepicker("show");
+                    });
+                });
+                $('#btnSave').off('click').on('click', function () {
+                    var foundEmpty = false; var foundDup = false;
+                    table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                        var cell0 = table.cell({ row: rowIdx, column: 0 }).node();
+                        var cell5 = table.cell({ row: rowIdx, column: 5 }).node();
+                        if ($('input', cell0).prop("checked") == true) {
+                            if (!$('input', cell5).val()) {
+                                foundEmpty = true;
+                            }
+                        }
+                    });
+                    if (foundEmpty) {
+                        $('#alert_label').text('เพิ่มวิทยากร');
+                        $('#alert_modal_body').html('<div style="color:red">ตรวจพบค่าวิทยากรไม่ถูกต้อง</div>');
+                        $('#alert_modal').modal({ backdrop: 'static', keyboard: false });
+                    } else {
+                        table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                            var cell0 = table.cell({ row: rowIdx, column: 0 }).node();
+                            var cell2 = table.cell({ row: rowIdx, column: 2 }).node();
+                            var cell5 = table.cell({ row: rowIdx, column: 5 }).node();
+                            if ($('input', cell0).prop("checked") == true) {
+                                $.ajax({
+                                    async: false,
+                                    type: "POST",
+                                    url: "@Url.Action("Create", "course_instructor")",
+                                    data: {
+                                        courseCode: '@ViewBag.courseCode',
+                                        instructor_cost: $('input', cell5).val(),
+                                        instructorId: $(cell2).text(),
+                                    },
+                                    success: function (data) {
+                                        if (data.result != "fail") {
+                                            a_details_as_table();
+                                            $('input', cell0).prop("checked", false);
+                                            $('input', cell5).attr("readonly", true).removeAttr('data-val-required');
+                                        } else {
+                                            foundDup = true;
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                        if (foundDup) {
+                            $('#alert_label').text('เพิ่มวิทยากร');
+                            $('#alert_modal_body').html('<div style="color:red">ตรวจพบมีข้อมูลวิทยากรในหลักสูตรแล้ว</div>');
+                            $('#alert_modal').modal({ backdrop: 'static', keyboard: false });
+                        } else {
+                            $('#a_modal').modal('hide');
+                        }
+                    }
+                });
+            });
+            $('#a_modal').modal({ backdrop: 'static', keyboard: false });
+        });
+
+        $('#btnDelete').off('click').on('click', function () {
+            $('#confirm_modal_body').html('<div style="color:red">ยืนยันการลบข้อมูล</div>');
+            $('#confirm_modal').modal({ backdrop: 'static', keyboard: false });
+        });
+        function deleteConfirm() {
+            var table = $('#a_table').DataTable();
+            var datarow = table.row('.selected').data();
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: "@Url.Action("Delete", "course_instructor")",
+                data: {
+                    id: datarow[1],
+                },
+                success: function (data) {
+                    a_details_as_table();
+                }
+            });
+            $('#confirm_modal').modal('hide');
+        }
+        function checkboxClick(id) {
+            var idc = "#c-" + id;
+            var cell4 = "#cell4-" + id; var cell5 = "#cell5-" + id;
+            if ($(idc).prop("checked") == true) {
+                var table = $('#b_table').DataTable();
+                var node4 = table.cell(cell4).node(); var node5 = table.cell(cell5).node();
+                //$('input', node4).datepicker("setDate", new Date());
+                //$('input', node4).datepicker("enable");
+                //$('input', node4).attr("readonly", false).css("background-color", "white");
+                //$('button', node4).attr("disabled", false).off('click').on('click', function () {
+                //    $('input', node4).datepicker("show");
+                //});
+                $('input', node5).attr("readonly", false).attr('data-val-required', true);
+            } else {
+                var table = $('#b_table').DataTable();
+                var node4 = table.cell(cell4).node(); var node5 = table.cell(cell5).node();
+                //$('input', node4).val('');
+                //$('input', node4).datepicker("disable");
+                //$('input', node4).attr("readonly", true).css("background-color", "#EEE");
+                //$('button', node4).attr("disabled", true);
+                $('input', node5).attr("readonly", true).removeAttr('data-val-required');
+            }
+        }
+        function checkboxAll() {
+            var table = $('#b_table').DataTable();
+            var datarow = table.rows().data();
+            if ($("#cAll").prop("checked") == true) {
+                table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                    var cell0 = table.cell({ row: rowIdx, column: 0 }).node();
+                    var cell5 = table.cell({ row: rowIdx, column: 5 }).node();
+                    $('input', cell0).prop("checked", true);
+                    $('input', cell5).attr("readonly", false).attr('data-val-required', true);
+                });
+            } else {
+                table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                    var cell0 = table.cell({ row: rowIdx, column: 0 }).node();
+                    var cell5 = table.cell({ row: rowIdx, column: 5 }).node();
+                    $('input', cell0).prop("checked", false);
+                    $('input', cell5).attr("readonly", true).removeAttr('data-val-required');
+                });
+            }
+        }
+    </script>
+}

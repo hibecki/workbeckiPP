@@ -1,0 +1,37 @@
+﻿@model IEnumerable<PPcore.Models.project_course>
+@{
+    Layout = null;
+}
+
+
+<table class="table table-striped table-bordered table-hover" id="a_table">
+    <thead>
+        <tr>
+            <th style="width:15px;">ลำดับ</th>
+            <th style="display:none">@Html.DisplayNameFor(model => model.id)</th>
+            <th style="width:70px;">@Html.DisplayNameFor(model => model.course_code)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.project_code)</th>
+            <th>@Html.DisplayNameFor(model => model.course_desc)</th>
+            <th style="width:50px;">@Html.DisplayNameFor(model => model.x_status)</th>
+            <th>เช็คชื่อเข้าอบรม</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{ var countOrder = 0;}
+        @foreach (var item in Model)
+        {
+            countOrder++;
+            <tr>
+                <td style="width:15px;">@countOrder</td>
+                <td style="display:none">@Html.DisplayFor(modelItem => item.id)</td>
+                <td>@Html.DisplayFor(modelItem => item.course_code)</td>
+                <td>@Html.DisplayFor(modelItem => item.project_code)</td>
+                <td>@Html.DisplayFor(modelItem => item.course_desc)</td>
+                <td>@Html.x_status_text(item.x_status)</td>
+                <td id="cell-@Html.DisplayFor(modelItem => item.id)"><button class="btn btn-xs btn-panel-yellow" type="button" onclick="detailsClick('@Html.DisplayFor(modelItem => item.id)');">รายชื่อผู้เข้าอบรม</button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+

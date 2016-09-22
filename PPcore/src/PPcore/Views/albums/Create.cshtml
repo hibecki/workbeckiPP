@@ -1,0 +1,81 @@
+﻿<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12" style="padding-top:15px;">
+            <table><tr><td><h4 class="txt-color-blue">ภาพกิจกรรม</h4></td></tr></table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-blue">
+                <div class="panel-heading">
+                    <div class="pull-left" style="padding-top:5px;">ภาพกิจกรรม</div>
+
+                    <!--
+                    <div class="pull-right" style="position:relative;top:-55px;margin-right:.5em;float:right"> 
+                        <button id="btnSave" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-floppy-o" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;จัดเก็บ&nbsp;&nbsp;</button>
+                    </div>
+                    -->
+                    <div class="pull-right" style="margin-top:-2px;">
+                        <button id="btnBack" class="btn btn-default btn-panel-yellow" onclick="location.href='@Url.Action("Index", "albums")'">&nbsp;<i class="fa fa-reply" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;กลับ&nbsp;&nbsp;</button>
+                    </div>
+                </div>
+
+                <!-- /.panel-heading -->
+
+                <div class="panel-body">
+                    @{ await Html.RenderPartialAsync("ViewInput"); }
+                </div>
+                <!-- /.panel-body -->
+            </div>
+
+            <!-- /.panel -->
+        </div>
+        <!-- /.col-lg-8 -->
+
+
+
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <script src="~/lib/bootstrap/js/modal.js"></script>
+    <script>
+        $(document).ready(function () {
+            $.datepicker.regional['th'] = {
+                dateFormat: 'dd-mm-yy', changeMonth: true, changeYear: true, constrainInput: true,
+                yearRange: "-100:+0", yearOffSet: 543,beforeShow:dateDefault
+            };
+            $.datepicker.setDefaults($.datepicker.regional['th']);
+            $("#album_date").datepicker($.datepicker.regional["th"]);
+
+            if ("@ViewBag.FormAction" == "Create") {
+                $("#album_code").val('@ViewBag.album_code');
+            }
+
+            $('#btnSaveX').on('click', function (e) {
+                e.preventDefault();
+                $.ajax({
+                    async:false,
+                    type: "POST",
+                    url: "@Url.Action("Create", "albums")",
+                    data: {
+                        album_name: $("#album_name").val(),
+                        album_desc: $("#album_desc").val(),
+                        album_date: $("#album_date").val(),
+                    },
+                    success: function (data) {
+                        window.location.href = "@Url.Action("Index", "albums")";
+                    }
+                });
+            });
+        });
+        $('#album_dateButton').click(function () {
+            $('#album_date').datepicker("show");
+        });
+        function dateDefault() {
+            if ($("#album_date").val() == "") { $("#album_date").datepicker("setDate", new Date()); }
+        }
+    </script>
+}

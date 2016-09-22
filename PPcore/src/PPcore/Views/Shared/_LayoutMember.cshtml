@@ -1,0 +1,378 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12"  style="padding-top:15px;">
+            <table><tr><td><h4 class="txt-color-blue">ข้อมูลสมาชิก</h4></td><td class="txt-color-blue" style="padding-top:2px">&nbsp;&nbsp;&nbsp;&nbsp;@ViewBag.Title</td></tr></table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-blue">
+                <div class="panel-body">
+
+                    @if (ViewBag.panelBarMenu == "Create")
+                    {
+                        <ul class="nav nav-tabs">
+                            <li>
+                                <a id="members" href="@Url.Action("Edit", "members", new {id=ViewBag.memberId})" data-toggle="tab">ข้อมูลตามบัตรประชาชน<br />และข้อมูลการติดต่อกลับ</a>
+                            </li>
+                        </ul>
+                    }
+                    else if (ViewBag.panelBarMenu == "Details")
+                    {
+                        <ul class="nav nav-tabs">
+                            <li>
+                                <a id="members" onclick="location.href='@Url.Action("Details", "members", new {id=ViewBag.memberId})'">ข้อมูลตามบัตรประชาชน<br />และข้อมูลการติดต่อกลับ</a>
+                            </li>
+                            <li>
+                                @*<a id="mem_train_record" onclick="location.href='@Url.Action("Index", "mem_train_record", new {memberId=ViewBag.memberId, v = 1})'" data-toggle="tab" style="width:140px;">&nbsp;<br /><br /><div style="position:absolute;top:20px;">ประวัติการฝึกอบรม</div></a>*@
+                                <a id="mem_train_record" onclick="location.href='@Url.Action("Index", "mem_train_record", new {memberId=ViewBag.memberId, v = 1})'" data-toggle="tab" style="width:230px;">ประวัติการฝึกอบรม<br />นอกเหนือหลักสูตรผู้นำพลังปัญญา</a>
+                            </li>
+                            <li>
+                                <a id="mem_site_visit" onclick="location.href='@Url.Action("Index", "mem_site_visit", new {memberId=ViewBag.memberId, v = 1})'" data-toggle="tab" style="width:120px;">&nbsp;<br /><br /><div style="position:absolute;top:20px;">ประวัติการดูงาน</div></a>
+                            </li>
+                            <li>
+                                <a id="mem_social" onclick="location.href='@Url.Action("Index", "mem_social", new {memberId=ViewBag.memberId, v = 1})'" data-toggle="tab">ประสบการณ์ในการ<br />ช่วยเหลือสังคม</a>
+                            </li>
+                            <li>
+                                <a id="mem_reward" onclick="location.href='@Url.Action("Index", "mem_reward", new {memberId=ViewBag.memberId, v = 1})'" data-toggle="tab">รางวัลเชิดชูเกียรติ<br />ที่เคยได้รับ</a>
+                            </li>
+                            <li>
+                                <a id="mem_education" onclick="location.href='@Url.Action("Index", "mem_education", new {memberId=ViewBag.memberId, v = 1})'" style="width:120px;">&nbsp;<br /><br /><div style="position:absolute;top:20px;">ข้อมูลการศึกษา</div></a>
+                            </li>
+                            <li>
+                                <a id="mem_health" onclick="location.href='@Url.Action("Index", "mem_health", new {memberId=ViewBag.memberId, v = 1})'" style="width:110px;">&nbsp;<br /><br /><div style="position:absolute;top:20px;">ข้อมูลสุขภาพ</div></a>
+                            </li>
+                            <li>
+                                <a id="mem_worklist" onclick="location.href='@Url.Action("Index", "mem_worklist", new {memberId=ViewBag.memberId, v = 1})'">ข้อมูลสถานที่ทำงาน<br />และประวัติการทำงาน</a>
+                            </li>
+                            <li>
+                                @*<a id="mem_product" onclick="mem_productIndex('@ViewBag.memberId', 1);" style="width:140px;" data-toggle="tab">&nbsp;<br /><br /><div style="position:absolute;top:20px;">ผลิตผลในครัวเรือน</div></a>*@
+                                <a id="mem_product" onclick="location.href='@Url.Action("Index", "mem_product", new {memberId=ViewBag.memberId, v = 1})'" style="width:140px;" data-toggle="tab">&nbsp;<br /><br /><div style="position:absolute;top:20px;">ผลิตผลในครัวเรือน</div></a>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="nav nav-tabs">
+                            <li>
+                                <a id="members" onclick="location.href='@Url.Action("Edit", "members", new {id=ViewBag.memberId})'">ข้อมูลตามบัตรประชาชน<br />และข้อมูลการติดต่อกลับ</a>
+                            </li>
+                            <li>
+                                @*<a id="mem_train_record" onclick="location.href='@Url.Action("Index", "mem_train_record", new {memberId=ViewBag.memberId})'" data-toggle="tab" style="width:140px;">&nbsp;<br /><br /><div style="position:absolute;top:20px;">ประวัติการฝึกอบรม</div></a>*@
+                                <a id="mem_train_record" onclick="location.href='@Url.Action("Index", "mem_train_record", new {memberId=ViewBag.memberId})'" data-toggle="tab" style="width:230px;">ประวัติการฝึกอบรม<br/>นอกเหนือหลักสูตรผู้นำพลังปัญญา</a>
+                            </li>
+                            <li>
+                                <a id="mem_site_visit" onclick="location.href='@Url.Action("Index", "mem_site_visit", new {memberId=ViewBag.memberId})'" data-toggle="tab" style="width:120px;">&nbsp;<br /><br /><div style="position:absolute;top:20px;">ประวัติการดูงาน</div></a>
+                            </li>
+                            <li>
+                                <a id="mem_social" onclick="location.href='@Url.Action("Index", "mem_social", new {memberId=ViewBag.memberId})'" data-toggle="tab">ประสบการณ์ในการ<br />ช่วยเหลือสังคม</a>
+                            </li>
+                            <li>
+                                <a id="mem_reward" onclick="location.href='@Url.Action("Index", "mem_reward", new {memberId=ViewBag.memberId})'" data-toggle="tab">รางวัลเชิดชูเกียรติ<br />ที่เคยได้รับ</a>
+                            </li>
+                            <li>
+                                <a id="mem_education" onclick="location.href='@Url.Action("Index", "mem_education", new {memberId=ViewBag.memberId})'" style="width:120px;">&nbsp;<br /><br /><div style="position:absolute;top:20px;">ข้อมูลการศึกษา</div></a>
+                            </li>
+                            <li>
+                                <a id="mem_health" onclick="location.href='@Url.Action("Index", "mem_health", new {memberId=ViewBag.memberId})'" style="width:110px;">&nbsp;<br /><br /><div style="position:absolute;top:20px;">ข้อมูลสุขภาพ</div></a>
+                            </li>
+                            <li>
+                                <a id="mem_worklist" onclick="location.href='@Url.Action("Index", "mem_worklist", new {memberId=ViewBag.memberId})'" >ข้อมูลสถานที่ทำงาน<br />และประวัติการทำงาน</a>
+                            </li>
+                            <li>
+                                @*<a id="mem_product" onclick="mem_productIndex('@ViewBag.memberId', 0);" style="width:140px;" data-toggle="tab">&nbsp;<br /><br /><div style="position:absolute;top:20px;">ผลิตผลในครัวเรือน</div></a>*@
+                                <a id="mem_product" onclick="location.href='@Url.Action("Index", "mem_product", new {memberId=ViewBag.memberId})'" style="width:140px;" data-toggle="tab">&nbsp;<br /><br /><div style="position:absolute;top:20px;">ผลิตผลในครัวเรือน</div></a>
+                            </li>
+                        </ul>
+                    }
+                    <div style="background-color:#093D6A;height:8px;"></div>
+                    <br />
+                    <div id="renderBody">
+                        @RenderBody()
+                    </div>
+</div>
+</div>
+        </div>
+    </div>
+</div>
+
+                
+@section scripts
+{
+    @RenderSection("scripts", required: false)
+
+    <script>
+        $(document).ready(function () {
+            var con = '@ViewContext.RouteData.Values["controller"]';
+            var act = '@ViewContext.RouteData.Values["action"]';
+            $('#' + con).parent().addClass('active');
+
+            if (con == "members") {
+                $.datepicker.regional['th'] = {
+                    dateFormat: 'dd-mm-yy', changeMonth: true, changeYear: true, constrainInput: true,
+                    yearRange: "-100:+0", yearOffSet: 543, beforeShow: dateDefault
+                };
+                $.datepicker.setDefaults($.datepicker.regional['th']);
+                $("#birthdate").datepicker($.datepicker.regional["th"]);
+
+                setEventDropdownProvince();
+
+                if (act == "Create") {
+                    $('#province_code').trigger("change"); $('#district_code').trigger("change"); $('#subdistrict_code').trigger("change");
+                    $("#mail_addressCheckCurrent").prop("checked", true);
+                } else if (act == "Edit") {
+                    setTabColor(); setAge();
+                    setProvinceData();
+                    if ($("#mail_address").val() == "") {
+                        $("#mail_addressCheckCurrent").prop("checked", true);
+                    } else {
+                        $("#mail_addressCheckOther").prop("checked", true);
+                        $('#mail_address').prop('readonly', false);
+                    }
+                } else if ((act == "Details") || (act == "DetailsPersonal")) {
+                    setTabColor(); setAge();
+                    setProvinceData();
+                    //setTimeout(function () {
+                    //    $('input').each(function () {
+                    //        if (!($(this).attr('disabled'))) {
+                    //            $(this).attr({ 'disabled': 'disabled' });
+                    //        }
+                    //    });
+                    //    $('select').each(function () {
+                    //        if (!($(this).attr('disabled'))) {
+                    //            $(this).attr({ 'disabled': 'disabled' });
+                    //        }
+                    //    });
+                    //    if (!($('#birthdateButton').attr('disabled'))) {
+                    //        $('#birthdateButton').attr({ 'disabled': 'disabled' });
+                    //    }
+                    //    $('#btnGoEdit').show(); $('#btnSave').hide();
+                    //}, 800);
+                }
+
+            } else {
+                setTabColor();
+            }
+
+            $('#mem_photo').hide(); $('#cid_card_pic').hide();
+
+
+
+            if (act != "Create") {
+                if ("@ViewBag.memPhoto") {
+                    $('#waitMemPhoto').hide(); $('#emptyMemPhoto').hide();
+                    //$('#picMemPhotoSrc').attr('src', '/@ViewBag.images_member/@ViewBag.memPhoto'); $('#picMemPhoto').show();
+                    $('#picMemPhotoSrc').attr('src', '@Url.Action("image","pic_image")/@ViewBag.memPhoto'); $('#picMemPhoto').show();
+                }
+                if ("@ViewBag.cidCardPhoto") {
+                    $('#waitCidCardPhoto').hide(); $('#emptyCidCardPhoto').hide();
+                    //$('#picCidCardPhotoSrc').attr('src', '/@ViewBag.images_member/@ViewBag.cidCardPhoto'); $('#picCidCardPhoto').show();
+                    $('#picCidCardPhotoSrc').attr('src', '@Url.Action("image","pic_image")/@ViewBag.cidCardPhoto'); $('#picCidCardPhoto').show();
+                }
+                //$('#btnPrint').show();
+                $('#income').val('@ViewBag.incomeCode');
+            }
+
+
+
+
+        });
+
+        $('#birthdateButton').click(function () {
+            $('#birthdate').datepicker("show");
+        });
+
+        function dateDefault() {
+            if ($("#birthdate").val() == "") { $("#birthdate").datepicker("setDate", new Date()); }
+        }
+        function setAge() {
+            var dob = $('#birthdate').val().split('-');
+            var d = new Date();
+            var age = d.getFullYear() - dob[2] + 543;
+            $('#current_age').val(age)
+        }
+
+        function setTextAAddress() {
+            var texta = '';
+            if ($('#place_name').val() != '') { texta += $('#place_name').val(); }
+            if ($('#building').val() != '') { texta += ' อาคาร ' + $('#building').val(); }
+            if ($('#floor').val() != '') { texta += ' ชั้น ' + $('#floor').val(); }
+            if ($('#room').val() != '') { texta += ' ห้อง ' + $('#room').val(); }
+            if ($('#village').val() != '') { texta += ' หมู่บ้าน ' + $('#village').val(); }
+            $('#texta_address').val(texta);
+        }
+        function setTextBAddress() {
+            var textb = '';
+            if ($('#h_no').val() != '') { textb += 'บ้านเลขที่ ' + $('#h_no').val(); }
+            if ($('#lot_no').val() != '') { textb += ' หมู่ที่ ' + $('#lot_no').val(); }
+            if ($('#street').val() != '') { textb += ' ถนน ' + $('#street').val(); }
+            if ($('#lane').val() != '') { textb += ' ตรอก/ซอย ' + $('#lane').val(); }
+            $('#textb_address').val(textb);
+        }
+        function setTextCAddress() {
+            var textc = '';
+
+            if ($("#province_code option:selected").text() != '') { textc = ' จังหวัด ' + $("#province_code option:selected").text(); }
+            if ($("#district_code option:selected").text() != '') { textc = ' อำเภอ ' + $("#district_code option:selected").text() + textc; }
+            if ($("#subdistrict_code option:selected").text() != '') { textc = 'ตำบล/แขวง ' + $("#subdistrict_code option:selected").text() + textc; }
+
+            //if ($("#subdistrict_code option:selected").text() != '') { textc += 'ตำบล/แขวง ' + $("#subdistrict_code option:selected").text(); }
+            //if ($("#district_code option:selected").text() != '') { textc += ' อำเภอ ' + $("#district_code option:selected").text(); }
+            //if ($("#province_code option:selected").text() != '') { textc += ' จังหวัด ' + $("#province_code option:selected").text(); }
+            if ($('#zip_code').val() != '') { textc += ' รหัสไปรษณีย์ ' + $('#zip_code').val(); }
+            //if ($('#zone').val() != '') { textc += ' ภาค ' + $('#zone').val(); }
+            //if ($('#country_code').val() != '') { textc += ' ประเทศ ' + $('#country_code').val(); }
+            $('#textc_address').val(textc);
+        }
+
+        function uploadMemPhoto() {
+            if ($('#fileMemPhoto')[0].files[0]) {
+                $('#waitMemPhoto').show();
+                var formData = new FormData();
+                formData.append("fileMemPhoto", $('#fileMemPhoto')[0].files[0]);
+                $.ajax({
+                    type: 'post', url: '@Url.Action("uploadMemPhoto", "members")',
+                    data: formData, processData: false, contentType: false,
+                }).done(function (resp) {
+                    var result = resp.result; var fileName = resp.fileName;
+                    $('#mem_photo').val(resp.fileName);
+                    $('#waitMemPhoto').hide(); $('#emptyMemPhoto').hide();
+                    $('#picMemPhotoSrc').attr('src', '/@ViewBag.images_upload/' + resp.fileName); $('#picMemPhoto').show();
+                });
+            }
+        }
+
+        function uploadCidCardPhoto() {
+            if ($('#fileCidCardPhoto')[0].files[0]) {
+                $('#waitCidCardPhoto').show();
+                var formData = new FormData();
+                formData.append("fileCidCardPhoto", $('#fileCidCardPhoto')[0].files[0]);
+                $.ajax({
+                    type: 'post', url: '@Url.Action("uploadCidCardPhoto", "members")',
+                    data: formData, processData: false, contentType: false,
+                }).done(function (resp) {
+                    var result = resp.result; var fileName = resp.fileName;
+                    $('#cid_card_pic').val(resp.fileName);
+                    $('#waitCidCardPhoto').hide(); $('#emptyCidCardPhoto').hide();
+                    $('#picCidCardPhotoSrc').attr('src', '/@ViewBag.images_upload/' + resp.fileName); $('#picCidCardPhoto').show();
+                });
+            }
+        }
+
+        function setEventDropdownProvince() {
+            $('#province_code').unbind("change").bind("change", function (e) {
+                $.ajax({
+                    type: 'get', url: '@Url.Action("SelectBy", "ini_district")' + '?provinceCode=' + $('#province_code').val(),
+                }).done(function (resp) {
+                    if (resp == "") {
+                        $('#district_code').empty();
+                        $("#district_code").prop("disabled", true);
+                        $('#subdistrict_code').empty();
+                        $('#subdistrict_code').prop("disabled", true);
+                        $('#zip_code').val('');
+                        setTextCAddress();
+                    } else {
+                        $("#district_code").prop("disabled", false);
+                        $('#district_code').empty();
+                        $('#district_code').append(resp);
+                        $('#district_code').trigger("change");
+                        setTextCAddress();
+                    }
+                });
+
+            });
+            $('#district_code').unbind("change").bind("change", function (e) {
+                $.ajax({
+                    type: 'get', url: '@Url.Action("SelectBy", "ini_subdistrict")' + '?districtCode=' + $('#district_code').val(),
+                }).done(function (resp) {
+                    if (resp == "") {
+                        $('#subdistrict_code').empty();
+                        $('#subdistrict_code').prop("disabled", true);
+                        $('#zip_code').val('');
+                        setTextCAddress();
+                    } else {
+                        $("#subdistrict_code").prop("disabled", false);
+                        $('#subdistrict_code').empty();
+                        $('#subdistrict_code').append(resp);
+                        $('#subdistrict_code').trigger("change");
+                        setTextCAddress();
+                    }
+                });
+
+            });
+            $('#subdistrict_code').unbind("change").bind("change", function (e) {
+                $.ajax({
+                    type: 'get', url: '@Url.Action("SelectBy", "ini_list_zip")' + '?subdistrictCode=' + $('#subdistrict_code').val(),
+                }).done(function (resp) {
+                    if (resp == "") {
+                        $('#zip_code').val(''); setTextCAddress();
+                    } else {
+                        $('#zip_code').val(resp); setTextCAddress();
+                    }
+                });
+
+            });
+        }
+        function setProvinceData() {
+            $('#province_code').trigger("change");
+            setTimeout(function () {
+                $('#district_code').val('@ViewBag.districtCode');
+                $('#district_code').trigger("change");
+                setTimeout(function () {
+                    $('#subdistrict_code').val('@ViewBag.subdistrictCode');
+                    setTimeout(function () {
+                        $('#zip_code').val('@ViewBag.zipCode');
+                    }, 300);
+                }, 300);
+            }, 300);
+        }
+        function mail_addressCheckCurrentTick() {
+            if ($('#mail_addressCheckCurrent').prop("checked") == true) {
+                $("#mail_addressCheckOther").prop("checked", false);
+                $('#mail_address').prop('readonly', true);
+                $('#mail_address').val('');
+            } else {
+                $("#mail_addressCheckOther").prop("checked", true);
+                $('#mail_address').prop('readonly', false);
+            }
+        }
+        function mail_addressCheckOtherTick() {
+            if ($('#mail_addressCheckOther').prop("checked") == true) {
+                $("#mail_addressCheckCurrent").prop("checked", false);
+                $('#mail_address').prop('readonly', false);
+            } else {
+                $("#mail_addressCheckCurrent").prop("checked", true);
+                $('#mail_address').prop('readonly', true);
+                $('#mail_address').val('');
+            }
+        }
+        function setTabColor() {
+            $.ajax({
+                type: 'get', url: '@Url.Action("ListTabNoData", "members", new { memberId = @ViewBag.memberId })',
+            }).done(function (resp) {
+                resp = JSON.parse(resp);
+                for (i = 0; i < resp.length; i++) {
+                    $('#' + resp[i].name).addClass('tabNoData');
+                }
+            });
+        }
+        function memberPrint() {
+            var url = '@Url.Action("DetailsPdf", "members", new { id = "__id__" })';
+            //window.location.href = url.replace('__id__', data[1]);
+            //var win = window.open(url.replace('__id__', '@ViewBag.memberId'), '_blank');
+            var win = window.open(url.replace('__id__', '@ViewBag.memberId'));
+            win.focus();
+
+            //window.open(url.replace('__id__', '@ViewBag.memberId'), "_blank", "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=500,width=400,height=400");
+
+
+
+
+        }
+    </script>
+}
+

@@ -1,0 +1,73 @@
+@model PPcore.Models.ini_district
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h2>Edit</h2>
+
+<form asp-action="Edit">
+    <div class="form-horizontal">
+        <h4>ini_district</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="district_code" />
+    <input type="hidden" asp-for="province_code" />
+    <input type="hidden" asp-for="country_code" />
+        <div class="form-group">
+            <label asp-for="area_part" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="area_part" class="form-control" />
+                <span asp-validation-for="area_part" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="dist_desc" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="dist_desc" class="form-control" />
+                <span asp-validation-for="dist_desc" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="id" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="id" class="form-control" />
+                <span asp-validation-for="id" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="x_log" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="x_log" class="form-control" />
+                <span asp-validation-for="x_log" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="x_note" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="x_note" class="form-control" />
+                <span asp-validation-for="x_note" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="x_status" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="x_status" class="form-control" />
+                <span asp-validation-for="x_status" class="text-danger" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

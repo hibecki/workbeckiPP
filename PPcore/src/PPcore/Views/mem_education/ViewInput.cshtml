@@ -1,0 +1,30 @@
+﻿@model PPcore.Models.mem_education
+
+<form id="mem_educationForm" class="form-horizontal">
+<div class="form-group">
+    <label asp-for="degree" class="col-md-3 control-label"></label>
+    <div class="col-md-9">
+        <select asp-for="degree" class="form-control" asp-items="@ViewBag.mem_education_degree"></select>
+    </div>
+</div>
+    <div class="form-group">
+        <label asp-for="colledge_name" class="col-md-3 control-label"></label>
+        <div class="col-md-9">
+            <input asp-for="colledge_name" class="form-control" />
+            <span asp-validation-for="colledge_name" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="faculty" class="col-md-3 control-label"></label>
+        <div class="col-md-9">
+            <input asp-for="faculty" class="form-control" />
+            <span asp-validation-for="faculty" class="text-danger" />
+        </div>
+    </div>
+
+</form>
+<div class="form-group">
+    <div class="col-md-offset-3 col-md-9">
+        <button id="mem_educationSubmit" class="btn btn-success">บันทึก</button>
+    </div>
+</div>

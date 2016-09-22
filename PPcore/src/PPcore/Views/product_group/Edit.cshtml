@@ -1,0 +1,232 @@
+﻿@model PPcore.Models.product_group
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12" style="padding-top:15px;">
+            <table><tr><td><h4 class="txt-color-blue">กลุ่มผลิตผลและประเภทผลิตผล</h4></td></tr></table>
+        </div>
+    </div>
+
+    <div class="panel panel-blue">
+        <div class="panel-heading">
+            <div class="pull-left" style="padding-top:5px;">กลุ่มผลิตผล</div>
+            <div class="pull-right" style="margin-top:-2px;">
+                <div id="btnSave" type="submit" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-floppy-o" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;จัดเก็บ&nbsp;&nbsp;</div>
+                <div id="btnDetails" class="btn btn-default btn-panel-yellow" onclick="location.href='@Url.Action("Index", "product_group")'">&nbsp;<i class="fa fa-file-text" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;ดูข้อมูลทั้งหมด</div>
+            </div>
+        </div>
+        <!-- /.panel-heading -->
+        <div class="panel-body">
+
+            <form id="product_group_form" class="form-horizontal">
+                <input asp-for="id" /><input asp-for="rowversion" />
+                <div class="row">
+                    <div class="col-md-10">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label asp-for="product_group_code" class="col-md-2 control-label"></label>
+                                        <div class="col-md-4">
+                                            <input asp-for="product_group_code" class="form-control" readonly />
+                                            <span asp-validation-for="product_group_code" class="text-danger" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label asp-for="product_group_desc" class="col-md-2 control-label"></label>
+                                        <div class="col-md-4">
+                                            <input asp-for="product_group_desc" class="form-control" />
+                                            <span asp-validation-for="product_group_desc" class="text-danger" />
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <div class="row">
+                                        <label asp-for="x_status" class="col-md-2 control-label"></label>
+                                        <div class="col-md-4">
+                                            <select asp-for="x_status" asp-items="ViewBag.x_status" class="form-control"></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </form>
+
+            <div id="product_type_details_as_table"></div>
+
+        </div>
+    </div>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade modalForm1" id="product_type_modal" tabindex="-1" role="dialog" aria-labelledby="product_type_modal_label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="product_type_modal_header" class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
+                    <h4 class="modal-title" id="product_type_modal_label" style="vertical-align:middle;"></h4>
+                </div>
+                <div class="modal-body container-fluid">
+                    <div id="product_type_modal_body">
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- /Modal -->
+
+
+
+</div>
+
+    @section Scripts {
+        <script src="~/lib/bootstrap/js/modal.js"></script>
+        <script>
+            $(document).ready(function () {
+                product_type_details_as_table();
+
+                $('#btnSave').off('click').on('click', function () {
+                    if ($("#product_group_form").valid()) {
+                        $.ajax({
+                            async: false,
+                            type: "POST",
+                            url: "@Url.Action("Edit", "product_group")",
+                            data: {
+                                product_group_code: $("#product_group_code").val(),
+                                product_group_desc: $("#product_group_desc").val(),
+                                x_status: $("#x_status").val(),
+                                rowversion: $("#rowversion").val(),
+                                id: $("#id").val()
+                            },
+                            success: function (data) {
+                                window.location.href = "@Url.Action("Index", "product_group")";
+                            }
+                        });
+                    }
+                });
+
+
+
+
+
+
+            });
+
+            function product_type_details_as_table() {
+                $.ajax({
+                    type: 'get', url: '@Url.Action("DetailsAsTable", "product_type")' + '?id=' + $('#product_group_code').val(),
+                }).done(function (resp) {
+                    $('#product_type_details_as_table').html(resp);
+                    var w = [
+                        { "targets": [0], "width": "15", "className": "dt-center" },
+                        { "targets": [1], "visible": false, "searchable": false },
+                        { "targets": [2], "width": "150", "className": "dt-center" },
+                        { "targets": [4], "width": "50", "className": "dt-center" },
+                    ];
+                    var table = setTable_default($('#product_type_table'), w);
+                    table.$('tr:first').click();
+                });
+            }
+
+            function product_type_create() {
+                $.ajax({
+                    type: 'get', url: '@Url.Action("Create", "product_type")',
+                }).done(function (resp) {
+                    $('#product_type_modal_body').html(resp);
+                    $('#product_type_modal_label').text('เพิ่มประเภทผลิตผล');
+                    $('#product_type_product_group_code').text('เพิ่มประเภทผลิตผล');
+                    $("#product_type_submit").off("click").on("click", function (e) {
+                        e.preventDefault();
+                        //if ($("#product_type_form").valid()) {
+                        if (product_type_form_valid()) {
+                            $.ajax({
+                                async: false,
+                                type: "POST",
+                                url: "@Url.Action("Create", "product_type")",
+                                data: {
+                                product_group_code: $("#product_group_code").val(),
+                                product_type_code: $("#product_type_code").val(),
+                                product_type_desc: $("#product_type_desc").val(),
+                                x_status: $("#product_type_form #x_status").val()
+                                },
+                                success: function (data) {
+                                    $('#product_type_modal').modal('hide');
+                                    product_type_details_as_table();
+                                }
+                            });
+                        }
+                    });
+                    $('#product_type_modal').modal({ backdrop: 'static', keyboard: false });
+                });
+            }
+            function product_type_edit() {
+                var table = $('#product_type_table').DataTable();
+                var datarow = table.row('.selected').data();
+                $.ajax({
+                    type: 'get', url: '@Url.Action("Edit", "product_type")' + "/" + datarow[1],
+                }).done(function (resp) {
+                    $('#product_type_modal_body').html(resp);
+                    $('#product_type_modal_label').text('แก้ไขประเภทผลิตผล');
+                    $("#product_type_submit").off("click").on("click", function (e) {
+                        e.preventDefault();
+                        //if ($("#product_type_form").valid()) {
+                        if (product_type_form_valid()) {
+                            $.ajax({
+                                async: false,
+                                type: "POST",
+                                url: "@Url.Action("Edit", "product_type")",
+                                data: {
+                                    product_group_code: $("#product_group_code").val(),
+                                    product_type_code: $("#product_type_code").val(),
+                                    product_type_desc: $("#product_type_desc").val(),
+                                    x_status: $("#product_type_form #x_status").val(),
+                                    id: datarow[1],
+                                    rowversion: $("#product_type_form #rowversion").val(),
+                                },
+                            success: function (data) {
+                                $('#product_type_modal').modal('hide');
+                                product_type_details_as_table();
+                            }
+                        });
+                    }
+                    });
+                $('#product_type_modal').modal({ backdrop: 'static', keyboard: false });
+            });
+            }
+            function product_type_form_valid() {
+                var result = false;
+                if($("#product_type_code").val() && $("#product_type_desc").val()) {
+                    result = true;
+                } else {
+                    result = false;
+                    if (!$("#product_type_code").val()) { $("#product_type_code_msg").text('กรุณากรอกข้อมูล'); }
+                    if (!$("#product_type_desc").val()) { $("#product_type_desc_msg").text('กรุณากรอกข้อมูล'); }
+                }
+                return result;
+            }
+        </script>
+    }
+

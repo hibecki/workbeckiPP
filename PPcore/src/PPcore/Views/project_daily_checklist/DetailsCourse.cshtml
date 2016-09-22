@@ -1,0 +1,311 @@
+﻿@model PPcore.Models.project_course
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12" style="padding-top:15px;">
+            <table><tr><td><h4 class="txt-color-blue">เช็คชื่อเข้าอบรม</h4></td></tr></table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-blue">
+                <div class="panel-heading">
+                    <div class="pull-left" style="padding-top:5px;">หลักสูตรอบรม</div>
+                </div>
+                <div class="panel-body">
+                    <div id="renderBody">
+
+                        <form asp-action="CourseEdit">
+                            <div class="pull-right" style="margin-top:-57px;">
+                                <div id="btnDetails" class="btn btn-default btn-panel-yellow" onclick="location.href='@Url.Action("Index", "project_daily_checklist")'">&nbsp;<i class="fa fa-file-text" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;ดูข้อมูลทั้งหมด</div>
+                            </div>
+                            <div class="form-horizontal">
+                                <br />
+                                <div class="row">
+                                    <div class="col-md-offset-1 col-md-8">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-2 text-right"><label asp-for="course_code" class="control-label"></label></div>
+                                                <div class="col-md-4">
+                                                    <input asp-for="course_code" class="form-control" readonly />
+                                                    <span asp-validation-for="course_code" class="text-danger" />
+                                                </div>
+                                                <div class="col-md-2 text-right"><label asp-for="project_code" class="control-label"></label></div>
+                                                <div class="col-md-4">
+                                                    <input asp-for="project_code" class="form-control" readonly />
+                                                    <span asp-validation-for="project_code" class="text-danger" />
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-2 text-right"><label asp-for="cgroup_code" class="control-label"></label></div>
+                                                <div class="col-md-4">
+                                                    <select asp-for="cgroup_code" class="form-control" asp-items="@ViewBag.cgroup_code"></select>
+                                                </div>
+                                                <div class="col-md-2 text-right"><label asp-for="ctype_code" class="control-label"></label></div>
+                                                <div class="col-md-4">
+                                                    @*<select id="district_code" name="district_code" class="form-control"></select>*@
+                                                    <select asp-for="ctype_code" class="form-control"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-2 text-right"><label asp-for="course_desc" class="control-label"></label></div>
+                                                <div class="col-md-10">
+                                                    <input asp-for="course_desc" class="form-control" />
+                                                    <span asp-validation-for="course_desc" class="text-danger" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-2 text-right"><label asp-for="course_date" class="control-label"></label></div>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input asp-for="course_date" class="form-control" readonly >
+                                                        <span class="input-group-btn">
+                                                            <button id="course_date_button" class="btn btn-default" type="button">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                    <span asp-validation-for="course_date" class="text-danger" />
+                                                </div>
+                                                <div class="col-md-2 text-right"><label asp-for="course_approve_date" class="control-label"></label></div>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input asp-for="course_approve_date" class="form-control" readonly >
+                                                        <span class="input-group-btn">
+                                                            <button id="course_approve_date_button" class="btn btn-default" type="button">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                    <span asp-validation-for="course_approve_date" class="text-danger" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-2 text-right"><label asp-for="course_begin" class="control-label"></label></div>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input asp-for="course_begin" class="form-control" readonly >
+                                                        <span class="input-group-btn">
+                                                            <button id="course_begin_button" class="btn btn-default" type="button">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                    <span asp-validation-for="course_begin" class="text-danger" />
+                                                </div>
+                                                <div class="col-md-2 text-right"><label asp-for="course_end" class="control-label"></label></div>
+                                                <div class="col-md-4">
+                                                    <div class="input-group">
+                                                        <input asp-for="course_end" class="form-control" readonly >
+                                                        <span class="input-group-btn">
+                                                            <button id="course_end_button" class="btn btn-default" type="button">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </button>
+                                                        </span>
+                                                    </div>
+                                                    <span asp-validation-for="course_end" class="text-danger" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-2 text-right"><label asp-for="budget" class="control-label"></label></div>
+                                                <div class="col-md-4">
+                                                    <input asp-for="budget" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="10" />
+                                                    <span asp-validation-for="budget" class="text-danger" />
+                                                </div>
+                                                <div class="col-md-2 text-right"><label asp-for="ref_doc" class="control-label"></label></div>
+                                                <div class="col-md-4">
+                                                    <input asp-for="ref_doc" class="form-control" />
+                                                    <span asp-validation-for="ref_doc" class="text-danger" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-2 text-right"><label asp-for="charge_head" class="control-label"></label></div>
+                                                <div class="col-md-4">
+                                                    <input asp-for="charge_head" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="10" />
+                                                    <span asp-validation-for="charge_head" class="text-danger" />
+                                                </div>
+                                                <div class="col-md-2 text-right"><label asp-for="support_head" class="control-label"></label></div>
+                                                <div class="col-md-4">
+                                                    <input asp-for="support_head" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="10" />
+                                                    <span asp-validation-for="support_head" class="text-danger" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-2 text-right"><label asp-for="project_manager" class="control-label"></label></div>
+                                                <div class="col-md-4">
+                                                    <input asp-for="project_manager" class="form-control" />
+                                                    <span asp-validation-for="project_manager" class="text-danger" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-2 text-right"><label asp-for="target_member_join" class="control-label"></label></div>
+                                                <div class="col-md-4">
+                                                    <input asp-for="target_member_join" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="10" />
+                                                    <span asp-validation-for="target_member_join" class="text-danger" />
+                                                </div>
+                                                <div class="col-md-2 text-right"><label asp-for="active_member_join" class="control-label"></label></div>
+                                                <div class="col-md-4">
+                                                    <input asp-for="active_member_join" class="form-control" value="@ViewBag.active_member_join" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="10" />
+                                                    <span asp-validation-for="active_member_join" class="text-danger" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-2 text-right"><label asp-for="passed_member" class="control-label"></label></div>
+                                                <div class="col-md-4">
+                                                    <input asp-for="passed_member" class="form-control" value="@ViewBag.passed_member" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="10" />
+                                                    <span asp-validation-for="passed_member" class="text-danger" />
+                                                </div>
+                                                <div class="col-md-2 text-right"><label asp-for="passed_score" class="control-label"></label></div>
+                                                <div class="col-md-4">
+                                                    <input asp-for="passed_score" class="form-control" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="10" />
+                                                    <span asp-validation-for="passed_score" class="text-danger" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-2 text-right"><label asp-for="x_status" class="control-label"></label></div>
+                                                <div class="col-md-4">
+                                                    <select asp-for="x_status" class="form-control" asp-items="@Html.x_status_SelectList()"></select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+
+                        </form>
+
+                        <div class="panel panel-blue">
+                            <div class="panel-heading">
+                                <div class="pull-left" style="padding-top:5px;">แสดงข้อมูลผู้ลงทะเบียนเข้าอบรม</div>
+                                <div class="pull-right form-inline" style="margin-top:-2px;">
+                                    วันที่เช็คชื่อ&nbsp;&nbsp;&nbsp;<select id="course_day" class="form-control" style="width:100px;" asp-items="@ViewBag.course_day"></select>
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <div class="dataTable_wrapper" style="padding-right:10px;" id="a_details_as_table">
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    <script src="~/lib/bootstrap/js/modal.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('input').prop("readonly", true);
+            $('select').prop("disabled", true);
+            $('button').prop("disabled", true);
+
+            $.ajax({
+                type: 'get', url: '@Url.Action("SelectBy", "course_type")' + '?cgroup_code=' + $('#cgroup_code').val(),
+            }).done(function (resp) {
+                if (resp == "") {
+                    $('#ctype_code').empty();
+                } else {
+                    $('#ctype_code').empty();
+                    $('#ctype_code').append(resp);
+                }
+            });
+            setTimeout(function () {
+                $('#ctype_code').val('@ViewBag.ctype_code');
+            }, 300);
+
+            $('#course_day').prop("disabled", false);
+            $('#course_day').off("change").on("change", function (e) {
+                a_details_as_table();
+            });
+            a_details_as_table();
+
+
+        });
+        function a_details_as_table() {
+            $.ajax({
+                type: 'get', url: '@Url.Action("DetailsAsTableMember", "project_daily_checklist")' + '?course_code=' + $('#course_code').val() + '&course_day=' + $('#course_day').val(),
+            }).done(function (resp) {
+                $('#a_details_as_table').html(resp);
+                var w = [
+                    { "targets": [0], "width": "15", "className": "dt-center" },
+                    { "targets": [1], "visible": false, "searchable": false },
+                    { "targets": [2], "width": "70", "className": "dt-center" },
+                    { "targets": [3], "width": "50", "className": "dt-center" },
+                    { "targets": [4], "width": "150", "className": "dt-center" },
+                    { "targets": [6], "width": "150", "className": "dt-center" },
+                    { "targets": [7], "width": "150", "className": "dt-center" },
+                    { "targets": [8], "width": "150", "className": "dt-center" },
+                    { "targets": [9], "width": "150", "className": "dt-center" },
+                    { "targets": [10], "width": "70", "className": "dt-center" },
+                ];
+                var table = setTable_default($('#a_table'), w);
+                table.$('tr:first').click();
+            });
+        }
+        function attendClick(id, member_code) {
+            if (!$('#cell-' + id).hasClass("btn-panel-green-attended")) {
+                attend('add', member_code);
+                $('#cell-' + id).html('<i class="fa fa-check-square-o" aria-hidden="true"></i> ลงชื่อแล้ว');
+                $('#cell-' + id).removeClass('btn-panel-yellow').addClass('btn-panel-green-attended');
+            } else {
+                attend('del', member_code);
+                $('#cell-' + id).html('<i class="fa fa-square-o" aria-hidden="true"></i> เช็คชื่อเข้าอบรม');
+                $('#cell-' + id).removeClass('btn-panel-green-attended').addClass('btn-panel-yellow');
+            }
+
+        }
+        function attend(action, member_code) {
+            $.ajax({
+                async: false,
+                type: "POST",
+                url: "@Url.Action("Edit", "project_daily_checklist")",
+                data: {
+                    action: action,
+                    member_code: member_code,
+                    course_code: $('#course_code').val(),
+                    course_begin: $('#course_begin').val(),
+                    course_day: $('#course_day').val()
+                },
+                success: function (data) {
+                    if (data.result != "fail") {
+                        //a_details_as_table();
+                    } else {
+                        //a_details_as_table();
+                    }
+                }
+            });
+
+        }
+    </script>
+}

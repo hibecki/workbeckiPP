@@ -1,0 +1,44 @@
+﻿@model IEnumerable<PPcore.ViewModels.project_course_register.memberViewModel>
+@addTagHelper "*, PPcore"
+@{
+    Layout = null;
+}
+
+<table class="table table-striped table-bordered table-hover" id="a_table">
+    <thead>
+        <tr>
+            <th style="width:15px;">ลำดับ</th>
+            <th style="display:none">@Html.DisplayNameFor(model => model.member.id)</th>
+            <th style="width:70px;">@Html.DisplayNameFor(model => model.member.member_code)</th>
+            <th style="width:70px;">@Html.DisplayNameFor(model => model.member.title)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.member.fname)</th>
+            <th>ที่อยู่</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.member.mobile)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.member.email)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.member.line)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.member.facebook)</th>
+            <th style="width:70px;">ผล<br/>การอบรม</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ var countOrder = 0;}
+        @foreach (var item in Model)
+        {
+            countOrder++;
+            <tr>
+                <td style="width:15px;">@countOrder</td>
+                <td style="display:none">@Html.DisplayFor(modelItem => item.member.id)</td>
+                <td>@Html.DisplayFor(modelItem => item.member.member_code)</td>
+                <td>@Html.DisplayFor(modelItem => item.member.title)</td>
+                <td>@Html.DisplayFor(modelItem => item.member.fname) @Html.DisplayFor(modelItem => item.member.lname)</td>
+                <td>@Html.DisplayFor(modelItem => item.member.texta_address) @Html.DisplayFor(modelItem => item.member.textb_address) @Html.DisplayFor(modelItem => item.member.textc_address)</td>
+                <td>@Html.DisplayFor(modelItem => item.member.mobile)</td>
+                <td>@Html.DisplayFor(modelItem => item.member.email)</td>
+                <td>@Html.DisplayFor(modelItem => item.member.line)</td>
+                <td>@Html.DisplayFor(modelItem => item.member.facebook)</td>
+                <td><input @(Html.Raw(ViewBag.IsDetails ? "disabled=\"disabled\"" : "")) id="cell-@Html.DisplayFor(modelItem => item.member.id)" class="form-control" style="width:70px;" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="5" onkeyup="gradeEnter('@Html.DisplayFor(modelItem => item.member.id)','@Html.DisplayFor(modelItem => item.member.member_code)')" value="@Html.DisplayFor(modelItem => item.course_grade)"/></td>
+            </tr>
+        }
+    </tbody>
+</table>
+

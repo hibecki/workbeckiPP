@@ -1,0 +1,41 @@
+﻿@model IEnumerable<PPcore.Models.course_group>
+@{
+    Layout = null;
+}
+
+
+
+<table class="table table-striped table-bordered table-hover" id="a_table">
+    <thead>
+        <tr>
+            <th style="width:15px;">ลำดับ</th>
+            <th style="display:none">@Html.DisplayNameFor(model => model.id)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.cgroup_code)</th>
+            <th>@Html.DisplayNameFor(model => model.cgroup_desc)</th>
+            <th style="width:50px;">@Html.DisplayNameFor(model => model.x_status)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ var countOrder = 0;}
+        @foreach (var item in Model)
+        {
+            countOrder++;
+            <tr>
+                <td style="width:15px;">
+                    @countOrder
+                </td>
+                <td style="display:none">@Html.DisplayFor(modelItem => item.id)</td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.cgroup_code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.cgroup_desc)
+                </td>
+                <td>
+                    @Html.x_status_text(item.x_status)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

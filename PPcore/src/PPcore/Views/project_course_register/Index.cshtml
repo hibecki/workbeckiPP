@@ -1,0 +1,255 @@
+﻿@model IEnumerable<PPcore.Models.project_course>
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12" style="padding-top:15px;">
+            <table><tr><td><h4 class="txt-color-blue">ลงทะเบียนเข้าอบรม</h4></td></tr></table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-blue">
+                <div class="panel-heading">
+                    <div class="pull-left" style="padding-top:5px;">แสดงข้อมูลทั้งหมด&nbsp;&nbsp;</div>
+                    <div class="pull-left" style="margin-top:-2px;">
+                        <form class="form-inline" role="form">
+                            <select id="cgroup_code" class="form-control" asp-items="@ViewBag.cgroup_code" style="width:150px;"></select>
+                            <select id="ctype_code" class="form-control" style="width:150px;"></select>
+                        </form>
+                    </div>
+                    @*<div class="pull-right" style="margin-top:-2px;">
+                        กดปุ่มเพิ่ม ถ้าต้องการใส่มากกว่า 1 รายการ&nbsp;&nbsp;&nbsp;
+                        <button id="btnCreate" class="btn btn-default btn-panel-yellow" onclick="location.href='@Url.Action("Create", "courses")'">&nbsp;<i class="fa fa-file" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;&nbsp;เพิ่ม&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                        <button id="btnEdit" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true" style="color:white;"></i>&nbsp;แก้ไข&nbsp;&nbsp;</button>
+                        <button id="btnDetails" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-file-text" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;ดูข้อมูล</button>
+                    </div>*@
+                    @*<div class="pull-right" style="margin-top:-2px;">
+                        <div class="form-group input-group" style="width:200px;">
+                            <input id="searchPattern" type="text" class="form-control" placeholder="คำค้นหา">
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" onclick="xxxSearch();">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                        </div>
+                    </div>*@
+                </div>
+
+                <!-- /.panel-heading -->
+                <div style="position:absolute;left:250px;top:70px;"><span id="count_course" class="badge">จำนวนรายการทั้งหมด @ViewBag.countRecords รายการ</span></div>
+                <div class="panel-body">
+                    <div class="dataTable_wrapper" style="padding-right:10px;" id="a_details_as_table">
+
+
+
+                    </div>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade modalForm1" id="a_modal" tabindex="-1" role="dialog" aria-labelledby="a_label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="a_header" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
+                <h4 class="modal-title" id="a_label" style="vertical-align:middle;"></h4>
+            </div>
+            <div class="modal-body container-fluid" id="a_body">
+                @*@{ await Html.RenderPartialAsync("DetailsCourse", new course()); }*@
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+<!-- /Modal -->
+
+<!-- Modal register -->
+<div id="confirm_modal" class="modal fade modalForm1" tabindex="-1" role="dialog" aria-labelledby="confirm_Label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="confirm_model_header" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
+                <h4 class="modal-title" id="confirm_Label" style="vertical-align:middle;">ยืนยันการลงทะเบียนเข้าอบรม</h4>
+            </div>
+            <div class="modal-body container-fluid">
+                <div id="confirm_modal_body" class="col-md-12">
+                    <form id="a_form" class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">เลขบัตรประชาชน</label>
+                            <div class="col-md-9">
+                                <input id="cid" class="form-control" data-val-required="" onkeyup="$('#cidmsg').text('');" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="13" />
+                                <span id="cidmsg" class="text-danger" />
+                            </div>
+                        </div>
+                    </form>
+                    <input id="courseId" style="display:none" />
+                </div>
+                <br />
+                <br /><br /><br />
+                <div class="row">
+                    <div class="col-md-4"><button id="btnDeleteConfirm" class="btn btn-panel-yellow pull-right" onclick="registerConfirm($('#cid').val(),$('#courseId').val());">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ยืนยัน&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></div>
+                    <div class="col-md-4 col-md-offset-4">
+                        <button id="btnDeleteCancel" class="btn btn-default" data-dismiss="modal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ยกเลิก&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Modal register -->
+
+<!-- Modal alert -->
+<div class="modal fade modalForm1" id="alert_modal" tabindex="-1" role="dialog" aria-labelledby="alert_label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="alert_modal_header" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
+                <h4 class="modal-title" id="alert_label" style="vertical-align:middle;"></h4>
+            </div>
+            <div class="modal-body container-fluid">
+                <div id="alert_modal_body"></div>
+                <br /><br />
+                <div class="pull-right" style="margin-top:-2px;">
+                    <div class="btn btn-default btn-panel-yellow" data-dismiss="modal" aria-hidden="true">&nbsp;&nbsp;&nbsp;ปิด&nbsp;&nbsp;&nbsp;</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<!-- /Modal alert -->
+
+@section scripts {
+    <script src="~/lib/bootstrap/js/modal.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#cgroup_code').off("change").on("change", function (e) {
+                $.ajax({
+                    type: 'get', url: '@Url.Action("SelectBy", "course_type")' + '?cgroup_code=' + $('#cgroup_code').val(),
+                }).done(function (resp) {
+                    if (resp == "") {
+                        $('#ctype_code').empty();
+                        $('#ctype_code').prop("disabled", true);
+                        $('#ctype_code').trigger("change");
+                    } else {
+                        $("#ctype_code").prop("disabled", false);
+                        $('#ctype_code').empty();
+                        $('#ctype_code').append(resp);
+                        $('#ctype_code').trigger("change");
+                    }
+                });
+            });
+
+            $('#ctype_code').off("change").on("change", function (e) {
+                a_details_as_table();
+            });
+
+            $('#cgroup_code').trigger("change");
+            @*setTimeout(function () {
+                $('#ctype_code').val('@ViewBag.ctype_code');
+            }, 300);*@
+            $('#ctype_code').trigger("change");
+        });
+        function count_course() {
+            $.ajax({
+                type: 'get', url: '@Url.Action("CountCourse", "project_course_register")?cgroup_code=' + $('#cgroup_code').val() + '&ctype_code=' + $('#ctype_code').val(),
+            }).done(function (resp) {
+                $('#count_course').text('จำนวนรายการทั้งหมด ' + resp.count + ' รายการ');
+            });
+        }
+        function a_details_as_table() {
+            $.ajax({
+                type: 'get', url: '@Url.Action("DetailsAsTableCourse", "project_course_register")?cgroup_code=' + $('#cgroup_code').val() + '&ctype_code=' + $('#ctype_code').val(),
+            }).done(function (resp) {
+                $('#a_details_as_table').html(resp);
+                var w = [
+                    { "targets": [0], "width": "15", "className": "dt-center" },
+                    { "targets": [1], "visible": false, "searchable": false },
+                    { "targets": [2], "width": "70", "className": "dt-center" },
+                    { "targets": [3], "visible": false, "width": "150" },
+
+                    { "targets": [5], "visible": false, "width": "70", "className": "dt-center" },
+                    { "targets": [6], "visible": false, "className": "dt-center" },
+                    { "targets": [7], "visible": false },
+                    { "targets": [8], "width": "70", "className": "dt-center" },
+                    { "targets": [9], "width": "70", "className": "dt-center" },
+                    { "targets": [10], "visible": false, "className": "dt-center" },
+                    { "targets": [11], "width": "150", "className": "dt-center" },
+                    { "targets": [12], "width": "150", "className": "dt-center" },
+                    { "targets": [13], "width": "50", "className": "dt-center" },
+                ];
+                var table = setTable_default($('#a_table'), w);
+                table.$('tr:first').click();
+                count_course();
+            });
+        }
+        @*$('#btnEdit').on('click', function () {
+            var table = $('#a_table').DataTable();
+            var datarow = table.row('.selected').data();
+            window.location.href = "@Url.Action("Edit", "courses")" + "/" + datarow[1];
+        });
+        $('#btnDetails').on('click', function () {
+            var table = $('#a_table').DataTable();
+            var datarow = table.row('.selected').data();
+            window.location.href = "@Url.Action("Details", "courses")" + "/" + datarow[1];
+        });*@
+        function detailsClick(id) {
+            $.ajax({
+                type: 'get', url: '@Url.Action("DetailsCourse", "project_course_register")?id=' + id,
+            }).done(function (resp) {
+                $('#a_body').html(resp);
+                $('#a_label').text('ลงทะเบียน');
+                $('#a_modal').modal({ backdrop: 'static', keyboard: false });
+
+                $('#a_submit').off('click').on('click', function () {
+                    $('#a_modal').modal('hide');
+                    $('#courseId').val(id); $('#cid').val(''); $('#cidmsg').text('');
+                    $('#confirm_modal').modal({ backdrop: 'static', keyboard: false });
+                });
+
+            });
+        }
+        function registerConfirm(c_id, course_id) {
+            if (!c_id) {
+                $('#cidmsg').text('กรุณากรอกข้อมูล');
+            } else {
+                $.ajax({
+                    async: false,
+                    type: "POST",
+                    url: "@Url.Action("Register", "project_course_register")",
+                    data: {
+                        courseId: course_id,
+                        cid: c_id,
+                    },
+                    success: function (data) {
+                        $('#confirm_modal').modal('hide');
+                        if (data.result == "success") {
+                            $('#alert_label').text('ลงทะเบียนเรียบร้อย');
+                            $('#alert_modal_body').html('<div style="color:green">ระบบได้ทำการลงทะเบียน เลขที่บัตรประชาชน ' + data.cid + " เรียบร้อยแล้ว</div>");
+                            $('#alert_modal').modal({ backdrop: 'static', keyboard: false });
+                            a_details_as_table();
+                        } else if (data.result == "full") {
+                            $('#alert_label').text('ขออภัยไม่สามารถลงทะเบียนเพิ่มได้');
+                            $('#alert_modal_body').html('<div style="color:red">ขออภัยไม่สามารถลงทะเบียนเพิ่มได้ เนื่องจากเกินจำนวนที่หลักสูตรสามารถรับได้</div>');
+                            $('#alert_modal').modal({ backdrop: 'static', keyboard: false });
+                        } else {
+                            $('#alert_label').text('เลขที่บัตรประชาชนผิดพลาด');
+                            $('#alert_modal_body').html('<div style="color:red">ไม่พบ เลขที่บัตรประชาชน '+data.cid+"</div>");
+                            $('#alert_modal').modal({ backdrop: 'static', keyboard: false });
+                        }
+                    }
+                });
+
+            }
+
+        }
+    </script>
+}

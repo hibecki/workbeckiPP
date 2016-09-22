@@ -1,0 +1,15 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutMember.cshtml";
+}
+
+@model PPcore.Models.member
+
+@{
+    ViewBag.Title = "เพิ่มข้อมูลสมาชิก";
+    ViewBag.FormAction = "Create";
+    ViewBag.ButtonUpperRightType = "submit";
+    ViewBag.panelBarMenu = "Create";
+}
+
+@{ await Html.RenderPartialAsync("ViewInput"); }
+

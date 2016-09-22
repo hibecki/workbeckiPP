@@ -1,0 +1,423 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutMember.cshtml";
+}
+@model IEnumerable<PPcore.ViewModels.mem_product.mem_productViewModel>
+
+@{
+    ViewBag.ButtonUpperRightType = "hidden";
+    if (ViewBag.isViewOnly == 1)
+    {
+        ViewBag.panelBarMenu = "Details"; ViewBag.Title = "ดูรายละเอียดข้อมูลสมาชิก";
+    }
+    else
+    {
+        ViewBag.Title = "แก้ไข รายละเอียดข้อมูลสมาชิก";
+    }
+}
+
+<div class="panel panel-blue">
+    <div class="panel-heading">
+        <div class="pull-left" style="padding-top:5px;">แสดงข้อมูลทั้งหมด</div>
+        <div id="btnBar" class="pull-right" style="margin-top:-2px;">กดปุ่มเพิ่ม ถ้าต้องการใส่มากกว่า 1 รายการ&nbsp;&nbsp;&nbsp;
+            <div id="btnCreate" class="btn btn-default btn-panel-yellow" onclick="mem_productProductDetailsAsTableList('@ViewBag.memberId');">&nbsp;<i class="fa fa-file" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;&nbsp;เพิ่ม&nbsp;&nbsp;&nbsp;&nbsp;</div>
+            <div id="btnEdit" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true" style="color:white;"></i>&nbsp;แก้ไข&nbsp;&nbsp;</div>
+            @*<div id="btnDetails" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-file-text" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;ดูข้อมูล</div>*@
+        </div>
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="dataTable_wrapper" style="padding-right:10px;">
+            <table class="table table-striped table-bordered table-hover dataTablesMod" id="dataTablesSimple">
+                <thead>
+                    <tr>
+                        <th class="text-center" style="width:50px;">@Html.DisplayNameFor(model => model.mem_product.rec_no)</th>
+                        <th style="display:none">@Html.DisplayNameFor(model => model.mem_product.id)</th>
+                        <th style="width:200px;">@Html.DisplayNameFor(model => model.product_group_desc)</th>
+                        <th style="width:200px;">@Html.DisplayNameFor(model => model.product_type_desc)</th>
+                        <th>@Html.DisplayNameFor(model => model.product.product_desc)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="text-center">@Html.DisplayFor(modelItem => item.mem_product.rec_no)</td>
+                            <td style="display:none">@Html.DisplayFor(modelItem => item.mem_product.id)</td>
+                            <td>@Html.DisplayFor(modelItem => item.product_group_desc)</td>
+                            <td>@Html.DisplayFor(modelItem => item.product_type_desc)</td>
+                            <td>@Html.DisplayFor(modelItem => item.product.product_desc)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+</div>
+
+<!-- Modal -->
+<div id="mem_productProductDetailsAsTableListModal" class="modal fade modalForm2" tabindex="-1" role="dialog" aria-labelledby="mem_productProductDetailsAsTableListModalLabel" aria-hidden="true">
+    <div class="modal-lg">
+        <div class="modal-content">
+            <div class="modal-body container-fluid"> 
+                <div id="mem_productProductDetailsAsTableListModalRenderBody"></div>
+                <div class="pull-right" style="margin-top:-2px;">
+                    <div class="btn btn-default btn-panel-yellow" data-dismiss="modal" aria-hidden="true" >&nbsp;&nbsp;&nbsp;ปิด&nbsp;&nbsp;&nbsp;</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- /Modal -->
+
+<!-- Modal -->
+<div id="mem_productProductCreateModal" class="modal fade modalForm1" tabindex="-1" role="dialog" aria-labelledby="mem_productProductCreateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+
+
+
+            <div id="mem_productProductCreateModalHeader" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
+                <h4 id="mem_productProductCreateModalLabel" class="modal-title" style="vertical-align:middle;"></h4>
+            </div>
+            <div class="modal-body container-fluid">
+                <div id="mem_productProductCreateModalRenderBody">
+                     @*@{ await Html.RenderPartialAsync("ViewInput", new product()); }*@
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+    </div>
+</div>
+<!-- /Modal -->
+
+<!-- Modal -->
+<div id="mem_productProductEditModal" class="modal fade modalForm1" tabindex="-1" role="dialog" aria-labelledby="mem_productProductEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="mem_productProductEditModalHeader" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
+                <h4 id="mem_productProductEditModalLabel" class="modal-title" style="vertical-align:middle;"></h4>
+            </div>
+            <div class="modal-body container-fluid">
+                <div id="mem_productProductEditModalRenderBody">
+                    @*@{ await Html.RenderPartialAsync("ViewInput", new product()); }*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Modal -->
+
+@section Scripts {
+<script src="~/lib/bootstrap/js/modal.js"></script>
+<script>
+    $(document).ready(function () {
+        var tableMemProduct = setDataTablesSimple();
+        tableMemProduct.$('tr:first').click();
+        if ("@ViewBag.isViewOnly" == "1") {
+            $('#btnBar').hide();
+        }
+        $('#btnEdit').off('click').on('click', function () {
+            var data = tableMemProduct.row('.selected').data();
+            if (data) {
+                $.ajax({
+                    type: 'get', url: '@Url.Action("DetailsAsTableList", "products")' + '?memberId=' + '@ViewBag.memberId',
+                }).done(function (resp) {
+                    $('#mem_productProductDetailsAsTableListModalRenderBody').html(resp);
+                    $('#btnCreateProduct').hide(); $('#btnEditProduct').hide();
+                    var tableProduct = setTableProductDetailsAsTableList($('#dataTablesProductDetailsAsTableList'));
+                    tableProduct.$('tr:first').click();
+                    $('#product_type').off('change').on('change', function () {
+                        var sPattern = $('#searchPattern').val().trim();
+                        $.ajax({
+                            type: 'get', url: '@Url.Action("DetailsAsJsonList", "products")' + '?product_type_code=' + $('#product_type').val() + '&product_group_code=' + $('#product_group').val() + '&pattern=' + sPattern,
+                        }).done(function (resp) {
+                            if (resp != "") {
+                                resp = JSON.parse(resp);
+                                if (!jQuery.isEmptyObject(resp)) {
+                                    tableProduct.clear().draw();
+                                    for (var i in resp) {
+                                        tableProduct.row.add([resp[i].rec_no, resp[i].product_code, resp[i].product_desc, '<div id="btnS' + resp[i].id + '"><div class="btn btn-xs btn-default btn-panel-yellow" onclick="mem_productEdit(\'' + data[1] + '\',\'' + resp[i].id + '\')">&nbsp;<i class="fa fa-plus-circle" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;เลือก&nbsp;&nbsp;</div></div>']);
+                                    }
+                                    tableProduct.draw();
+                                } else {
+                                    tableProduct.clear().draw();
+                                }
+                            } else {
+                                tableProduct.clear().draw();
+                            }
+                            tableProduct.$('tr:first').click();
+                        });
+                    });
+                    $('#product_group').off('change').on('change', function () {
+                        $.ajax({
+                            type: 'get', url: '@Url.Action("SelectBy", "product_type")' + '?product_group_code=' + $('#product_group').val(),
+                        }).done(function (resp) {
+                            if (resp != "") {
+                                $('#product_type').empty();
+                                $('#product_type').append(resp);
+                                $('#product_type').trigger("change");
+                            } else {
+                                $('#product_type').empty();
+                            }
+                        });
+                    });
+                    $('#product_group').trigger("change");
+                    $('#mem_productProductDetailsAsTableListModal').modal({ backdrop: 'static', keyboard: false });
+                });
+
+            }
+        });
+    });
+    @*function mem_productIndex(memberId, v) {
+        $.ajax({
+            type: 'get', url: '@Url.Action("Index", "mem_product")' + '?memberId=' + memberId,
+        }).done(function (resp) {
+            $('#renderBody').html(resp);
+            if (v == 1) {
+                $('#btnBar').hide();
+            }
+            var tableMemProduct = setDataTablesSimple();
+            tableMemProduct.$('tr:first').click();
+            $('#btnEdit').off('click').on('click', function () {
+                var data = tableMemProduct.row('.selected').data();
+                if (data) {
+                    $.ajax({
+                        type: 'get', url: '@Url.Action("DetailsAsTableList", "products")' + '?memberId=' + memberId,
+                    }).done(function (resp) {
+                        $('#mem_productProductDetailsAsTableListModalRenderBody').html(resp);
+                        $('#btnCreateProduct').hide(); $('#btnEditProduct').hide();
+                        var tableProduct = setTableProductDetailsAsTableList($('#dataTablesProductDetailsAsTableList'));
+                        tableProduct.$('tr:first').click();
+                        $('#product_type').off('change').on('change', function () {
+                            var sPattern = $('#searchPattern').val().trim();
+                            $.ajax({
+                                type: 'get', url: '@Url.Action("DetailsAsJsonList", "products")' + '?product_type_code=' + $('#product_type').val() + '&product_group_code=' + $('#product_group').val() + '&pattern=' + sPattern,
+                            }).done(function (resp) {
+                                if (resp != "") {
+                                    resp = JSON.parse(resp);
+                                    if (!jQuery.isEmptyObject(resp)) {
+                                        tableProduct.clear().draw();
+                                        for (var i in resp) {
+                                            tableProduct.row.add([resp[i].rec_no, resp[i].product_code, resp[i].product_desc, '<div id="btnS' + resp[i].id + '"><div class="btn btn-xs btn-default btn-panel-yellow" onclick="mem_productEdit(\'' + data[1] + '\',\'' + resp[i].id + '\')">&nbsp;<i class="fa fa-plus-circle" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;เลือก&nbsp;&nbsp;</div></div>']);
+                                        }
+                                        tableProduct.draw();
+                                    } else {
+                                        tableProduct.clear().draw();
+                                    }
+                                } else {
+                                    tableProduct.clear().draw();
+                                }
+                                tableProduct.$('tr:first').click();
+                            });
+                        });
+                        $('#product_group').off('change').on('change', function () {
+                            $.ajax({
+                                type: 'get', url: '@Url.Action("SelectBy", "product_type")' + '?product_group_code=' + $('#product_group').val(),
+                            }).done(function (resp) {
+                                if (resp != "") {
+                                    $('#product_type').empty();
+                                    $('#product_type').append(resp);
+                                    $('#product_type').trigger("change");
+                                } else {
+                                    $('#product_type').empty();
+                                }
+                            });
+                        });
+                        $('#product_group').trigger("change");
+                        $('#mem_productProductDetailsAsTableListModal').modal({ backdrop: 'static', keyboard: false });
+                    });
+
+                }
+
+
+
+            });
+        });
+    }*@
+
+    function mem_productProductDetailsAsTableList(memberId) {
+        $.ajax({
+            type: 'get', url: '@Url.Action("DetailsAsTableList", "products")' + '?memberId=' + memberId,
+        }).done(function (resp) {
+            $('#mem_productProductDetailsAsTableListModalRenderBody').html(resp);
+            var tableProduct = setTableProductDetailsAsTableList($('#dataTablesProductDetailsAsTableList'));
+            tableProduct.$('tr:first').click();
+            $('#btnEditProduct').off('click').on('click', function () {
+                var data = tableProduct.row('.selected').data();
+                $.ajax({
+                    type: 'get', url: '@Url.Action("Edit", "products")' + '?product_code=' + data[1],
+                }).done(function (resp) {
+                    $('#mem_productProductEditModalRenderBody').html(resp);
+                    $('#mem_productProductEditModalLabel').text('แก้ไขผลิตผลที่ต้องการ');
+                    $('#product_code').text(data[1]);
+                    $('#mem_productProductEditModal').modal({ backdrop: 'static', keyboard: false });
+                });
+            });
+            $('#product_type').off('change').on('change', function () {
+                var sPattern = $('#searchPattern').val().trim();
+                $.ajax({
+                    type: 'get', url: '@Url.Action("DetailsAsJsonList", "products")' + '?product_type_code=' + $('#product_type').val() + '&product_group_code=' + $('#product_group').val() + '&pattern=' + sPattern,
+                }).done(function (resp) {
+                    if (resp != "") {
+                        resp = JSON.parse(resp);
+                        if (!jQuery.isEmptyObject(resp)) {
+                            tableProduct.clear().draw();
+                            for (var i in resp) {
+                                tableProduct.row.add([resp[i].rec_no, resp[i].product_code, resp[i].product_desc, '<div id="btnS' + resp[i].id + '"><div class="btn btn-xs btn-default btn-panel-yellow" onclick="mem_productCreate(\'' + resp[i].id + '\')">&nbsp;<i class="fa fa-plus-circle" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;เลือก&nbsp;&nbsp;</div></div>']);
+                            }
+                            tableProduct.draw();
+                        } else {
+                            tableProduct.clear().draw();
+                        }
+                    } else {
+                        tableProduct.clear().draw();
+                    }
+                    tableProduct.$('tr:first').click();
+                });
+            });
+            $('#product_group').off('change').on('change', function () {
+                $.ajax({
+                    type: 'get', url: '@Url.Action("SelectBy", "product_type")' + '?product_group_code=' + $('#product_group').val(),
+                }).done(function (resp) {
+                    if (resp != "") {
+                        $('#product_type').empty();
+                        $('#product_type').append(resp);
+                        $('#product_type').trigger("change");
+                    } else {
+                        $('#product_type').empty();
+                    }
+                });
+            });
+            $('#product_group').trigger("change");
+            $('#mem_productProductDetailsAsTableListModal').modal({ backdrop: 'static', keyboard: false });
+        });
+
+    }
+    function mem_productProductCreateGet(memberId) {
+        $.ajax({
+            type: 'get', url: '@Url.Action("Create", "products")' + '?memberId=' + memberId,
+        }).done(function (resp) {
+            $('#mem_productProductCreateModalRenderBody').html(resp);
+            $('#mem_productProductCreateModalLabel').text('เพิ่มผลิตผลที่ต้องการ');
+            $('#product_group_code').text($('#product_group').val());
+            $('#product_type_code').text($('#product_type').val());
+            $('#product_code').val(''); $('#product_desc').val('');
+        });
+        $('#mem_productProductCreateModal').modal({ backdrop: 'static', keyboard: false });
+    }
+    function mem_productProductCreatePost() {
+        var productCode = $('#product_code').val().trim();
+        var productDesc = $('#product_desc').val().trim();
+        if (productCode == "") { $('#product_code_msg').text('กรุณากรอกข้อมูล'); }
+        if (productDesc == "") { $('#product_desc_msg').text('กรุณากรอกข้อมูล'); }
+        if ((productCode != '') && (productDesc != '')) {
+            $.ajax({
+                type: 'post', url: '@Url.Action("Create", "products")' + '?product_code=' + productCode + '&product_group_code=' + $('#product_group_code').text() + '&product_type_code=' + $('#product_type_code').text() + '&product_desc=' + productDesc,
+            }).done(function (resp) {
+                if (resp != "") {
+                    if (resp.result == "success") {
+                        var table = $('#dataTablesProductDetailsAsTableList').DataTable();
+                        table.row.add([resp.rec_no, resp.product_code, resp.product_desc, '<div id="btnS' + resp.id + '"><div class="btn btn-xs btn-default btn-panel-yellow" onclick="mem_productCreate(' + resp.id + ')">&nbsp;<i class="fa fa-plus-circle" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;เลือก&nbsp;&nbsp;</div></div>']);
+                        table.draw();
+                        $('#mem_productProductCreateModal').modal('hide');
+                    } else if (resp.result == "fail") {
+                        $('#product_code_msg').text('รหัสผลิตผลซ้ำ');
+                    }
+
+                }
+
+            });
+
+        }
+    }
+
+    function mem_productProductEditPost() {
+        var product_group_code = $('#product_group').val();
+        var product_type_code = $('#product_type').val();
+        var productCode = $('#product_code').text();
+        var productDesc = $('#product_desc').val().trim();
+        if (productDesc == "") { $('#product_desc_msg').text('กรุณากรอกข้อมูล'); }
+        if ((productDesc != '')) {
+            $.ajax({
+                type: 'post', url: '@Url.Action("Edit", "products")' + '?product_code=' + productCode + '&product_desc=' + productDesc,
+            }).done(function (resp) {
+                console.log(resp);
+                if (resp != "") {
+                    if (resp.result == "success") {
+                        console.log(product_group_code + " " + product_type_code + " " + productCode);
+                        $('#product_group').trigger("change");
+                        setTimeout(function () {
+                            $('#product_group').val(product_group_code);
+                            setTimeout(function () {
+                                $('#product_type').val(product_type_code);
+                                $('#product_type').trigger("change");
+                            }, 200);
+                        }, 100);
+                        $('#mem_productProductEditModal').modal('hide');
+                    } else if (resp.result == "fail") {
+                        //$('#product_code_msg').text('รหัสผลิตผลซ้ำ');
+                    }
+
+                }
+
+            });
+
+        }
+    }
+    function mem_productCreate(productId) {
+        var id = "btnS" + productId;
+        //var oldV = $("div[id='" + id + "']").text();
+        var oldV = $('#' + id).html();
+        $('#' + id).html('<i class="fa fa-spin fa-refresh" aria-hidden="true" style="color:#093D6A;"></i>');
+
+        $.ajax({
+            type: 'get', url: '@Url.Action("Create", "mem_product")' + '?memberId=@ViewBag.memberId&productId=' + productId,
+        }).done(function (resp) {
+            if (resp.result == "success") {
+                var table = $('#dataTablesSimple').DataTable();
+                table.row.add([resp.rec_no, resp.mem_product_id, resp.product_group_desc, resp.product_type_desc, resp.product_desc]);
+                table.draw();
+            } else {
+
+            }
+            setTimeout(function () { $('#' + id).html(oldV); }, 500);
+        });
+    }
+    function mem_productEdit(mem_productId, productId) {
+        $.ajax({
+            type: 'get', url: '@Url.Action("Edit", "mem_product")' + '?memberId=@ViewBag.memberId&productId=' + productId + '&mem_productId=' + mem_productId,
+        }).done(function (resp) {
+            console.log(resp);
+            if (resp.result == "success") {
+                $('#mem_productProductDetailsAsTableListModal').modal('hide');
+                window.location.href = "@Url.Action("Index", "mem_product", new {memberId = ViewBag.memberId})";
+            } else {
+
+            }
+        });
+    }
+    function mem_productProductSearch() {
+        console.log('test');
+        $('#product_type').trigger("change");
+    }
+</script>
+}

@@ -1,0 +1,59 @@
+@model IEnumerable<PPcore.Models.ini_list_zip>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.rowversion)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.x_log)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.x_note)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.x_status)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.rowversion)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.x_log)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.x_note)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.x_status)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

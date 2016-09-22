@@ -1,0 +1,51 @@
+﻿@*@model PPcore.ViewModels.mem_train_record.mem_train_recordViewModel*@
+
+@model PPcore.Models.mem_train_record
+
+<form id="mem_train_recordForm" class="form-horizontal">
+@*<div class="form-group">
+    <label asp-for="mem_train_record.course_code" class="col-md-3 control-label"></label>
+    <div class="col-md-9">
+        <input asp-for="mem_train_record.course_code" class="form-control" />
+        <span asp-validation-for="mem_train_record.course_code" class="text-danger" />
+    </div>
+</div>*@
+
+@*<div class="form-group">
+    <label asp-for="project_course.course_desc" class="col-md-3 control-label"></label>
+    <div class="col-md-9">
+        <textarea asp-for="project_course.course_desc" class="form-control" rows="3" ></textarea>
+        <span asp-validation-for="project_course.course_desc" class="text-danger" />
+    </div>
+</div>*@
+<div class="form-group">
+    <label asp-for="course_desc" class="col-md-3 control-label"></label>
+    <div class="col-md-9">
+        <textarea asp-for="course_desc" class="form-control" rows="3"></textarea>
+        <span asp-validation-for="course_desc" class="text-danger" />
+    </div>
+</div>
+
+@*<div class="form-group">
+    <label asp-for="mem_train_record.course_grade" class="col-md-3 control-label"></label>
+    <div class="col-md-9">
+        <select asp-for="mem_train_record.course_grade" asp-items="ViewBag.course_grade" class="form-control"></select>
+    </div>
+</div>*@
+    
+    @*{
+            var gradeList = new SelectList(new[]
+            {
+                new SelectListItem { Text = "Good", Value = "A", Selected = true },
+                new SelectListItem { Text = "Pass", Value = "B"},
+                new SelectListItem { Text = "Fail", Value = "F"},
+            }, "Value", "Text");
+        }*@
+
+</form>
+<div class="form-group">
+    <div class="col-md-offset-3 col-md-9">
+        <button id="mem_train_recordSubmit" class="btn btn-success">บันทึก</button>
+    </div>
+</div>
+

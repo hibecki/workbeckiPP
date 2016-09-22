@@ -1,0 +1,333 @@
+﻿<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12" style="padding-top:15px;">
+        </div>
+    </div>
+    <div class="panel">
+
+        <div class="row">
+            <div style="width:240px;margin-left:20px;margin-top:10px;">
+                <div class="navbar-default sidebar" role="navigation">
+                    <div class="sidebar-nav navbar-collapse">
+                        <ul class="nav" id="aRoleMenu"></ul>
+                    </div>
+
+
+                </div>
+                <br/>
+                <br/>
+            </div>
+
+            <div style="margin-left:270px;margin-top:-45px;margin-right:20px">
+
+
+
+                <div class="row">
+                    <div class="col-lg-12">
+
+
+                        <div class="panel panel-blue">
+                            <div class="panel-heading">
+                                <div class="pull-left" style="margin-top:-2px;">
+
+                                    <div class="btn-group">
+                                        <button id="btnCreate" type="button" class="btn btn-default dropdown-toggle btn-panel-yellow" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="display:none"></button>
+                                        <div class="dropdown-menu" id="usernameDropdown">
+                                            <div id="formcolorbar" style="height:11px;margin-top:-5px;border-top-left-radius:2px;border-top-right-radius:2px;"></div>
+                                            <input id="utype" type="text" style="display:none" /><input id="uRoleId" type="text" style="display:none" />
+                                            <form style="width:250px;margin-left:10px;margin-right:10px;">
+                                                <div style="color:#313131;margin-top:10px;margin-bottom:-10px;" id="userTitle"></div>
+                                                <hr />
+                                                <div class="form-group input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-user" style="font-size:17px"></i>
+                                                    </span>
+                                                    <input id="uname" type="text" class="form-control" placeholder="ชื่อผู้ใช้งาน" autocomplete="off">
+                                                </div>
+                                                <div class="form-group input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-envelope" style="font-size:17px"></i>
+                                                    </span>
+                                                    <input id="email" type="text" class="form-control" placeholder="อีเมล" autocomplete="off">
+                                                </div>
+
+                                                @*<div class="form-group input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-key"></i>
+                                                    </span>
+                                                    <input id="upwd" type="password" class="form-control" placeholder="กำหนดรหัสผ่าน" autocomplete="off">
+                                                </div>
+
+                                                <div class="form-group input-group">
+                                                    <span class="input-group-addon">
+                                                        <i class="fa fa-key"></i>
+                                                    </span>
+                                                    <input id="upwdrepeat" type="password" class="form-control" placeholder="รหัสผ่านอีกครั้ง" autocomplete="off">
+                                                </div>*@
+
+                                                <span id="userMsg" class="text-danger" style="display:none;margin-top:-10px;margin-left:50px;position:absolute"></span>
+                                                <br />
+                                                <button type="button" id="btnCreateUser" class="btn btn-default btn-panel-yellow" onclick="createUser();">&nbsp;<i class="fa fa-plus-square " aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;เพิ่ม&nbsp;&nbsp;&nbsp;</button>
+                                                <br />
+                                            </form>
+                                        </div>
+                                    </div>
+
+
+
+                                </div>
+
+                                <div id="colorbar" style="height:14px;margin-top:39px;margin-left:-15px;margin-right:-15px;z-index:3;">&nbsp;</div>
+                            </div>
+
+                            <div class="panel-body">
+                                @*<div style="position:absolute;width:7px;height:230px;top:48px;left:250px;background-color:red;z-index:3;">&nbsp;</div>*@
+                                @*<div id="colorbar" style="height:7px;top:48px;left:250px;background-color:red;z-index:3;">&nbsp;</div>*@
+                                <h3 id="rolename"></h3><hr/>
+                                <div id="memberBody"></div>
+
+
+                            </div>
+
+                            
+                        </div>
+
+
+
+
+                    </div>
+
+                </div>
+                <br/>
+            </div>
+        </div>
+
+
+    </div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal fade modalForm1" id="a_modal" tabindex="-1" role="dialog" aria-labelledby="a_label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="a_header" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
+                <h4 class="modal-title" id="a_label" style="vertical-align:middle;"></h4>
+            </div>
+            <div class="modal-body container-fluid">
+                <div id="a_body"></div>
+                <br /><br />
+                <div class="pull-right" style="margin-top:-2px;">
+                    <div class="btn btn-default btn-panel-yellow" data-dismiss="modal" aria-hidden="true">&nbsp;&nbsp;&nbsp;ปิด&nbsp;&nbsp;&nbsp;</div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+<!-- /Modal -->
+
+<!-- Modal confirm -->
+<div id="c_modal" class="modal fade modalForm1" tabindex="-1" role="dialog" aria-labelledby="confirm_Label" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="c_header" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
+                <h4 class="modal-title" id="c_Label" style="vertical-align:middle;">ยืนยันการรีเซตรหัสผ่าน</h4>
+            </div>
+            <div class="modal-body container-fluid">
+                <div id="c_memberId" style="display:none"></div>
+                <div>ยืนยันการรีเซตรหัสผ่าน?</div>
+                <br/>
+                <div>ชื่อผู้ใช้: <span id="c_uname" style="color:red"></span></div><br/>
+                <div>อีเมล: <span id="c_email" style="color:red"></span></div><br />
+                <hr/>
+                <div class="row">
+                    <div class="col-md-4"><button id="btnConfirm" class="btn btn-panel-yellow pull-right" onclick="resetPassword();">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ยืนยัน&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button></div>
+                    <div class="col-md-4 col-md-offset-4">
+                        <button id="btnCancel" class="btn btn-default" data-dismiss="modal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ยกเลิก&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /Modal confirm -->
+
+@section Scripts {
+    <script src="~/lib/bootstrap/js/modal.js"></script>
+    <script>
+        $(document).ready(function () {
+            aRoleMenu();
+            $('#usernameDropdown').off('click').on('click', function (e) {
+                e.stopPropagation();
+            });
+        });
+        function aRoleMenu() {
+            $.ajax({
+                type: 'get', url: '@Url.Action("DetailsAsRoleMenu", "SecurityRoles")',
+            }).done(function (resp) {
+                $('#aRoleMenu').html(resp);
+                var roleId = '@ViewBag.RoleId';
+                if (roleId != '') {
+                    $("#menua_"+roleId).trigger("click");
+                }
+                else
+                {
+                    $("#menua_c5a644a2-97b0-40e5-aa4d-e2afe4cdf428").trigger("click"); //Administrators;
+                }
+
+            });
+        }
+        function aUsersByRole(roleId, utype, rname) {
+            aUserForm(utype, rname);
+            aUserTable(roleId);
+            $('#utype').val(utype);
+            $('#uRoleId').val(roleId);
+        }
+        function aUserTable(roleId) {
+            $.ajax({
+                type: 'get', url: '@Url.Action("SecurityDetailsAsTable", "members")' + '?roleId=' + roleId,
+            }).done(function (resp) {
+                $('#memberBody').html(resp);
+                var w = [
+                    { "targets": [0], "width": "180", "className": "dt-center" },
+                    { "targets": [1], "visible": false, "searchable": false },
+                    { "targets": [2], "className": "dt-center" },
+                    { "targets": [3], "width": "120", "className": "dt-center" },
+                    { "targets": [4], "width": "120", "className": "dt-center" },
+                    { "targets": [5], "width": "120", "className": "dt-center" },
+                    { "targets": [6], "width": "120", "className": "dt-center" },
+                    { "targets": [7], "width": "120", "className": "dt-center" },
+                    { "targets": [8], "width": "100", "className": "dt-center" },
+                    { "targets": [9], "width": "100", "className": "dt-center" },
+                ];
+                var table = setTable_default($('#a_table'), w);
+                table.$('tr:first').click();
+            });
+        }
+        function aUserForm(utype, rname) {
+            $('#rolename').text(rname);
+            $('#userTitle').html('เพิ่มผู้ใช้ใหม่ กลุ่ม ' + rname);
+            $('#btnCreate').html('&nbsp;<i class="fa fa-plus-square " aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;เพิ่มผู้ใช้กลุ่ม ' + rname + '&nbsp;&nbsp;&nbsp;');
+            if (utype > 3) {
+                $('#btnCreate').show();
+                $('#colorbar').removeClass().addClass('bg-color-orange');
+                $('#formcolorbar').removeClass().addClass('bg-color-orange');
+                $('#bar_' + $('#utype').val()).removeClass();
+                $('#bar_'+utype).removeClass().addClass('bg-color-orange');
+            } else if (utype == 3) {
+                $('#btnCreate').hide();
+                $('#colorbar').removeClass().addClass('bg-color-green');
+                $('#formcolorbar').removeClass().addClass('bg-color-green');
+                $('#bar_' + $('#utype').val()).removeClass();
+                $('#bar_' + utype).removeClass().addClass('bg-color-green');
+            } else if (utype == 2) {
+                $('#btnCreate').show();
+                $('#colorbar').removeClass().addClass('bg-color-blue');
+                $('#formcolorbar').removeClass().addClass('bg-color-blue');
+                $('#bar_' + $('#utype').val()).removeClass();
+                $('#bar_' + utype).removeClass().addClass('bg-color-blue');
+            } else if (utype == 1) {
+                $('#btnCreate').show();
+                $('#colorbar').removeClass().addClass('bg-color-black');
+                $('#formcolorbar').removeClass().addClass('bg-color-black');
+                $('#bar_' + $('#utype').val()).removeClass();
+                $('#bar_' + utype).removeClass().addClass('bg-color-black');
+            }
+        }
+        function createUser() {
+            $('#uname').val($('#uname').val().trim()); $('#email').val($('#email').val().trim());
+            //$('#upwd').val($('#upwd').val().trim()); $('#upwdrepeat').val($('#upwdrepeat').val().trim());
+            //if ($('#uname').val() && $('#email').val() && $('#upwd').val() && $('#upwdrepeat').val()) {
+            if ($('#uname').val() && $('#email').val()) {
+                //if ($('#upwd').val() == $('#upwdrepeat').val()) {
+                    $.ajax({
+                        async: true,
+                        type: "POST",
+                        url: "@Url.Action("SecurityCreateUser", "members")",
+                        data: {
+                            roleId: $('#uRoleId').val(),
+                            uname: $('#uname').val(),
+                            email: $('#email').val(),
+                            //upwd: $('#upwd').val(),
+                        },
+                        success: function (data) {
+                            if (data.result == "dup") {
+                                $('#a_label').text('ตรวจพบชื่อผู้ใช้ซ้ำ');
+                                $('#a_body').text('ตรวจพบชื่อผู้ใช้ซ้ำ กรุณาลองใหม่');
+                                $('#a_modal').modal({ backdrop: 'static', keyboard: false });
+                            } else if (data.result == "success") {
+                                $('#uname').val(''); //$('#upwd').val(''); $('#upwdrepeat').val('');
+                                $('#email').val('');
+                                aUserTable($('#uRoleId').val());
+                            } else {
+                                $('#a_label').text('ตรวจพบความผิดพลาด');
+                                $('#a_body').text('ตรวจพบความผิดพลาด กรุณาติดต่อผู้ดูแลระบบ');
+                                $('#a_modal').modal({ backdrop: 'static', keyboard: false });
+                            }
+                        }
+                    });
+                //} else {
+                //    $('#a_label').text('กรุณาป้อนรหัสผ่าน');
+                //    $('#a_body').text('รหัสผ่านไม่ตรงกัน กรุณาป้อนใหม่อีกครั้ง');
+                //    $('#a_modal').modal({ backdrop: 'static', keyboard: false });
+                //}
+
+            } else {
+                $('#a_label').text('กรุณากรอกข้อมูล');
+                $('#a_body').text('กรุณากรอกข้อมูลให้ครบถ้วน');
+                $('#a_modal').modal({ backdrop: 'static', keyboard: false });
+            }
+        }
+
+        function suspendClick(id) {
+            if (!$('#status-' + id).hasClass("btn-panel-green-attended")) {
+                suspend(id,'Y');
+                $('#status-' + id).html("&nbsp;<i class='fa fa-check-square-o' aria-hidden='true'></i> ใช้งาน&nbsp;");
+                $('#status-' + id).removeClass('btn-panel-red').addClass('btn-panel-green-attended');
+            } else {
+                suspend(id, 'N');
+                $('#status-' + id).html("<i class='fa fa-square-o' aria-hidden='true'></i> ระงับการใช้งาน");
+                $('#status-' + id).removeClass('btn-panel-green-attended').addClass('btn-panel-red');
+            }
+
+        }
+        function suspend(id, status) {
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: "@Url.Action("Suspend", "SecurityMemberRoles")",
+                data: {
+                    id: id, status: status
+                },
+                success: function (data) {
+                    aUserTable($('#uRoleId').val());
+                }
+            });
+        }
+        function resetPasswordClick(id,uname,email) {
+            $('#c_memberId').text(id);
+            $('#c_uname').text(uname); $('#c_email').text(email);
+            $('#c_modal').modal({ backdrop: 'static', keyboard: false });
+        }
+        function resetPassword(id) {
+            $.ajax({
+                async: true,
+                type: "POST",
+                url: "@Url.Action("ResetPwd", "Home")",
+                data: {
+                    id: $('#c_memberId').text()
+                },
+                success: function (data) {
+                    aUserTable($('#uRoleId').val());
+                    $('#c_modal').modal('hide');
+                }
+            });
+        }
+    </script>
+}

@@ -1,0 +1,64 @@
+@model PPcore.Models.ini_district
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>ini_district</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.area_part)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.area_part)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.dist_desc)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.dist_desc)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.id)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.id)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.rowversion)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.rowversion)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.x_log)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.x_log)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.x_note)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.x_note)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.x_status)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.x_status)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </form>
+</div>

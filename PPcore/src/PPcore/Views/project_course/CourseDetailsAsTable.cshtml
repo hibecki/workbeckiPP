@@ -1,0 +1,47 @@
+﻿@model IEnumerable<PPcore.Models.project_course>
+@{
+    Layout = null;
+}
+
+
+<table class="table table-striped table-bordered table-hover" id="a_table">
+    <thead>
+        <tr>
+            <th style="width:15px;">ลำดับ</th>
+            <th style="display:none">@Html.DisplayNameFor(model => model.id)</th>
+            <th style="width:70px;">@Html.DisplayNameFor(model => model.course_code)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.project_code)</th>
+            <th style="width:70px;">@Html.DisplayNameFor(model => model.course_desc)</th>
+            <th style="width:70px;">@Html.DisplayNameFor(model => model.cgroup_code)</th>
+            <th>@Html.DisplayNameFor(model => model.ctype_code)</th>
+            <th>@Html.DisplayNameFor(model => model.project_manager)</th>
+            <th>@Html.DisplayNameFor(model => model.course_begin)</th>
+            <th>@Html.DisplayNameFor(model => model.course_end)</th>
+            <th>@Html.DisplayNameFor(model => model.passed_member)</th>
+            <th style="width:50px;">@Html.DisplayNameFor(model => model.x_status)</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        @{ var countOrder = 0;}
+        @foreach (var item in Model)
+        {
+            countOrder++;
+            <tr>
+                <td style="width:15px;">@countOrder</td>
+                <td style="display:none">@Html.DisplayFor(modelItem => item.id)</td>
+                <td>@Html.DisplayFor(modelItem => item.course_code)</td>
+                <td>@Html.DisplayFor(modelItem => item.project_code)</td>
+                <td>@Html.DisplayFor(modelItem => item.course_desc)</td>
+                <td>@Html.DisplayFor(modelItem => item.cgroup_code)</td>
+                <td>@Html.DisplayFor(modelItem => item.ctype_code)</td>
+                <td>@Html.DisplayFor(modelItem => item.project_manager)</td>
+                <td>@Html.DisplayFor(modelItem => item.course_begin)</td>
+                <td>@Html.DisplayFor(modelItem => item.course_end)</td>
+                <td>@Html.DisplayFor(modelItem => item.passed_member)</td>
+                <td>@Html.x_status_text(item.x_status)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

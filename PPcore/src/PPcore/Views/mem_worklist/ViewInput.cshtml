@@ -1,0 +1,62 @@
+﻿@model PPcore.Models.mem_worklist
+
+<form id="mem_worklistForm" class="form-horizontal">
+    <div class="form-group">
+        <label asp-for="company_name_th" class="col-md-3 control-label"></label>
+        <div class="col-md-9">
+            <input asp-for="company_name_th" class="form-control" />
+            <span asp-validation-for="company_name_th" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="company_name_eng" class="col-md-3 control-label"></label>
+        <div class="col-md-9">
+            <input asp-for="company_name_eng" class="form-control" />
+            <span asp-validation-for="company_name_eng" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="position_name_th" class="col-md-3 control-label"></label>
+        <div class="col-md-9">
+            <input asp-for="position_name_th" class="form-control" />
+            <span asp-validation-for="position_name_th" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="position_name_eng" class="col-md-3 control-label"></label>
+        <div class="col-md-9">
+            <input asp-for="position_name_eng" class="form-control" />
+            <span asp-validation-for="position_name_eng" class="text-danger" />
+        </div>
+    </div>
+@*<div class="form-group">
+    <label asp-for="work_year" class="col-md-3 control-label"></label>
+    <div class="col-md-9">
+        <input asp-for="work_year" class="form-control" maxlength="4" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
+        <span asp-validation-for="work_year" class="text-danger" />
+    </div>
+</div>*@
+    <div class="form-group">
+        <label class="col-md-3 control-label">ปีที่เริ่มทำงาน</label>
+        <div class="col-md-2">
+            <input id="work_year_start" class="form-control" maxlength="4" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
+        </div>
+        <label class="col-md-4 control-label">ปีที่สิ้นสุด (ยังทำงานอยู่)</label>
+        <div class="col-md-2">
+            <input id="work_year_finish" class="form-control" maxlength="4" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="office_address" class="col-md-3 control-label"></label>
+        <div class="col-md-9">
+            <textarea asp-for="office_address" class="form-control" rows="3"></textarea>
+            <span asp-validation-for="office_address" class="text-danger" />
+        </div>
+    </div>
+
+</form>
+<div class="form-group">
+    <div class="col-md-offset-3 col-md-9">
+        <button id="mem_worklistSubmit" class="btn btn-success">บันทึก</button>
+    </div>
+</div>

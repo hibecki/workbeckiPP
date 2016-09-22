@@ -1,0 +1,72 @@
+﻿@model IEnumerable<PPcore.Models.train_place>
+
+<div id="page-wrapper">
+    <div class="row">
+        <div class="col-lg-12" style="padding-top:15px;">
+            <table><tr><td><h4 class="txt-color-blue">ข้อมูลสถานที่จัดอบรม</h4></td></tr></table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-blue">
+                <div class="panel-heading">
+                    <div class="pull-left" style="padding-top:5px;">แสดงข้อมูลทั้งหมด</div>
+                    <div class="pull-right" style="margin-top:-2px;">
+                        กดปุ่มเพิ่ม ถ้าต้องการใส่มากกว่า 1 รายการ&nbsp;&nbsp;&nbsp;
+                        <button id="btnCreate" class="btn btn-default btn-panel-yellow" onclick="location.href='@Url.Action("Create", "train_place")'">&nbsp;<i class="fa fa-file" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;&nbsp;เพิ่ม&nbsp;&nbsp;&nbsp;&nbsp;</button>
+                        <button id="btnEdit" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true" style="color:white;"></i>&nbsp;แก้ไข&nbsp;&nbsp;</button>
+                        <button id="btnDetails" class="btn btn-default btn-panel-yellow">&nbsp;<i class="fa fa-file-text" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;ดูข้อมูล</button>
+                    </div>
+                </div>
+
+                <!-- /.panel-heading -->
+                <div style="position:absolute;left:250px;top:70px;"><span class="badge">จำนวนรายการทั้งหมด @ViewBag.countRecords รายการ</span></div>
+                <div class="panel-body">
+                    <div class="dataTable_wrapper" style="padding-right:10px;" id="a_details_as_table">
+
+
+
+                    </div>
+                </div>
+                <!-- /.panel-body -->
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@section scripts {
+    <script src="~/lib/bootstrap/js/modal.js"></script>
+    <script>
+        $(document).ready(function () {
+            a_details_as_table();
+        });
+        function a_details_as_table() {
+            $.ajax({
+                type: 'get', url: '@Url.Action("DetailsAsTable", "train_place")',
+            }).done(function (resp) {
+                $('#a_details_as_table').html(resp);
+                var w = [
+                    { "targets": [0], "width": "15", "className": "dt-center" },
+                    { "targets": [1], "visible": false, "searchable": false },
+                    { "targets": [2], "width": "100", "className": "dt-center" },
+                    { "targets": [3], "width": "150", "className": "dt-center" },
+                    { "targets": [4], "width": "100", "className": "dt-center" },
+                    { "targets": [7], "width": "50", "className": "dt-center" },
+                ];
+                var table = setTable_default($('#a_table'), w);
+                table.$('tr:first').click();
+            });
+        }
+        $('#btnEdit').on('click', function () {
+            var table = $('#a_table').DataTable();
+            var datarow = table.row('.selected').data();
+            window.location.href = "@Url.Action("Edit", "train_place")" + "/" + datarow[1];
+        });
+        $('#btnDetails').on('click', function () {
+            var table = $('#a_table').DataTable();
+            var datarow = table.row('.selected').data();
+            window.location.href = "@Url.Action("Details", "train_place")" + "/" + datarow[1];
+        });
+    </script>
+}

@@ -1,0 +1,47 @@
+﻿@model IEnumerable<PPcore.Models.product_type>
+@{
+    Layout = null;
+}
+
+<div class="panel panel-blue">
+    <div class="panel-heading">
+        <div class="pull-left" style="padding-top:5px;">ประเภทผลิตผล</div>
+        <div class="pull-right" style="margin-top:-2px;">
+            <div id="btnCreate_product_type" class="btn btn-default btn-panel-yellow" onclick="product_type_create();">&nbsp;<i class="fa fa-file" aria-hidden="true" style="color:white;"></i>&nbsp;&nbsp;&nbsp;เพิ่ม&nbsp;&nbsp;&nbsp;&nbsp;</div>
+            <div id="btnEdit_product_type" class="btn btn-default btn-panel-yellow" onclick="product_type_edit();">&nbsp;<i class="fa fa-pencil-square-o" aria-hidden="true" style="color:white;"></i>&nbsp;แก้ไข&nbsp;&nbsp;</div>
+        </div>
+    </div>
+    <!-- /.panel-heading -->
+    <div class="panel-body">
+        <div class="dataTable_wrapper" style="padding-right:10px;">
+            <table class="table table-striped table-bordered table-hover" id="product_type_table">
+                <thead>
+                    <tr>
+                        <th>ลำดับ</th>
+                        <th style="display:none">@Html.DisplayNameFor(model => model.id)</th>
+                        <th stype="width:50px;">@Html.DisplayNameFor(model => model.product_type_code)</th>
+                        <th>@Html.DisplayNameFor(model => model.product_type_desc)</th>
+                        <th>@Html.DisplayNameFor(model => model.x_status)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ var countOrder = 0;}
+                    @foreach (var item in Model)
+                    {
+                        countOrder++;
+                        <tr>
+                            <td>@countOrder</td>
+                            <td style="display:none">@Html.DisplayFor(modelItem => item.id)</td>
+                            <td stype="width:50px;">@Html.DisplayFor(modelItem => item.product_type_code)</td>
+                            <td>@Html.DisplayFor(modelItem => item.product_type_desc)</td>
+                            <td>@Html.DisplayFor(modelItem => item.x_status)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+
+
+    </div>
+</div>

@@ -1,0 +1,59 @@
+﻿@model IEnumerable<PPcore.ViewModels.project_daily_checklist.memberViewModel>
+@{
+    Layout = null;
+}
+
+<table class="table table-striped table-bordered table-hover" id="a_table">
+    <thead>
+        <tr>
+            <th style="width:15px;">ลำดับ</th>
+            <th style="display:none">@Html.DisplayNameFor(model => model.member.id)</th>
+            <th style="width:70px;">@Html.DisplayNameFor(model => model.member.member_code)</th>
+            <th style="width:50px;">@Html.DisplayNameFor(model => model.member.title)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.member.fname)</th>
+            <th>ที่อยู่</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.member.mobile)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.member.email)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.member.line)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.member.facebook)</th>
+            <th style="width:150px;">@Html.DisplayNameFor(model => model.attended)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ var countOrder = 0; }
+        @foreach (var item in Model)
+        {
+            countOrder++;
+            <tr>
+                <td style="width:15px;">@countOrder</td>
+                <td style="display:none">@Html.DisplayFor(modelItem => item.member.id)</td>
+                <td>@Html.DisplayFor(modelItem => item.member.member_code)</td>
+                <td>@Html.DisplayFor(modelItem => item.member.title)</td>
+                <td>@Html.DisplayFor(modelItem => item.member.fname) @Html.DisplayFor(modelItem => item.member.lname)</td>
+                <td>@Html.DisplayFor(modelItem => item.member.texta_address) @Html.DisplayFor(modelItem => item.member.textb_address) @Html.DisplayFor(modelItem => item.member.textc_address)</td>
+                <td>@Html.DisplayFor(modelItem => item.member.mobile)</td>
+                <td>@Html.DisplayFor(modelItem => item.member.email)</td>
+                <td>@Html.DisplayFor(modelItem => item.member.line)</td>
+                <td>@Html.DisplayFor(modelItem => item.member.facebook)</td>
+                <td style="text-align:center">
+                    @if (item.attended == "Y")
+                    {
+                        <button id="cell-@Html.DisplayFor(modelItem => item.member.id)" class="btn btn-xs btn-panel-green-attended" type="button" onclick="attendClick('@Html.DisplayFor(modelItem => item.member.id)','@Html.DisplayFor(modelItem => item.member.member_code)');">
+                        <i class='fa fa-check-square-o' aria-hidden='true'></i> ลงชื่อแล้ว
+                        </button>
+                    }
+                    else
+                    {
+                        <button id="cell-@Html.DisplayFor(modelItem => item.member.id)" class="btn btn-xs btn-panel-yellow" type="button" onclick="attendClick('@Html.DisplayFor(modelItem => item.member.id)','@Html.DisplayFor(modelItem => item.member.member_code)');">
+                        <i class='fa fa-square-o' aria-hidden='true'></i> เช็คชื่อเข้าอบรม
+                        </button>
+                    }
+                    
+                    @*<div id="" aria-hidden="true" style="font-size:25px;" onclick=""><i class="fa fa-square-o" aria-hidden="true"></i></div>
+                    <div id="" aria-hidden="true" style="font-size:25px;" onclick=""><i class="fa fa-check-square-o" aria-hidden="true"></i></div>*@
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

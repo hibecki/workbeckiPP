@@ -1,0 +1,14 @@
+﻿@{
+    Layout = "~/Views/Shared/_LayoutMember.cshtml";
+}
+
+@model PPcore.Models.member
+
+@{
+    ViewBag.Title = "แก้ไข รายละเอียดข้อมูลสมาชิก";
+    ViewBag.FormAction = "Edit";
+    ViewBag.ButtonUpperRightType = "submit";
+}
+
+@{ await Html.RenderPartialAsync("ViewInput"); }
+

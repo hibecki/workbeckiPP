@@ -1,0 +1,84 @@
+﻿/*==============================================================*/
+/* Table: SecurityMemberRoles                                   */
+/*==============================================================*/
+
+CREATE TABLE SecurityMemberRoles (
+	MemberId uniqueidentifier NOT NULL,
+    -- RoleId uniqueidentifier NOT NULL,
+	CreatedBy uniqueidentifier NOT NULL,
+	CreatedDate DATETIME NOT NULL,
+	EditedBy uniqueidentifier NOT NULL,
+	EditedDate DATETIME NOT NULL,
+	LoggedInDate DATETIME NULL,
+	LoggedOutDate DATETIME NULL,
+	x_status char(1) null,
+	x_note nvarchar(50) null,
+	x_log nvarchar(500) null
+);
+GO
+
+--CREATE NONCLUSTERED INDEX IX_SecurityMemberRoles_RoleId ON SecurityMemberRoles(RoleId ASC);
+--GO
+
+--CREATE NONCLUSTERED INDEX IX_SecurityMemberRoles_MemberId ON SecurityMemberRoles(MemberId ASC);
+--GO
+
+--ALTER TABLE SecurityMemberRoles ADD CONSTRAINT PK_SecurityMemberRoles PRIMARY KEY CLUSTERED (MemberId ASC, RoleId ASC);
+ALTER TABLE SecurityMemberRoles ADD CONSTRAINT PK_SecurityMemberRoles PRIMARY KEY (MemberId);
+GO
+
+/*==============================================================*/
+/* Table: SecurityRoles                                         */
+/*==============================================================*/
+CREATE TABLE SecurityRoles (
+	RoleId uniqueidentifier NOT NULL DEFAULT (newid()),
+    RoleName NVARCHAR(100) NULL,
+	CreatedBy uniqueidentifier NOT NULL,
+	CreatedDate DATETIME NOT NULL,
+	EditedBy uniqueidentifier NOT NULL,
+	EditedDate DATETIME not null default CURRENT_TIMESTAMP,
+	x_status char(1) null,
+	x_note nvarchar(50) null,
+	x_log nvarchar(500) null
+);
+GO
+
+ALTER TABLE SecurityRoles ADD CONSTRAINT PK_SecurityRoles PRIMARY KEY CLUSTERED (RoleId ASC);
+GO
+
+ALTER TABLE SecurityRoles ADD CONSTRAINT UK_SecurityRoles UNIQUE (RoleName);
+GO
+
+/*==============================================================*/
+/* Table: SecurityRoleMenus                                     */
+/*==============================================================*/
+CREATE TABLE SecurityRoleMenus (
+	RoleId uniqueidentifier NOT NULL,
+    MenuId int NOT NULL,
+	EditedBy uniqueidentifier NOT NULL,
+	EditedDate DATETIME not null default CURRENT_TIMESTAMP
+);
+GO
+
+ALTER TABLE SecurityRoleMenus ADD CONSTRAINT PK_SecurityRoleMenus PRIMARY KEY CLUSTERED (RoleId ASC, MenuId ASC);
+GO
+
+/*==============================================================*/
+/* Table: SecurityMenus                                         */
+/*==============================================================*/
+CREATE TABLE SecurityMenus (
+	MenuId int NOT NULL,
+	Level int NOT NULL,
+	HaveChild int NOT NULL,
+	IsRightAlign int NOT NULL,
+    MenuName NVARCHAR(100) NULL,
+	MenuDisplay NVARCHAR(200) NULL,
+	MenuController VARCHAR(100) NULL,
+	MenuAction VARCHAR(100) NULL,
+	MenuUrl VARCHAR(200) NULL
+);
+GO
+
+ALTER TABLE SecurityMenus ADD CONSTRAINT PK_SecurityMenus PRIMARY KEY CLUSTERED (MenuId ASC);
+GO
+

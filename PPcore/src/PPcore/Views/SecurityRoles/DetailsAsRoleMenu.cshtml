@@ -1,0 +1,29 @@
+﻿@model IEnumerable<PPcore.Models.SecurityRoles>
+@{
+    Layout = null;
+}
+
+@{ var utype = 0; var count = 0;}
+@foreach (var item in Model)
+{
+    count++;
+    var roleId = item.RoleId.ToString();
+    if (roleId != "c5a644a2-97b0-40e5-aa4d-e2afe4cdf428") //Not Administrators
+    {
+        if (roleId != "9a1a4601-f5ee-4087-b97d-d69e7f9bfd7e") //Not Operators
+        {
+            if (roleId != "17822a90-1029-454a-b4c7-f631c9ca6c7d") //Not Members
+            {
+                utype = count;
+            }
+            else { utype = 3; } //Members
+        }
+        else { utype = 2; } //Operators
+    }
+    else { utype = 1; } //Administrators
+
+    <li id="menu_@utype" style="cursor:pointer;">
+        <div id="bar_@utype" style="position:absolute;height:40px;width:14px;">&nbsp;</div>
+        <a id="menua_@item.RoleId" onclick="aUsersByRole('@item.RoleId', @utype, '@item.RoleName')">&nbsp;&nbsp;&nbsp;@item.RoleName</a>
+    </li>
+}

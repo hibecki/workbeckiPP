@@ -1,0 +1,1 @@
+update member set mem_password = CONVERT(VARCHAR(40), HashBytes('MD5', mem_password), 2) where member_code = '1233333333333';

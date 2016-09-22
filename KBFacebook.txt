@@ -1,0 +1,42 @@
+AppID + App Secret
+---------------------
+1. register as developer https://developers.facebook.com/
+2. Add new app (dont add appdomain yet)
+	find App ID and App Secret in Dashboard 	
+3. go into app select settings -> Basic
+	set website to http://52.77.157.39/ (IP of machine which will call API) (for test in localhost use http://localhost:56059/)
+4. select Roles -> Roles
+	Add Testers for who can call API incase want to submit to page; this need to be page admin
+5. App Review -> Make .. public
+	Enable app for public but no need to submit for approval
+
+
+Page ID
+---------------------
+1. Open page on browser and check the URL; there should be page id after page name in URL
+
+
+
+Access Token
+---------------------
+follow this https://www.rocketmarketinginc.com/blog/get-never-expiring-facebook-page-access-token/
+
+1. Login to facebook with app owner and then goto https://developers.facebook.com/tools/explorer (app owner must be admin page too)
+	- Find dropdown Graph API Explorer and select App Name
+	- Get Token (in case of Page select get Page Token instead)
+	- Check this scope public_profile, publish_actions, user_photos, user_videos, manage_pages, pages_show_list, publish_pages 
+
+2. Check expires token in https://developers.facebook.com/tools/debug/accesstoken
+
+3. Way 1 - To get long live token put this in browser
+	- https://graph.facebook.com/oauth/access_token?client_id=APP_ID_HERE&client_secret=APP_SECRET_HERE&grant_type=fb_exchange_token&fb_exchange_token=ACCESS_TOKEN_HERE
+	- copy long live token from result on browser
+3. Way 2 - To get long live token
+	- in https://developers.facebook.com/tools/debug/accesstoken click "entend token" button at below of page
+
+4. check expires again in  https://developers.facebook.com/tools/debug/accesstoken
+	- it should be 2 months valid
+
+5. To get never expires
+	- in graph api explorer put this MY_FACEBOOK_USER_ID/accounts (may use http://findmyfbid.com/ to find id) (in case of Page use Page ID instead of User ID) 
+	- it will shown a list of page you is admin and near to it you will find never expire token

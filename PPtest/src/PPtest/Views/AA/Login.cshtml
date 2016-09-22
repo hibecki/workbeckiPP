@@ -1,0 +1,36 @@
+﻿@{
+    Layout = "";
+}
+
+
+
+<h3 class="text-center">ล็อกอินเข้าสู่ระบบ</h3>
+<br/>
+<form role="form" action="@Url.Action("Login", "AA")">
+    <div class="form-group input-group">
+        <span class="input-group-addon">
+            <i class="fa fa-user" style="font-size:17px"></i>
+        </span>
+        <input id="uname" type="text" class="form-control" placeholder="ผู้ใช้งาน">
+    </div>
+    <div class="form-group input-group">
+        <span class="input-group-addon">
+            <i class="fa fa-key"></i>
+        </span>
+        <input id="upwd" type="password" class="form-control" placeholder="รหัสผ่าน">
+    </div>
+
+    <button class="btn btn-default btn-panel-yellow pull-left" type="button" style="width:120px" onclick="location.href='@Url.Action("Create", "AA")'">สมัครสมาชิก</button>
+    <button class="btn btn-default btn-panel-yellow pull-right" type="submit" style="width:120px" onclick="login();" formaction='javascript:login();'>เข้าสู่ระบบ</button>
+    <div id="waitBtnConfirm" style="display:none;position:absolute;top:354px;text-align:center;height:34px;width:260px;background-color:#FFC000;z-index:11;border-radius:5px;">
+        <i class="fa fa-refresh fa-spin fa-2x" style="margin-top:3px;color:gray;" aria-hidden="true"></i>
+    </div>
+    <div class="pull-right">
+        <br/>
+        <a href="#" style="color:white" onclick="forgetPwd();">ลืมรหัสผ่าน</a>
+
+    </div>
+</form>
+
+
+

@@ -1,0 +1,5 @@
+var errors = ModelState.Values.SelectMany(v => v.Errors);
+
+or 
+
+set Breakpoint and find Values -> [0] -> Errors -> [0]

@@ -1,0 +1,40 @@
+gmail
+--------------------------------
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+
+                mail.From = new MailAddress("nokflyingtest@gmail.com");
+                mail.To.Add(email);
+                mail.Subject = subject;
+                mail.Body = message;
+                //SmtpServer.Port = 465;
+                SmtpServer.Port = 587;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("nokflyingtest@gmail.com", "N1994okok");
+                SmtpServer.EnableSsl = true;
+
+                SmtpServer.Send(mail); //for async use this SmtpServer.SendMailAsync(mail);
+
+1. Visit this page https://accounts.google.com/DisplayUnlockCaptcha and click on button to allow access.
+2. Visit this page https://www.google.com/settings/security/lesssecureapps and enable access for less secure apps.
+3. try to change password more secure
+
+
+outlook.com
+----------------------------------
+		MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("smtp-mail.outlook.com");
+                mail.From = new MailAddress("b170320162016@outlook.com");
+                mail.To.Add(email);
+                mail.Subject = subject;
+                mail.Body = message;
+                //SmtpServer.Port = 25;
+                //SmtpServer.Port = 465;
+                SmtpServer.Port = 587;
+                SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
+                SmtpServer.UseDefaultCredentials = false;
+                SmtpServer.Credentials = new System.Net.NetworkCredential("b170320162016@outlook.com", "pp27062016");
+                SmtpServer.EnableSsl = true;
+
+                SmtpServer.Send(mail); //for async use this SmtpServer.SendMailAsync(mail);
+
+1. May need to verify account before can send mail

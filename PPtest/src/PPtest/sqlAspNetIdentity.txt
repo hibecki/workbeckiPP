@@ -1,0 +1,202 @@
+﻿SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[SecUsers] (
+    [Id]                   NVARCHAR (450)     NOT NULL,
+    [AccessFailedCount]    INT                NOT NULL,
+    [ConcurrencyStamp]     NVARCHAR (MAX)     NULL,
+    [Email]                NVARCHAR (256)     NULL,
+    [EmailConfirmed]       BIT                NOT NULL,
+    [LockoutEnabled]       BIT                NOT NULL,
+    [LockoutEnd]           DATETIMEOFFSET (7) NULL,
+    [NormalizedEmail]      NVARCHAR (256)     NULL,
+    [NormalizedUserName]   NVARCHAR (256)     NULL,
+    [PasswordHash]         NVARCHAR (MAX)     NULL,
+    [PhoneNumber]          NVARCHAR (MAX)     NULL,
+    [PhoneNumberConfirmed] BIT                NOT NULL,
+    [SecurityStamp]        NVARCHAR (MAX)     NULL,
+    [TwoFactorEnabled]     BIT                NOT NULL,
+    [UserName]             NVARCHAR (256)     NULL,
+	[FullName]             NVARCHAR (256)     NULL
+);
+
+CREATE TABLE [dbo].[AspNetUsers] (
+    [Id]                   NVARCHAR (450)     NOT NULL,
+    [AccessFailedCount]    INT                NOT NULL,
+    [ConcurrencyStamp]     NVARCHAR (MAX)     NULL,
+    [Email]                NVARCHAR (256)     NULL,
+    [EmailConfirmed]       BIT                NOT NULL,
+    [LockoutEnabled]       BIT                NOT NULL,
+    [LockoutEnd]           DATETIMEOFFSET (7) NULL,
+    [NormalizedEmail]      NVARCHAR (256)     NULL,
+    [NormalizedUserName]   NVARCHAR (256)     NULL,
+    [PasswordHash]         NVARCHAR (MAX)     NULL,
+    [PhoneNumber]          NVARCHAR (MAX)     NULL,
+    [PhoneNumberConfirmed] BIT                NOT NULL,
+    [SecurityStamp]        NVARCHAR (MAX)     NULL,
+    [TwoFactorEnabled]     BIT                NOT NULL,
+    [UserName]             NVARCHAR (256)     NULL
+);
+
+
+GO
+CREATE NONCLUSTERED INDEX [EmailIndex]
+    ON [dbo].[AspNetUsers]([NormalizedEmail] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [UserNameIndex]
+    ON [dbo].[AspNetUsers]([NormalizedUserName] ASC);
+
+
+GO
+ALTER TABLE [dbo].[AspNetUsers]
+    ADD CONSTRAINT [PK_AspNetUsers] PRIMARY KEY CLUSTERED ([Id] ASC);
+
+
+
+CREATE TABLE [dbo].[AspNetUserTokens] (
+    [UserId]        NVARCHAR (450) NOT NULL,
+    [LoginProvider] NVARCHAR (450) NOT NULL,
+    [Name]          NVARCHAR (450) NOT NULL,
+    [Value]         NVARCHAR (MAX) NULL
+);
+
+
+
+CREATE TABLE [dbo].[AspNetUserClaims] (
+    [Id]         INT            IDENTITY (1, 1) NOT NULL,
+    [ClaimType]  NVARCHAR (MAX) NULL,
+    [ClaimValue] NVARCHAR (MAX) NULL,
+    [UserId]     NVARCHAR (450) NOT NULL
+);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_AspNetUserClaims_UserId]
+    ON [dbo].[AspNetUserClaims]([UserId] ASC);
+
+
+GO
+ALTER TABLE [dbo].[AspNetUserClaims]
+    ADD CONSTRAINT [PK_AspNetUserClaims] PRIMARY KEY CLUSTERED ([Id] ASC);
+
+
+GO
+ALTER TABLE [dbo].[AspNetUserClaims]
+    ADD CONSTRAINT [FK_AspNetUserClaims_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE;
+
+
+
+CREATE TABLE [dbo].[AspNetUserLogins] (
+    [LoginProvider]       NVARCHAR (450) NOT NULL,
+    [ProviderKey]         NVARCHAR (450) NOT NULL,
+    [ProviderDisplayName] NVARCHAR (MAX) NULL,
+    [UserId]              NVARCHAR (450) NOT NULL
+);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_AspNetUserLogins_UserId]
+    ON [dbo].[AspNetUserLogins]([UserId] ASC);
+
+
+GO
+ALTER TABLE [dbo].[AspNetUserLogins]
+    ADD CONSTRAINT [PK_AspNetUserLogins] PRIMARY KEY CLUSTERED ([LoginProvider] ASC, [ProviderKey] ASC);
+
+
+GO
+ALTER TABLE [dbo].[AspNetUserLogins]
+    ADD CONSTRAINT [FK_AspNetUserLogins_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE;
+
+
+
+CREATE TABLE [dbo].[AspNetRoles] (
+    [Id]               NVARCHAR (450) NOT NULL,
+    [ConcurrencyStamp] NVARCHAR (MAX) NULL,
+    [Name]             NVARCHAR (256) NULL,
+    [NormalizedName]   NVARCHAR (256) NULL
+);
+
+
+GO
+CREATE NONCLUSTERED INDEX [RoleNameIndex]
+    ON [dbo].[AspNetRoles]([NormalizedName] ASC);
+
+
+GO
+ALTER TABLE [dbo].[AspNetRoles]
+    ADD CONSTRAINT [PK_AspNetRoles] PRIMARY KEY CLUSTERED ([Id] ASC);
+
+
+
+
+CREATE TABLE [dbo].[AspNetRoleClaims] (
+    [Id]         INT            IDENTITY (1, 1) NOT NULL,
+    [ClaimType]  NVARCHAR (MAX) NULL,
+    [ClaimValue] NVARCHAR (MAX) NULL,
+    [RoleId]     NVARCHAR (450) NOT NULL
+);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_AspNetRoleClaims_RoleId]
+    ON [dbo].[AspNetRoleClaims]([RoleId] ASC);
+
+
+GO
+ALTER TABLE [dbo].[AspNetRoleClaims]
+    ADD CONSTRAINT [PK_AspNetRoleClaims] PRIMARY KEY CLUSTERED ([Id] ASC);
+
+
+GO
+ALTER TABLE [dbo].[AspNetRoleClaims]
+    ADD CONSTRAINT [FK_AspNetRoleClaims_AspNetRoles_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [dbo].[AspNetRoles] ([Id]) ON DELETE CASCADE;
+
+
+
+
+CREATE TABLE [dbo].[AspNetUserRoles] (
+    [UserId] NVARCHAR (450) NOT NULL,
+    [RoleId] NVARCHAR (450) NOT NULL
+);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_AspNetUserRoles_RoleId]
+    ON [dbo].[AspNetUserRoles]([RoleId] ASC);
+
+
+GO
+CREATE NONCLUSTERED INDEX [IX_AspNetUserRoles_UserId]
+    ON [dbo].[AspNetUserRoles]([UserId] ASC);
+
+
+GO
+ALTER TABLE [dbo].[AspNetUserRoles]
+    ADD CONSTRAINT [PK_AspNetUserRoles] PRIMARY KEY CLUSTERED ([UserId] ASC, [RoleId] ASC);
+
+
+GO
+ALTER TABLE [dbo].[AspNetUserRoles]
+    ADD CONSTRAINT [FK_AspNetUserRoles_AspNetRoles_RoleId] FOREIGN KEY ([RoleId]) REFERENCES [dbo].[AspNetRoles] ([Id]) ON DELETE CASCADE;
+
+
+GO
+ALTER TABLE [dbo].[AspNetUserRoles]
+    ADD CONSTRAINT [FK_AspNetUserRoles_AspNetUsers_UserId] FOREIGN KEY ([UserId]) REFERENCES [dbo].[AspNetUsers] ([Id]) ON DELETE CASCADE;
+
+
+/* Username/Password admin/admin1 */
+INSERT INTO [dbo].[AspNetRoles] ([Id], [ConcurrencyStamp], [Name], [NormalizedName]) VALUES (N'1e31e20c-7e40-4cd8-a91d-c0407e4ae293', N'3423d155-6fbf-4074-984a-5a95d2351c80', N'Administrators', N'ADMINISTRATORS');
+INSERT INTO [dbo].[AspNetRoles] ([Id], [ConcurrencyStamp], [Name], [NormalizedName]) VALUES (N'50d9a832-081c-43b0-895f-9b4308439cc6', N'c943ccc0-8430-4bd1-a3b3-f25a353b0aaf', N'Members', N'MEMBERS');
+INSERT INTO [dbo].[AspNetRoles] ([Id], [ConcurrencyStamp], [Name], [NormalizedName]) VALUES (N'b4a94a42-7f6c-4e28-b12f-45a8b328c74a', N'4dd39888-4e74-45ec-8cbf-e137ee03668f', N'Operators', N'OPERATORS');
+INSERT INTO [dbo].[AspNetUsers] ([Id], [AccessFailedCount], [ConcurrencyStamp], [Email], [EmailConfirmed], [LockoutEnabled], [LockoutEnd], [NormalizedEmail], [NormalizedUserName], [PasswordHash], [PhoneNumber], [PhoneNumberConfirmed], [SecurityStamp], [TwoFactorEnabled], [UserName]) VALUES (N'194f13a4-6a2b-4fb2-845a-4e8b870a7e70', 0, N'9f8d5744-f66d-4774-9fda-d4c3f01bcd3a', N'info@palangpanya.com', 0, 1, NULL, N'INFO@PALANGPANYA.COM', N'ADMIN', N'AQAAAAEAACcQAAAAEKByZMipC8eRc8mgDArUlL8Lx6mRFRkGtbW3HLQINSLfNbWEPqbcfxlvLOkXhH17Ww==', NULL, 0, N'af223dea-65fb-4424-9944-79f3896f2a35', 0, N'admin');
+INSERT INTO [dbo].[AspNetUserRoles] ([UserId], [RoleId]) VALUES (N'194f13a4-6a2b-4fb2-845a-4e8b870a7e70', N'1e31e20c-7e40-4cd8-a91d-c0407e4ae293');
+SET IDENTITY_INSERT [dbo].[AspNetUserClaims] ON
+INSERT INTO [dbo].[AspNetUserClaims] ([Id], [ClaimType], [ClaimValue], [UserId]) VALUES (1, N'fullName', N'Administrator', N'194f13a4-6a2b-4fb2-845a-4e8b870a7e70');
+SET IDENTITY_INSERT [dbo].[AspNetUserClaims] OFF

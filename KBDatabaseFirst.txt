@@ -1,0 +1,74 @@
+Tools/NuGet Package Manager/Package Manager Console
+-------------------------------------------------------
+Install-Package Microsoft.EntityFrameworkCore.SqlServer –Pre
+
+Install-Package Microsoft.EntityFrameworkCore.Tools –Pre
+Install-Package Microsoft.EntityFrameworkCore.SqlServer.Design –Pre
+
+
+Package.json
+-------------------------------------------------------
+
+"tools": {
+    "Microsoft.EntityFrameworkCore.Tools": {
+      "version": "1.0.0-preview1-final",
+      "imports": [
+        "portable-net45+win8+dnxcore50",
+        "portable-net45+win8"
+      ]
+    },
+
+
+Project folder
+-------------------------------------------------------
+
+dotnet ef dbcontext scaffold "Server=(localdb)\ProjectsV13;Database=PalangPanyaDB;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -o Models 
+
+
+
+Remove in PalangPanyaDBContext.cs
+-------------------------------------------------------
+public partial class PalangPanyaDBContext : DbContext
+    {
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+            optionsBuilder.UseSqlServer(@"Server=(localdb)\ProjectsV13;Database=PalangPanyaDB;Trusted_Connection=True;");
+        }
+
+
+
+
+Add in PalangPanyaDBContext.cs
+-------------------------------------------------------
+
+public partial class PalangPanyaDBContext : DbContext
+    {
+        public PalangPanyaDBContext(DbContextOptions<PalangPanyaDBContext> options)
+            : base(options)
+        { }
+
+
+Add in Startup.cs
+-------------------------------------------------------
+        public void ConfigureServices(IServiceCollection services)
+        {
+            var connection = @"Server=(localdb)\ProjectsV13;Database=PalangPanyaDB;Trusted_Connection=True;";
+            services.AddDbContext<PalangPanyaDBContext>(options => options.UseSqlServer(connection));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

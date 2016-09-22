@@ -1,0 +1,19 @@
+Mail Server : http://mail.palangpanya.com 
+Username : info@palangpanya.com 
+password : mfmHD9A2Ws
+
+using (var message = new MailMessage("chcharoon@gmail.com", "charoon@uberpod.com"))
+            {
+                message.Subject = "Test";
+                message.Body = "Test at " + DateTime.Now;
+                using (SmtpClient client = new SmtpClient
+                {
+                    EnableSsl = false,
+                    Host = "mail.palangpanya.com",
+                    Port = 25,
+                    Credentials = new NetworkCredential("info@palangpanya.com", "mfmHD9A2Ws")
+                })
+                {
+                    client.Send(message);
+                }
+            }

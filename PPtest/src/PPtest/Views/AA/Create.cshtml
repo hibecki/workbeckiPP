@@ -1,0 +1,110 @@
+﻿@{
+    Layout = "";
+}
+
+<div class="row" style="margin-top:40px">
+    <div class="col-md-12">
+        @*<img class="center-block" src="~/images/logo_t.png" />*@
+        <img class="center-block" src="~/images/logonew.jpg" style="height:120px;"/>
+        <div class="center-block box-register" style="margin-top:30px;">
+            <h3 class="text-center">ลงทะเบียน</h3>
+            <form id="registerForm" role="form">
+                <div class="form-group input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-credit-card"></i>
+                    </span>
+                    <input id="cid_card" type="text" class="form-control" placeholder="รหัสบัตรประชาชน" onkeypress="return event.charCode >= 48 && event.charCode <= 57" maxlength="13" autocomplete="off"/>
+                </div>
+                <div class="form-group input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-user">&nbsp;</i>
+                    </span>
+                    <input id="fname" type="text" class="form-control" placeholder="ชื่อ" onkeypress="return !(event.charCode >= 48 && event.charCode <= 57)" autocomplete="off" />
+                </div>
+                <div class="form-group input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-users"></i>
+                    </span>
+                    <input id="lname" type="text" class="form-control" placeholder="นามสกุล" onkeypress="return !(event.charCode >= 48 && event.charCode <= 57)" autocomplete="off" />
+                </div>
+                <div class="form-group input-group">
+                    <input id="birthdate" type="text" class="form-control" placeholder="วันเดือนปีเกิด" readonly style="background-color:white" />
+                    <span class="input-group-btn">
+                        <button id="birthdateButton" class="btn btn-default" type="button">
+                            <i class="fa fa-calendar"></i>
+                        </button>
+                    </span>
+                </div>
+                <div class="form-group input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-phone" style="font-size:17px;"></i>
+                    </span>
+                    <input id="mobile" type="text" class="form-control" placeholder="เบอร์โทรศัพท์" onkeypress="return (event.charCode >= 48 && event.charCode <= 57)" maxlength="10" />
+                </div>
+                <div class="form-group input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-envelope"></i>
+                    </span>
+                    <input id="email" type="text" class="form-control" placeholder="อีเมล">
+                </div>
+                <div class="form-group input-group" onclick="$('#fileMemPhoto').click();">
+                    <input id="mem_photo_input" type="text" class="form-control" placeholder="แนบไฟล์ รูปถ่าย" readonly />
+                    <input id="mem_photo" type="text" style="display:none" />
+                    <div id="waitMemPhoto" style="display:none;position:absolute;top:0px;text-align:center;height:34px;width:260px;background-color:aquamarine;z-index:10;border-radius:5px;">
+                        <i class="fa fa-refresh fa-spin fa-2x" style="margin-top:3px;color:gray;" aria-hidden="true"></i>
+                    </div>
+                    <span class="input-group-btn">
+                        <button id="birthdateButton" class="btn btn-default" type="button">
+                            <i class="fa fa-picture-o"></i>
+                        </button>
+                    </span>
+                </div>
+                <div class="form-group input-group" onclick="$('#fileCidCardPhoto').click();">
+                    @*<input id="cid_card_pic" type="text" class="form-control" placeholder="แนบไฟล์ สำเนาบัตรประจำตัวประชาชน">*@
+                    <input id="cid_card_pic_input" type="text" class="form-control" placeholder="แนบไฟล์ รูปบัตรประชาชน" readonly />
+                    <input id="cid_card_pic" type="text" style="display:none" />
+                    <div id="waitMemPhoto" style="display:none;position:absolute;top:0px;text-align:center;height:34px;width:260px;background-color:aquamarine;z-index:10;border-radius:5px;">
+                        <i class="fa fa-refresh fa-spin fa-2x" style="margin-top:3px;color:gray;" aria-hidden="true"></i>
+                    </div>
+                    <span class="input-group-btn">
+                        <button id="birthdateButton" class="btn btn-default" type="button">
+                            <i class="fa fa-picture-o"></i>
+                        </button>
+                    </span>
+                </div>
+                <button class="btn btn-default btn-panel-yellow pull-left" type="button" style="width:120px" onclick='confirm();' > ยืนยัน </button>
+                <button class="btn btn-default btn-panel-yellow pull-right" type="button" style="width:120px" onclick="location.href='@Url.Action("Login", "Account")'">เข้าสู่ระบบ</button>
+                <div id="waitBtnConfirm" style="display:none;position:absolute;top:603px;text-align:center;height:34px;width:260px;background-color:#FFC000;z-index:11;border-radius:5px;">
+                    <i class="fa fa-refresh fa-spin fa-2x" style="margin-top:3px;color:gray;" aria-hidden="true"></i>
+                </div>
+            </form>
+            <br/>
+            
+            <form id="formFileMemPhoto" enctype="multipart/form-data"><input id="fileMemPhoto" type="file" style="visibility:hidden" onchange="uploadMemPhoto()" accept="image/*" /></form>
+            <form id="formFileCidCardPhoto" enctype="multipart/form-data"><input id="fileCidCardPhoto" type="file" style="visibility:hidden" onchange="uploadCidCardPhoto()" accept="image/*" /></form>
+
+
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade modalForm1" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="registerModalHeader" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
+                <h4 class="modal-title" id="registerModalLabel" style="vertical-align:middle;">ลงทะเบียน</h4>
+            </div>
+            <div class="modal-body container-fluid">
+                <div id="registerMsg" style="color:red;">กรุณากรอกข้อมูลให้ครบถ้วน</div>
+                <br />
+
+                <div class="pull-right" style="margin-top:-2px;">
+                    <div class="btn btn-default btn-panel-yellow" data-dismiss="modal" aria-hidden="true">&nbsp;&nbsp;&nbsp;ปิด&nbsp;&nbsp;&nbsp;</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

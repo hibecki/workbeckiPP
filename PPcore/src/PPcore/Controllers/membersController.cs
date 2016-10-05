@@ -1475,14 +1475,16 @@ namespace PPcore.Controllers
                 //var smr = _scontext.SecurityMemberRoles.SingleOrDefault(smrr => smrr.MemberId == mem.id);
                 var smr = _scontext.SecurityMemberRoles.Where(smrr => smrr.MemberId == mem.id).Select(smrr => new { smrr.LoggedInDate, smrr.LoggedOutDate, smrr.CreatedDate, smrr.CreatedBy, smrr. EditedDate, smrr.EditedBy, smrr.x_status} ).FirstOrDefault();
 
-                mv.LoggedInDate = smr.LoggedInDate;
-                mv.LoggedOutDate = smr.LoggedOutDate;
-                mv.CreatedDate = smr.CreatedDate;
-                mv.CreatedBy = smr.CreatedBy;
-                mv.EditedDate = smr.EditedDate;
-                mv.EditedBy = smr.EditedBy;
-                mv.Status = smr.x_status;
-
+                if (smr != null)
+                {
+                    mv.LoggedInDate = smr.LoggedInDate;
+                    mv.LoggedOutDate = smr.LoggedOutDate;
+                    mv.CreatedDate = smr.CreatedDate;
+                    mv.CreatedBy = smr.CreatedBy;
+                    mv.EditedDate = smr.EditedDate;
+                    mv.EditedBy = smr.EditedBy;
+                    mv.Status = smr.x_status;
+                }
 
                 //var mc = _context.member.SingleOrDefault(mcc => mcc.id == mv.CreatedBy);
                 var mc = _context.member.Where(mcc => mcc.id == mv.CreatedBy).Select(mcc => new { mcc.mem_username }).FirstOrDefault();

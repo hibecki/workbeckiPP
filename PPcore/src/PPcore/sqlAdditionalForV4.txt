@@ -1,0 +1,26 @@
+﻿/*==============================================================*/
+/* Table: mem_testcenter                                        */
+/*==============================================================*/
+create table mem_testcenter (
+	mem_testcenter_code	varchar(30)			not null,
+	mem_testcenter_desc	nvarchar(100)		not null,
+	CreatedBy			uniqueidentifier	NOT NULL,
+	CreatedDate			DATETIME			NOT NULL,
+	x_status            char(1)				null,
+	x_note              nvarchar(50)		null,
+	x_log               nvarchar(500)		null,
+	id					uniqueidentifier	NOT NULL DEFAULT (newid()),
+	rowversion          timestamp           null,
+	constraint pk_mem_testcenter_code primary key (mem_testcenter_code)
+)
+go
+
+INSERT INTO [dbo].[SecurityMenus] ([MenuId], [Level], [HaveChild], [IsRightAlign], [MenuName], [MenuController], [MenuAction], [MenuUrl], [MenuDisplay]) VALUES (651000, 1, 1, 0, N'ตั้งค่าระบบ', NULL, NULL, NULL, N'<i class=''fa fa-caret-down''></i>&nbsp;&nbsp;ตั้งค่าระบบ')
+INSERT INTO [dbo].[SecurityMenus] ([MenuId], [Level], [HaveChild], [IsRightAlign], [MenuName], [MenuController], [MenuAction], [MenuUrl], [MenuDisplay]) VALUES (651100, 2, 0, 0, N'สนามสอบ', N'mem_testcenter', N'Index', NULL, N'<i class=''fa fa-caret-right''></i>&nbsp;&nbsp;สนามสอบ')
+
+INSERT INTO [dbo].[SecurityRoleMenus] ([RoleId], [MenuId], [EditedBy], [EditedDate]) VALUES (N'c5a644a2-97b0-40e5-aa4d-e2afe4cdf428', 651000, N'b493c72b-39dd-4c79-adab-5cbfa88a982e', N'2016-09-02 14:16:08')
+INSERT INTO [dbo].[SecurityRoleMenus] ([RoleId], [MenuId], [EditedBy], [EditedDate]) VALUES (N'c5a644a2-97b0-40e5-aa4d-e2afe4cdf428', 651100, N'b493c72b-39dd-4c79-adab-5cbfa88a982e', N'2016-09-02 14:16:08')
+
+INSERT INTO [dbo].[SecurityRoleMenus] ([RoleId], [MenuId], [EditedBy], [EditedDate]) VALUES (N'9a1a4601-f5ee-4087-b97d-d69e7f9bfd7e', 651000, N'b493c72b-39dd-4c79-adab-5cbfa88a982e', N'2016-09-02 14:17:20')
+INSERT INTO [dbo].[SecurityRoleMenus] ([RoleId], [MenuId], [EditedBy], [EditedDate]) VALUES (N'9a1a4601-f5ee-4087-b97d-d69e7f9bfd7e', 651100, N'b493c72b-39dd-4c79-adab-5cbfa88a982e', N'2016-09-02 14:17:20')
+

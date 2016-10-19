@@ -1,6 +1,23 @@
 ﻿/* exec sp_MSforeachtable 'DROP TABLE ?' */
 
 /*==============================================================*/
+/* Table: mem_testcenter                                        */
+/*==============================================================*/
+create table mem_testcenter (
+	mem_testcenter_code	varchar(30)			not null,
+	mem_testcenter_desc	nvarchar(100)		not null,
+	CreatedBy			uniqueidentifier	NOT NULL,
+	CreatedDate			DATETIME			NOT NULL,
+	x_status            char(1)				null,
+	x_note              nvarchar(50)		null,
+	x_log               nvarchar(500)		null,
+	id					uniqueidentifier	NOT NULL DEFAULT (newid()),
+	rowversion          timestamp           null,
+	constraint pk_mem_testcenter_code primary key (mem_testcenter_code)
+)
+go
+
+/*==============================================================*/
 /* Table: product_group                                         */
 /*==============================================================*/
 create table product_group (

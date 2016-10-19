@@ -114,6 +114,31 @@ namespace PPcore.Models
                 entity.Property(e => e.x_status).HasColumnType("char(1)");
             });
 
+            modelBuilder.Entity<mem_testcenter>(entity =>
+            {
+                entity.HasKey(e => new { e.mem_testcenter_code })
+                    .HasName("pk_mem_testcenter");
+
+                entity.Property(e => e.mem_testcenter_code).HasColumnType("varchar(30)");
+
+                entity.Property(e => e.mem_testcenter_desc).HasColumnType("varchar(100)");
+
+                entity.Property(e => e.CreatedBy).HasColumnType("uniqueidentifier");
+                entity.Property(e => e.CreatedDate).HasColumnType("datetime").HasDefaultValueSql("getdate()");
+
+                entity.Property(e => e.id).HasDefaultValueSql("newid()");
+
+                entity.Property(e => e.rowversion)
+                    .HasColumnType("timestamp")
+                    .ValueGeneratedOnAddOrUpdate();
+
+                entity.Property(e => e.x_log).HasColumnType("nvarchar(500)");
+
+                entity.Property(e => e.x_note).HasColumnType("nvarchar(50)");
+
+                entity.Property(e => e.x_status).HasColumnType("char(1)");
+            });
+
             modelBuilder.Entity<album>(entity =>
             {
                 entity.HasKey(e => e.album_code).HasName("pk_album");
@@ -1106,5 +1131,6 @@ namespace PPcore.Models
         public virtual DbSet<project_supporter> project_supporter { get; set; }
         public virtual DbSet<train_place> train_place { get; set; }
         public virtual DbSet<album> album { get; set; }
+        public DbSet<mem_testcenter> mem_testcenter { get; set; }
     }
 }

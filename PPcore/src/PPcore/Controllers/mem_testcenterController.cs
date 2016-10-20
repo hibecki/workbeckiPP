@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,14 +13,19 @@ namespace PPcore.Controllers
     {
         private readonly PalangPanyaDBContext _context;
 
+        private void prepareViewBag()
+        {
+            ViewBag.x_status = new SelectList(new[] { new { Value = "Y", Text = "ใช้งาน" }, new { Value = "N", Text = "ยกเลิก" } }, "Value", "Text", "Y");
+        }
+
         public mem_testcenterController(PalangPanyaDBContext context)
         {
             _context = context;    
         }
 
-        // GET: mem_testcenter
         public async Task<IActionResult> Index()
         {
+            prepareViewBag();
             return View(await _context.mem_testcenter.ToListAsync());
         }
 

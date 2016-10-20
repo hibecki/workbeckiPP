@@ -1,8 +1,4 @@
-@model PPcore.Models.mem_testcenter
-
-@{
-    ViewData["Title"] = "Create";
-}
+﻿@model PPcore.Models.mem_testcenter
 
 <h2>Create</h2>
 
@@ -25,13 +21,7 @@
                 <span asp-validation-for="CreatedDate" class="text-danger" />
             </div>
         </div>
-        <div class="form-group">
-            <label asp-for="id" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="id" class="form-control" />
-                <span asp-validation-for="id" class="text-danger" />
-            </div>
-        </div>
+
         <div class="form-group">
             <label asp-for="mem_testcenter_desc" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -39,20 +29,7 @@
                 <span asp-validation-for="mem_testcenter_desc" class="text-danger" />
             </div>
         </div>
-        <div class="form-group">
-            <label asp-for="x_log" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="x_log" class="form-control" />
-                <span asp-validation-for="x_log" class="text-danger" />
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="x_note" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="x_note" class="form-control" />
-                <span asp-validation-for="x_note" class="text-danger" />
-            </div>
-        </div>
+
         <div class="form-group">
             <label asp-for="x_status" class="col-md-2 control-label"></label>
             <div class="col-md-10">
@@ -68,10 +45,59 @@
     </div>
 </form>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<form id="mem_testcenter_form" class="form-horizontal">
+    <input asp-for="id" /><input asp-for="rowversion" />
+
+    <div class="form-group">
+        <label asp-for="CreatedBy" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="CreatedBy" class="form-control" />
+            <span asp-validation-for="CreatedBy" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="CreatedDate" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="CreatedDate" class="form-control" />
+            <span asp-validation-for="CreatedDate" class="text-danger" />
+        </div>
+    </div>
+
+
+    <div class="form-group">
+        <label asp-for="x_status" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="x_status" class="form-control" />
+            <span asp-validation-for="x_status" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Create" class="btn btn-default" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="mem_testcenter_desc" class="col-md-3 control-label"></label>
+        <div class="col-md-9">
+            <input asp-for="mem_testcenter_desc" class="form-control" />
+            <span asp-validation-for="mem_testcenter_desc" class="text-danger" />
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="x_status" class="col-md-3 control-label"></label>
+        <div class="col-md-9">
+            <select asp-for="x_status" class="form-control" asp-items="@ViewBag.x_status"></select>
+        </div>
+    </div>
+
+</form>
+<div class="form-group">
+    <div class="col-md-offset-3 col-md-3">
+        <div id="product_group_submit" class="btn btn-default btn-panel-yellow">&nbsp;&nbsp;บันทึก&nbsp;&nbsp;</div>
+    </div>
+    <div class="col-md-6">
+        <div class="btn btn-default btn-panel-yellow pull-right" data-dismiss="modal" aria-hidden="true">&nbsp;&nbsp;&nbsp;ปิด&nbsp;&nbsp;&nbsp;</div>
+    </div>
+</div>

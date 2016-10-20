@@ -49,7 +49,25 @@
 
 
 
+            <!-- Modal -->
+            <div class="modal fade modalForm2" id="a_modal" tabindex="-1" role="dialog" aria-labelledby="a_label" aria-hidden="true">
+                <div class="modal-lg">
+                    <div class="modal-content">
+                        <div id="a_header" class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
+                            <h4 class="modal-title" id="a_label" style="vertical-align:middle;"></h4>
+                        </div>
+                        <div class="modal-body container-fluid" id="a_body">
+                            @{ await Html.RenderPartialAsync("Create", new mem_testcenter()); }
+                        </div>
 
+                    </div>
+
+                </div>
+
+
+            </div>
+            <!-- /Modal -->
 
             <!-- Modal -->
             <div class="modal fade modalForm1" id="product_group_modal" tabindex="-1" role="dialog" aria-labelledby="product_group_modal_label" aria-hidden="true">
@@ -83,14 +101,16 @@
                 var w = [
                     { "targets": [0], "width": "15", "className": "dt-center" },
                     { "targets": [1], "visible": false, "searchable": false },
-                    { "targets": [2], "width": "150", "className": "dt-center" },
-                    { "targets": [4], "width": "50", "className": "dt-center" },
+                    { "targets": [3], "width": "150", "className": "dt-center" },
+                    { "targets": [4], "width": "150", "className": "dt-center" },
+                    { "targets": [5], "width": "50", "className": "dt-center" },
                 ];
                 var table = setTable_default($('#mem_testcenter_table'), w);
                 table.$('tr:first').click();
 
 
-                $('#btnCreate').on('click', function () {
+                $('#btnCreate').off('click').on('click', function () {
+                    @*alert('test');
                     $('#product_group_modal_label').text('กลุ่มผลิตผล');
                     $('#product_group_submit').html('บันทึก');
                     $("#product_group_submit").off("click").on("click", function (e) {
@@ -113,8 +133,9 @@
                     });
                     $("#product_group_code").val('');
                     $("#product_group_desc").val('');
-                    $("#product_group_form").clearValidation();
+                    $("#product_group_form").clearValidation();*@
                     $('#product_group_modal').modal({ backdrop: 'static', keyboard: false });
+                    //$('#a_modal').modal({ backdrop: 'static', keyboard: false });
                 });
                 $('#btnEdit').on('click', function () {
                     var datarow = table.row('.selected').data();

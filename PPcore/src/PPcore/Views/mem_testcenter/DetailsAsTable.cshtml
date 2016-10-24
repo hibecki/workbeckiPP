@@ -1,0 +1,35 @@
+﻿@model IEnumerable<PPcore.ViewModels.mem_testcenter.mem_testcenterViewModel>
+@{
+    Layout = null;
+}
+
+
+
+<table class="table table-striped table-bordered table-hover" id="a_table">
+    <thead>
+        <tr>
+            <th>ลำดับ</th>
+            <th style="display:none">@Html.DisplayNameFor(model => model.mem_testcenter.id)</th>
+            <th stype="width:50px;">@Html.DisplayNameFor(model => model.mem_testcenter.mem_testcenter_desc)</th>
+            <th>@Html.DisplayNameFor(model => model.CreatedDate)</th>
+            <th>@Html.DisplayNameFor(model => model.CreatedByUserName)</th>
+            <th>@Html.DisplayNameFor(model => model.Status)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{ var countOrder = 0;}
+        @foreach (var item in Model)
+        {
+            countOrder++;
+            <tr>
+                <td>@countOrder</td>
+                <td style="display:none">@Html.DisplayFor(modelItem => item.mem_testcenter.id)</td>
+                <td stype="width:50px;">@Html.DisplayFor(modelItem => item.mem_testcenter.mem_testcenter_desc)</td>
+                <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
+                <td>@Html.DisplayFor(modelItem => item.CreatedByUserName)</td>
+                <td>@Html.DisplayFor(modelItem => item.Status)</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PPcore.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace PPcore.Controllers
 {
@@ -29,21 +30,27 @@ namespace PPcore.Controllers
             return View(await _context.mem_testcenter.ToListAsync());
         }
 
-        // GET: mem_testcenter/Details/5
-        public async Task<IActionResult> Details(string id)
+        [HttpGet]
+        public IActionResult DetailsAsTable()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            var mtc = _context.mem_testcenter.OrderBy(mtcc => mtcc.mem_testcenter_desc).ToList();
 
-            var mem_testcenter = await _context.mem_testcenter.SingleOrDefaultAsync(m => m.mem_testcenter_code == id);
-            if (mem_testcenter == null)
+            List<PPcore.ViewModels.mem_testcenter.mem_testcenterViewModel> mtcvs = new List<PPcore.ViewModels.mem_testcenter.mem_testcenterViewModel>();
+            foreach (mem_testcenter m in mtc)
             {
-                return NotFound();
+                PPcore.ViewModels.mem_testcenter.mem_testcenterViewModel mtcv = new PPcore.ViewModels.mem_testcenter.mem_testcenterViewModel();
+                mtcv.mem_testcenter = m;
+                var mc = _context.member.Where(mcc => mcc.id == m.CreatedBy).Select(mcc => new { mcc.mem_username }).FirstOrDefault();
+                if (mc != null)
+                {
+                    mtcv.CreatedByUserName = mc.mem_username;
+                }
+                else { mtcv.CreatedByUserName = ""; }
+                mtcv.CreatedDate = m.CreatedDate;
+                mtcv.Status = "";
+                mtcvs.Add(mtcv);
             }
-
-            return View(mem_testcenter);
+            return View(mtcvs);
         }
 
         // GET: mem_testcenter/Create
@@ -52,20 +59,22 @@ namespace PPcore.Controllers
             return View();
         }
 
-        // POST: mem_testcenter/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("mem_testcenter_code,CreatedBy,CreatedDate,id,mem_testcenter_desc,rowversion,x_log,x_note,x_status")] mem_testcenter mem_testcenter)
+        public async Task<IActionResult> Create([Bind("id,mem_testcenter_desc,rowversion,x_status")] mem_testcenter mem_testcenter)
         {
             if (ModelState.IsValid)
             {
+                mem_testcenter.mem_testcenter_desc = mem_testcenter.mem_testcenter_desc.Trim();
+                mem_testcenter.id = Guid.NewGuid();
+                mem_testcenter.CreatedBy = new Guid(HttpContext.Session.GetString("memberId"));
+                mem_testcenter.CreatedDate = DateTime.Now;
+                mem_testcenter.x_status = mem_testcenter.x_status.Trim();
+                mem_testcenter.mem_testcenter_code = DateTime.Now.ToString("yyMMddhhmmss");
+
                 _context.Add(mem_testcenter);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
             }
-            return View(mem_testcenter);
+            return Json(new { result = "success" });
         }
 
         // GET: mem_testcenter/Edit/5

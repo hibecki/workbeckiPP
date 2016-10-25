@@ -69,11 +69,10 @@
                         $('#a_body').html(resp);
                         $('#a_label').text('เพิ่มสนามสอบ');
                         $('#a_submit').html('บันทึก');
+                        $("#mem_testcenter_desc").off("keyup").on("keyup", function (e) { mem_testcenter_form_valid(); });
                         $("#a_submit").off("click").on("click", function (e) {
                             e.preventDefault();
-                            $("#a_form").validate();
-                            if ($("#a_form").valid()) {
-                                console.log('valid');
+                            if (mem_testcenter_form_valid()) {
                                 $.ajax({
                                     async: false,
                                     type: "POST",
@@ -106,6 +105,7 @@
                     }).done(function (resp) {
                         $('#a_body').html(resp);
                         $('#a_label').text('แก้ไขสนามสอบ');
+                        $("#mem_testcenter_desc").off("keyup").on("keyup", function (e) { mem_testcenter_form_valid(); });
                         $("#a_submit").off("click").on("click", function (e) {
                             e.preventDefault();
                             if (mem_testcenter_form_valid()) {
@@ -152,12 +152,12 @@
             }
             function mem_testcenter_form_valid() {
                 var result = false;
-                if ($("#e_form #mem_testcenter_desc").val()) {
+                if ($("#mem_testcenter_desc").val()) {
                     result = true;
+                    $("#mem_testcenter_desc_msg").text('');
                 } else {
                     result = false;
-                    $("#e_form #mem_testcenter_desc_msg").text('กรุณากรอกข้อมูล');
-                    $("#mem_testcenter_desc_msg").text('กรุณากรอกข้อมูล');
+                    $("#mem_testcenter_desc_msg").text('กรุณากรอกข้อมูล ชื่อสนามสอบ');
                 }
                 return result;
             }

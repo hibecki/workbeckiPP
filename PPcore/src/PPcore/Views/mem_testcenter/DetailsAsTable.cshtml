@@ -13,7 +13,7 @@
             <th stype="width:50px;">@Html.DisplayNameFor(model => model.mem_testcenter.mem_testcenter_desc)</th>
             <th>@Html.DisplayNameFor(model => model.CreatedDate)</th>
             <th>@Html.DisplayNameFor(model => model.CreatedByUserName)</th>
-            <th>@Html.DisplayNameFor(model => model.Status)</th>
+            <th>@Html.DisplayNameFor(model => model.mem_testcenter.x_status)</th>
         </tr>
     </thead>
     <tbody>
@@ -27,7 +27,7 @@
                 <td stype="width:50px;">@Html.DisplayFor(modelItem => item.mem_testcenter.mem_testcenter_desc)</td>
                 <td>@Html.DisplayFor(modelItem => item.CreatedDate)</td>
                 <td>@Html.DisplayFor(modelItem => item.CreatedByUserName)</td>
-                <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                <td>@Html.x_status_text(item.mem_testcenter.x_status)</td>
             </tr>
         }
     </tbody>

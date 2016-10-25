@@ -121,7 +121,7 @@ namespace PPcore.Models
 
                 entity.Property(e => e.mem_testcenter_code).HasColumnType("varchar(30)");
 
-                entity.Property(e => e.mem_testcenter_desc).HasColumnType("varchar(100)");
+                entity.Property(e => e.mem_testcenter_desc).IsRequired().HasColumnType("nvarchar(100)");
 
                 entity.Property(e => e.CreatedBy).HasColumnType("uniqueidentifier");
                 entity.Property(e => e.CreatedDate).HasColumnType("datetime").HasDefaultValueSql("getdate()");

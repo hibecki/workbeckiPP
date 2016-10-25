@@ -11,11 +11,14 @@ namespace PPcore.Models
         public string mem_testcenter_code { get; set; }
 
         [Display(Name = "ชื่อสนามสอบ")]
+        [Required(ErrorMessage = "กรุณากรอก ชื่อสนามสอบ")]
         public string mem_testcenter_desc { get; set; }
 
+        [HiddenInput]
         [Display(Name = "สร้างโดย")]
         public Guid CreatedBy { get; set; }
 
+        [HiddenInput]
         [Display(Name = "วันที่สร้าง")]
         //[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd MMMM yyyy}")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]

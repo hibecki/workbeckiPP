@@ -47,7 +47,6 @@ namespace PPcore.Controllers
                 }
                 else { mtcv.CreatedByUserName = ""; }
                 mtcv.CreatedDate = m.CreatedDate;
-                mtcv.Status = "";
                 mtcvs.Add(mtcv);
             }
             return View(mtcvs);
@@ -85,7 +84,7 @@ namespace PPcore.Controllers
                 return NotFound();
             }
 
-            var mem_testcenter = await _context.mem_testcenter.SingleOrDefaultAsync(m => m.mem_testcenter_code == id);
+            var mem_testcenter = await _context.mem_testcenter.SingleOrDefaultAsync(m => m.id == new Guid(id));
             if (mem_testcenter == null)
             {
                 return NotFound();
@@ -93,72 +92,18 @@ namespace PPcore.Controllers
             return View(mem_testcenter);
         }
 
-        // POST: mem_testcenter/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("mem_testcenter_code,CreatedBy,CreatedDate,id,mem_testcenter_desc,rowversion,x_log,x_note,x_status")] mem_testcenter mem_testcenter)
+        public async Task<IActionResult> Edit(string id, [Bind("id,mem_testcenter_code,mem_testcenter_desc,rowversion,x_status,CreatedBy,CreatedDate")] mem_testcenter mem_testcenter)
         {
-            if (id != mem_testcenter.mem_testcenter_code)
-            {
-                return NotFound();
-            }
-
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(mem_testcenter);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!mem_testcenterExists(mem_testcenter.mem_testcenter_code))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index");
+                mem_testcenter.mem_testcenter_desc = mem_testcenter.mem_testcenter_desc.Trim();
+                mem_testcenter.x_status = mem_testcenter.x_status.Trim();
+
+                _context.Update(mem_testcenter);
+                await _context.SaveChangesAsync();
             }
-            return View(mem_testcenter);
-        }
-
-        // GET: mem_testcenter/Delete/5
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var mem_testcenter = await _context.mem_testcenter.SingleOrDefaultAsync(m => m.mem_testcenter_code == id);
-            if (mem_testcenter == null)
-            {
-                return NotFound();
-            }
-
-            return View(mem_testcenter);
-        }
-
-        // POST: mem_testcenter/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var mem_testcenter = await _context.mem_testcenter.SingleOrDefaultAsync(m => m.mem_testcenter_code == id);
-            _context.mem_testcenter.Remove(mem_testcenter);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
-        }
-
-        private bool mem_testcenterExists(string id)
-        {
-            return _context.mem_testcenter.Any(e => e.mem_testcenter_code == id);
+            return Json(new { result = "success" });
         }
     }
 }

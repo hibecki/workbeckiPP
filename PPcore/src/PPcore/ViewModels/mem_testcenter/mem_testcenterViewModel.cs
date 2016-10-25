@@ -14,8 +14,5 @@ namespace PPcore.ViewModels.mem_testcenter
         [Display(Name = "วันที่สร้าง")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy HH:mm:ss}")]
         public DateTime CreatedDate { get; set; }
-
-        [Display(Name = "สถานะ")]
-        public string Status { get; set; }
     }
 }

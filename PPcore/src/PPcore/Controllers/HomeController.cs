@@ -14,6 +14,7 @@ using System.Data.SqlClient;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.Net.Http.Headers;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace PPcore.Controllers
 {
@@ -50,7 +51,8 @@ namespace PPcore.Controllers
         public async Task<IActionResult> Login(string uname, string upwd)
         {
             upwd = Utils.EncodeMd5(upwd.Trim());
-            var m = await _context.member.SingleOrDefaultAsync(mm => (mm.mem_username == uname.Trim()) && (mm.mem_password == upwd));
+
+            var m =  _context.member.SingleOrDefault(mm => (mm.mem_username == uname.Trim()) && (mm.mem_password == upwd));
             if (m != null)
             {
                 var smr = await _scontext.SecurityMemberRoles.SingleOrDefaultAsync(smrr => (smrr.MemberId == m.id) && (smrr.x_status != "N"));
@@ -190,13 +192,16 @@ namespace PPcore.Controllers
 
         public IActionResult RegisterMember()
         {
+            var mtc = _context.mem_testcenter.Where(mtcc => mtcc.x_status != "N").OrderBy(mtcc => mtcc.mem_testcenter_desc).Select(mtcc => new { Value = mtcc.mem_testcenter_code, Text = mtcc.mem_testcenter_desc }).ToList();
+            mtc.Insert(0, (new { Value = "0", Text = "--- สนามสอบ ---" }));
+            ViewBag.mem_testcenter_code = new SelectList(mtc.AsEnumerable(), "Value", "Text", "0");
             return View();
         }
 
         [HttpPost]
         //public async Task<IActionResult> Create(string birthdate, string cid_card, string email, string fname, string lname, string mobile, string mem_photo, string cid_card_pic)
         //public IActionResult RegisterMember(string birthdate, string cid_card, string email, string fname, string lname, string mobile, string mem_photo, string cid_card_pic)
-        public IActionResult RegisterMember(string birthdate, string cid_card, string email, string fname, string lname, string mobile)
+        public IActionResult RegisterMember(string birthdate, string cid_card, string email, string fname, string lname, string mobile, string mem_testcenter_code)
         {
             DateTime bd = Convert.ToDateTime(birthdate);
             //birthdate = (bd.Year).ToString() + bd.Month.ToString() + bd.Day.ToString();
@@ -279,8 +284,10 @@ namespace PPcore.Controllers
                 //    cid_card_pic = pic_image.image_code;
                 //}
 
+                mem_testcenter_code = (mem_testcenter_code == "0") ? "NULL" : "'" + mem_testcenter_code + "'";
+
                 //_context.Database.ExecuteSqlCommand("INSERT INTO member (member_code,cid_card,birthdate,fname,lname,mobile,email,x_status,mem_username,mem_password,mem_role_id,mem_photo,cid_card_pic) VALUES ('" + cid_card + "','" + cid_card + "','" + birthdate + "',N'" + fname + "',N'" + lname + "','" + mobile + "','" + email + "','Y','" + cid_card + "','" + passwordMD5 + "','17822a90-1029-454a-b4c7-f631c9ca6c7d','" + mem_photo + "','" + cid_card_pic + "')");
-                _context.Database.ExecuteSqlCommand("INSERT INTO member (member_code,cid_card,birthdate,fname,lname,mobile,email,x_status,mem_username,mem_password,mem_role_id) VALUES ('" + cid_card + "','" + cid_card + "','" + birthdate + "',N'" + fname + "',N'" + lname + "','" + mobile + "','" + email + "','Y','" + cid_card + "','" + passwordMD5 + "','17822a90-1029-454a-b4c7-f631c9ca6c7d')");
+                _context.Database.ExecuteSqlCommand("INSERT INTO member (member_code,cid_card,birthdate,fname,lname,mobile,email,x_status,mem_username,mem_password,mem_role_id,mem_testcenter_code,register_date) VALUES ('" + cid_card + "','" + cid_card + "','" + birthdate + "',N'" + fname + "',N'" + lname + "','" + mobile + "','" + email + "','Y','" + cid_card + "','" + passwordMD5 + "','17822a90-1029-454a-b4c7-f631c9ca6c7d', " + mem_testcenter_code + ",GETDATE())");
 
                 var mb = _context.member.SingleOrDefault(mm => mm.member_code == cid_card);
                 SecurityMemberRoles smr = new SecurityMemberRoles();

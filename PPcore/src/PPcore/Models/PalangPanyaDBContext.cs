@@ -865,6 +865,9 @@ namespace PPcore.Models
 
                 entity.Property(e => e.village).HasColumnType("nvarchar(50)");
 
+                entity.Property(e => e.mem_testcenter_code).HasColumnType("varchar(30)");
+                entity.Property(e => e.register_date).HasColumnType("datetime"); //.HasDefaultValueSql("getdate()");
+
                 entity.Property(e => e.x_log).HasColumnType("nvarchar(500)");
 
                 entity.Property(e => e.x_note).HasColumnType("nvarchar(50)");
@@ -1131,6 +1134,6 @@ namespace PPcore.Models
         public virtual DbSet<project_supporter> project_supporter { get; set; }
         public virtual DbSet<train_place> train_place { get; set; }
         public virtual DbSet<album> album { get; set; }
-        public DbSet<mem_testcenter> mem_testcenter { get; set; }
+        public virtual DbSet<mem_testcenter> mem_testcenter { get; set; }
     }
 }

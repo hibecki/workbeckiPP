@@ -164,6 +164,15 @@ namespace PPcore.Models
         [Display(Name = "รูปของบัตรประชาชน")]
         public string cid_card_pic { get; set; }
 
+        [HiddenInput]
+        [Display(Name = "สถานที่สอบ")]
+        public string mem_testcenter_code { get; set; }
+
+        [HiddenInput]
+        [Display(Name = "วันที่สมัคร")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy HH:mm:ss}")]
+        public DateTime? register_date { get; set; }
+
         public Guid id { get; set; }
 
         [HiddenInput]

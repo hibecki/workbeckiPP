@@ -69,6 +69,10 @@ namespace PPcore.Controllers
             ip.Insert(0, (new { Value = "0", Text = "" }));
             ViewBag.ini_province = new SelectList(ip.AsEnumerable(), "Value", "Text", "0");
 
+            var mtc = _context.mem_testcenter.Where(mtcc => mtcc.x_status != "N").OrderBy(mtcc => mtcc.mem_testcenter_desc).Select(mtcc => new { Value = mtcc.mem_testcenter_code, Text = mtcc.mem_testcenter_desc }).ToList();
+            mtc.Insert(0, (new { Value = "0", Text = "" }));
+            ViewBag.mem_testcenter_code = new SelectList(mtc.AsEnumerable(), "Value", "Text", "0");
+
             ViewBag.IsCreate = 0; ViewBag.IsEdit = 0; ViewBag.IsDetails = 0; ViewBag.IsDetailsPersonal = 0;
             ViewBag.IsDisabled = false; ViewBag.IsMember = false;
         }
@@ -1031,6 +1035,7 @@ namespace PPcore.Controllers
             //{
                 member.x_status = "Y";
                 if (member.title == "0") { member.title = null; }
+                if (member.mem_testcenter_code == "0") { member.mem_testcenter_code = null; }
                 if (member.marry_status == "0") { member.marry_status = null; }
                 if (member.mem_group_code == "0") { member.mem_group_code = null; }
                 if (member.mlevel_code == "0") { member.mlevel_code = null; }
@@ -1113,12 +1118,13 @@ namespace PPcore.Controllers
                 member.mem_password = Utils.EncodeMd5(password);
                 member.mem_role_id = new Guid("17822a90-1029-454a-b4c7-f631c9ca6c7d"); //Role member
 
-                //var user = new ApplicationUser { UserName = member.cid_card, Email = member.email };
-                //_userManager.CreateAsync(user, password);
-                //_userManager.AddToRoleAsync(user, "Members");
-               // System.Security.Claims.Claim cl = new System.Security.Claims.Claim("fullName", member.fname + " " + member.lname);
-                //_userManager.AddClaimAsync(user, cl);
-                //_signInManager.SignInAsync(user, isPersistent: false);
+                member.register_date = DateTime.Now;
+            //var user = new ApplicationUser { UserName = member.cid_card, Email = member.email };
+            //_userManager.CreateAsync(user, password);
+            //_userManager.AddToRoleAsync(user, "Members");
+            // System.Security.Claims.Claim cl = new System.Security.Claims.Claim("fullName", member.fname + " " + member.lname);
+            //_userManager.AddClaimAsync(user, cl);
+            //_signInManager.SignInAsync(user, isPersistent: false);
                 SendEmail(member.email, member.cid_card, password);
 
                 //var result = await _userManager.CreateAsync(user, password);
@@ -1213,7 +1219,7 @@ namespace PPcore.Controllers
         // POST: members/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(string id, [Bind("income,title,occupation,mail_address,facebook,line,mem_username,mem_password,mem_role_id,member_code,birthdate,building,cid_card,cid_card_pic,cid_type,country_code,current_age,district_code,email,fax,floor,fname,h_no,id,lane,latitude,lname,longitude,lot_no,marry_status,mem_group_code,mem_photo,mem_type_code,mlevel_code,mobile,mstatus_code,nationality,parent_code,place_name,province_code,religion,room,rowversion,sex,street,subdistrict_code,tel,texta_address,textb_address,textc_address,village,x_log,x_note,x_status,zip_code,zone")] member member)
+        public IActionResult Edit(string id, [Bind("income,title,occupation,mail_address,facebook,line,mem_username,mem_password,mem_role_id,member_code,birthdate,building,cid_card,cid_card_pic,cid_type,country_code,current_age,district_code,email,fax,floor,fname,h_no,id,lane,latitude,lname,longitude,lot_no,marry_status,mem_group_code,mem_photo,mem_type_code,mlevel_code,mobile,mstatus_code,nationality,parent_code,place_name,province_code,religion,room,rowversion,sex,street,subdistrict_code,tel,texta_address,textb_address,textc_address,village,x_log,x_note,x_status,zip_code,zone,mem_testcenter_code")] member member)
         {
             if (ModelState.IsValid)
             {
@@ -1224,6 +1230,7 @@ namespace PPcore.Controllers
 
                 member.x_status = "Y";
                 if (member.title == "0") { member.title = null; }
+                if (member.mem_testcenter_code == "0") { member.mem_testcenter_code = null; }
                 if (member.marry_status == "0") { member.marry_status = null; }
                 if (member.mem_group_code == "0") { member.mem_group_code = null; }
                 if (member.mlevel_code == "0") { member.mlevel_code = null; }

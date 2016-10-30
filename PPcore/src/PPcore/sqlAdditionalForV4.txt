@@ -24,3 +24,10 @@ INSERT INTO [dbo].[SecurityRoleMenus] ([RoleId], [MenuId], [EditedBy], [EditedDa
 INSERT INTO [dbo].[SecurityRoleMenus] ([RoleId], [MenuId], [EditedBy], [EditedDate]) VALUES (N'9a1a4601-f5ee-4087-b97d-d69e7f9bfd7e', 651000, N'b493c72b-39dd-4c79-adab-5cbfa88a982e', N'2016-09-02 14:17:20')
 INSERT INTO [dbo].[SecurityRoleMenus] ([RoleId], [MenuId], [EditedBy], [EditedDate]) VALUES (N'9a1a4601-f5ee-4087-b97d-d69e7f9bfd7e', 651100, N'b493c72b-39dd-4c79-adab-5cbfa88a982e', N'2016-09-02 14:17:20')
 
+
+/*==============================================================*/
+/* Table: member                                                */
+/*==============================================================*/
+ALTER TABLE member ADD mem_testcenter_code varchar(30) NULL, register_date DATETIME NULL;
+
+

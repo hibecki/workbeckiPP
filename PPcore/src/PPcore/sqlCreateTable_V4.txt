@@ -546,6 +546,8 @@ create table member (
    line					nvarchar(500)        null,
    email                nvarchar(100)        null,
    parent_code          varchar(30)          null,
+   mem_testcenter_code varchar(30) NULL,
+   register_date DATETIME NULL,
    x_status             char(1)              null,
    x_note               nvarchar(50)         null,
    x_log                nvarchar(500)        null,

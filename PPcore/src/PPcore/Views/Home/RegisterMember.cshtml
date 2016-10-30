@@ -47,6 +47,12 @@
                     </span>
                     <input id="email" type="text" class="form-control" placeholder="อีเมล">
                 </div>
+                <div class="form-group input-group">
+                    <span class="input-group-addon">
+                        <i class="fa fa-pencil"></i>
+                    </span>
+                    <select id="mem_testcenter_code" class="form-control" asp-items="@ViewBag.mem_testcenter_code"></select>
+                </div>
 
                 @*<div class="form-group input-group" onclick="$('#fileMemPhoto').click();">
                     <input id="mem_photo_input" type="text" class="form-control" placeholder="แนบไฟล์ รูปถ่าย" readonly />
@@ -76,9 +82,10 @@
                 <button class="btn btn-default btn-panel-yellow pull-left" type="button" style="width:120px" onclick='confirm()' > ยืนยัน </button>
                 <button class="btn btn-default btn-panel-yellow pull-right" type="button" style="width:120px" onclick="location.href='@Url.Action("Login", "Home")'">เข้าสู่ระบบ</button>
                 @*<div id="waitBtnConfirm" style="display:none;position:absolute;top:603px;text-align:center;height:34px;width:260px;background-color:#FFC000;z-index:11;border-radius:5px;">*@
-                <div id="waitBtnConfirm" style="display:none;position:absolute;top:505px;text-align:center;height:34px;width:260px;background-color:#FFC000;z-index:11;border-radius:5px;">
-                    <i class="fa fa-refresh fa-spin fa-2x" style="margin-top:3px;color:gray;" aria-hidden="true"></i>
-                </div>
+                <div id="waitBtnConfirm" style="display:none;position:absolute;top:554px;text-align:center;height:34px;width:260px;background-color:#FFC000;z-index:11;border-radius:5px;">
+                @*<div id="waitBtnConfirm" style="display:none;position:absolute;top:505px;text-align:center;height:34px;width:260px;background-color:#FFC000;z-index:11;border-radius:5px;">*@
+                        <i class="fa fa-refresh fa-spin fa-2x" style="margin-top:3px;color:gray;" aria-hidden="true"></i>
+                    </div>
             </form>
             <br/>
             
@@ -103,6 +110,29 @@
                 <div id="registerMsg" style="color:red;">กรุณากรอกข้อมูลให้ครบถ้วน</div>
                 <br />
 
+                <div class="pull-right" style="margin-top:-2px;">
+                    <div class="btn btn-default btn-panel-yellow" data-dismiss="modal" aria-hidden="true">&nbsp;&nbsp;&nbsp;ปิด&nbsp;&nbsp;&nbsp;</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade modalForm1" id="registerCompleteModal" tabindex="-1" role="dialog" aria-labelledby="registerCompleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div id="registerCompleteModalHeader" class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true" style="vertical-align:middle;top:15px">&times;</button>
+                <h4 class="modal-title" id="registerCompleteModalLabel" style="vertical-align:middle;">ลงทะเบียน</h4>
+            </div>
+            <div class="modal-body container-fluid">
+                <div>ขั้นตอนการสมัครสมาชิกขั้นต้นเสร็จแล้ว</div>
+                <br />
+                <div>ระบบกำลังส่ง ชื่อผู้ใช้งาน และ รหัสผ่าน ในการเข้าระบบ</div>
+                <br />
+                <div id="registerCompleteMsg" style="color:red;">ถ้าหากคุณยังไม่ได้รับอีเมล โปรดรอสัก 15-30 นาที</div>
+                <br />
                 <div class="pull-right" style="margin-top:-2px;">
                     <div class="btn btn-default btn-panel-yellow" data-dismiss="modal" aria-hidden="true">&nbsp;&nbsp;&nbsp;ปิด&nbsp;&nbsp;&nbsp;</div>
                 </div>

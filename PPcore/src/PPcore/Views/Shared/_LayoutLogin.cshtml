@@ -97,6 +97,7 @@
                         $('#birthdate').datepicker("show");
                     });
                 }
+                
             });
             function dateDefault() {
                 if ($("#birthdate").val() == "") { $("#birthdate").datepicker("setDate", new Date()); }
@@ -109,15 +110,19 @@
                 var birthdate = $('#birthdate').val().trim();
                 var mobile = $('#mobile').val().trim();
                 var email = $('#email').val().trim();
+                var mem_testcenter_code = $('#mem_testcenter_code').val().trim();
                 var mem_photo = $('#mem_photo').val(); var cid_card_pic = $('#cid_card_pic').val();
                 if ((cid_card != '') && (fname != '') && (lname != '') && (birthdate != '') && (mobile != '') && (email != '')) {
                     $.ajax({
                         type: 'post',
                         @*url: '@Url.Action("RegisterMember", "Home")' + "?cid_card=" + cid_card + "&fname=" + fname + "&lname=" + lname + "&birthdate=" + birthdate + "&mobile=" + mobile + "&email=" + email + "&mem_photo=" + mem_photo + "&cid_card_pic=" + cid_card_pic,*@
-                        url: '@Url.Action("RegisterMember", "Home")' + "?cid_card=" + cid_card + "&fname=" + fname + "&lname=" + lname + "&birthdate=" + birthdate + "&mobile=" + mobile + "&email=" + email,
+                        url: '@Url.Action("RegisterMember", "Home")' + "?cid_card=" + cid_card + "&fname=" + fname + "&lname=" + lname + "&birthdate=" + birthdate + "&mobile=" + mobile + "&email=" + email + "&mem_testcenter_code=" + mem_testcenter_code,
                     }).done(function (resp) {
                         if (resp.result == "success") {
-                            window.location.replace("@Url.Action("Index","Home")");
+                            $('#registerCompleteModal').modal({ backdrop: 'static', keyboard: false });
+                            $('#registerCompleteModal').off('hidden.bs.modal').on('hidden.bs.modal', function () {
+                                window.location.replace("@Url.Action("Index","Home")");
+                            });
                         } else if (resp.result == "fail") {
                             $('#waitBtnConfirm').hide();
                             $('#registerMsg').text('กรุณาตรวจสอบความถูกต้องของข้อมูล');
